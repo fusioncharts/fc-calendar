@@ -1,33 +1,34 @@
 
-var CreateCalender  = function (config){
-	var calender = this;
-	calender.style = config.style;
-	calender.container = config.container && document.getElementById(config.container);
-	calender.hideOnSelect = config.hideonselect === undefined ? false : config.hideonselect;
-	calender.isCalenderDrawn = false;
-	calender.isRangeSet = false;
+var CreateCalendar  = function (config){
+	var calendar = this;
+	calendar.style = config.style;
+	calendar.container = config.container && document.getElementById(config.container);
+	calendar.hideOnSelect = config.hideonselect === undefined ? false : config.hideonselect;
+	calendar.isCalendarDrawn = false;
+	calendar.isRangeSet = false;
+	calendar.disabledDateColor = config.disabledDateColor || '#800000';
 },
-	calenderProto = CreateCalender.prototype;
+	calendarProto = CreateCalendar.prototype;
 
-calenderProto.setup = function(){
-	var calender = this,
-		calenderDisplay = calender.visibity;
-	calender.daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-	calender.weekLabel = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-	calender.monthLabel = ['January', 'February', 'March', 'April',
+calendarProto.setup = function(){
+	var calendar = this,
+		calendarDisplay = calendar.visibity;
+	calendar.daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	calendar.weekLabel = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	calendar.monthLabel = ['January', 'February', 'March', 'April',
                  'May', 'June', 'July', 'August', 'September',
                  'October', 'November', 'December'];
-    calender.checkLeapYear = function(year){
+    calendar.checkLeapYear = function(year){
         	return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
         };
-    calender.createUL = function (id, appendTo){
+    calendar.createUl = function (id, appendTo){
         	var ulElement = document.createElement('ul');
         	ulElement.id = id;
         	ulElement.className = id;
         	appendTo.appendChild(ulElement);
         	return ulElement;
         };
-    calender.craeteLI = function (id, appendTo, val, addEvent){
+    calendar.createLi = function (id, appendTo, val, addEvent){
         	var liElement = document.createElement('li');
         	liElement.id = id;
         	liElement.className = id;
@@ -39,14 +40,14 @@ calenderProto.setup = function(){
         	}
 
         	if(addEvent){
-        		if(calender.isRangeSet && !calender.getRange(calender.originalMonth + '-' + 
-					liElement.textContent + '-' + calender.originalYear)){
+        		if(calendar.isRangeSet && !calendar.getRange(calendar.originalMonth + '-' + 
+					liElement.textContent + '-' + calendar.originalYear)){
 					liElement.style.color = '#ff00aa';
 				}else{
 					addEvent && liElement.addEventListener('click', function (){
-						calender.selectedDate = liElement.textContent + '-' + calender.originalMonth + '-' + calender.originalYear;
-						calender.customFun && calender.customFun();
-						calender.hideOnSelect ? calender.hide() : calender.setData(calender.selectedDate);
+						calendar.selectedDate = liElement.textContent + '-' + calendar.originalMonth + '-' + calendar.originalYear;
+						calendar.customFun && calendar.customFun();
+						calendar.hideOnSelect ? calendar.hide() : calendar.setData(calendar.selectedDate);
 					});
 				}
         	}
@@ -54,14 +55,14 @@ calenderProto.setup = function(){
         	appendTo.appendChild(liElement);
         	return liElement;
         };
-    calender.createDIV = function (id, appendTo){
+    calendar.createDiv = function (id, appendTo){
         	var divElement = document.createElement('div');
         	divElement.id = id;
         	divElement.className = id;
         	appendTo.appendChild(divElement);
         	return divElement;
         };
-    calender.createSPAN = function (id, val){
+    calendar.createSpan = function (id, val){
         	var spanElement = document.createElement('span');
         	spanElement.id = id;
         	spanElement.className = id;
@@ -74,37 +75,37 @@ calenderProto.setup = function(){
         };
 };
 
-calenderProto.setData = function (data){
-	var calender = this,
+calendarProto.setData = function (data){
+	var calendar = this,
 		createDiv,
 		splitedData = data.split('-'),
 		num = Number,
 		container,
-		originalDate = calender.originalDate = num(splitedData[0]),
-		originalMonth = calender.originalMonth = num(splitedData[1]),
-		originalYear = calender.originalYear = num(splitedData[2]);
+		originalDate = calendar.originalDate = num(splitedData[0]),
+		originalMonth = calendar.originalMonth = num(splitedData[1]),
+		originalYear = calendar.originalYear = num(splitedData[2]);
 		
-		if(calender.isCalenderDrawn){
-			container = calender.container || document.getElementById('calender-container');
-			calender.show();
-			if(calender.dateStr !== data){
-				calender.dateStr = data;
+		if(calendar.isCalendarDrawn){
+			container = calendar.container || document.getElementById('calendar-container');
+			calendar.show();
+			if(calendar.dateStr !== data){
+				calendar.dateStr = data;
 				container.innerHTML = '';
-				calender.create();
-				calender.changeMonth(originalMonth, originalYear);
+				calendar.create();
+				calendar.changeMonth(originalMonth, originalYear);
 			}
 		}else{
-			calender.dateStr = data;
-			calender.setup();
-			createDiv = calender.createDIV;
-			container = calender.container = createDiv('calender-container', document.body);
-			calender.setStyle(container, calender.style);
-			calender.create();
-			calender.changeMonth(originalMonth, originalYear);
+			calendar.dateStr = data;
+			calendar.setup();
+			createDiv = calendar.createDiv;
+			container = calendar.container = createDiv('calendar-container', document.body);
+			calendar.setStyle(container, calendar.style);
+			calendar.create();
+			calendar.changeMonth(originalMonth, originalYear);
 		}
 };
 
-calenderProto.setStyle = function (element, config){
+calendarProto.setStyle = function (element, config){
 	var container,
 		chooseNum = /\d+/g;
 		config.height = config.height && Number((config.height).match(/\d+/)[0]) <= 200 ? '200px' : config.height;
@@ -122,24 +123,24 @@ calenderProto.setStyle = function (element, config){
 	}
 };
 
-calenderProto.create = function (){
-	var calender = this,
-		cDiv = calender.createDIV,
-		cLi = calender.craeteLI,
-		cUl = calender.createUL,
-		cSpan = calender.createSPAN,
-		currDate = calender.originalDate,
-		currMon = calender.originalMonth,
-		currYear = calender.originalYear,
-		weekLabel = calender.weekLabel,
-		daysInMonth = calender.daysInMonth,
-		monthLabel = calender.monthLabel,
-		checkLeapYear = calender.checkLeapYear,
-		container = calender.container,
+calendarProto.create = function (){
+	var calendar = this,
+		cDiv = calendar.createDiv,
+		cLi = calendar.createLi,
+		cUl = calendar.createUl,
+		cSpan = calendar.createSpan,
+		currDate = calendar.originalDate,
+		currMon = calendar.originalMonth,
+		currYear = calendar.originalYear,
+		weekLabel = calendar.weekLabel,
+		daysInMonth = calendar.daysInMonth,
+		monthLabel = calendar.monthLabel,
+		checkLeapYear = calendar.checkLeapYear,
+		container = calendar.container,
 		str1 = '<li class="prev" id="gotoPreviousMon">&#10094;</li>',
     	str2 = '<li class="next" id="gotoNextMon">&#10095;</li>',
-		calenderHeader = calender.calenderHeader || cDiv('month', container),
-		headerMonthUl = cUl('month-ul', calenderHeader),
+		calendarHeader = calendar.calendarHeader || cDiv('month', container),
+		headerMonthUl = cUl('month-ul', calendarHeader),
 		headerMonthLi = cLi('month-li', headerMonthUl, str1 + monthLabel[currMon - 1] + str2 + '<br>' + currYear),
 		weekDays = cUl('weekdays', container),
 		days = cUl('days', container),
@@ -164,12 +165,12 @@ calenderProto.create = function (){
 			}
 		}
 
-		calender.isCalenderDrawn = true;
-		calender.container = document.getElementById('calender-container');
+		calendar.isCalendarDrawn = true;
+		calendar.container = document.getElementById('calendar-container');
 };
 
-calenderProto.changeMonth = function(mon, year){
-	var calender = this,
+calendarProto.changeMonth = function(mon, year){
+	var calendar = this,
 		next = document.getElementById('gotoNextMon'),
 		prev = document.getElementById('gotoPreviousMon');
 		next.style.cursor = 'pointer';
@@ -181,7 +182,7 @@ calenderProto.changeMonth = function(mon, year){
 				mon = 1;
 				year++;
 			}
-			calender.setData('01-'+mon+'-'+year);
+			calendar.setData('01-'+mon+'-'+year);
 		});
 		prev.addEventListener('click', function(){
 			mon--;
@@ -189,23 +190,23 @@ calenderProto.changeMonth = function(mon, year){
 				mon = 12;
 				year--;
 			}
-			calender.setData('01-'+mon+'-'+year);
+			calendar.setData('01-'+mon+'-'+year);
 		});
 };
 
-calenderProto.show = function(){
-	var calender = this,
-		calenderObj = calender.container;
+calendarProto.show = function(){
+	var calendar = this,
+		calendarObj = calendar.container;
 
-	if(calender.isCalenderDrawn){
-		calenderObj.style.visibility = 'visible';
-    	calenderObj.style.opacity = '1';
+	if(calendar.isCalendarDrawn){
+		calendarObj.style.visibility = 'visible';
+    	calendarObj.style.opacity = '1';
 	}else{
-		calender.setData(calender.getCurrentDate());
+		calendar.setData(calendar.getCurrentDate());
 	}
 };
 
-calenderProto.getCurrentDate = function (){
+calendarProto.getCurrentDate = function (){
 	var today = new Date(),
 		dd = today.getDate(),
 		mm = today.getMonth()+1,
@@ -221,33 +222,33 @@ calenderProto.getCurrentDate = function (){
 	return today;
 };
 
-calenderProto.hide = function(){
-	var calender = this,
-		calenderObj = calender.container;
-	calenderObj.style.visibility = 'hidden';
-    calenderObj.style.opacity = '0';
-    calenderObj.style.transition = 'visibility 0.2s, opacity 0.2s linear';
+calendarProto.hide = function(){
+	var calendar = this,
+		calendarObj = calendar.container;
+	calendarObj.style.visibility = 'hidden';
+    calendarObj.style.opacity = '0';
+    calendarObj.style.transition = 'visibility 0.2s, opacity 0.2s linear';
 };
 
-calenderProto.onClick = function (defination){
-	var calender = this;
-	calender.customFun = defination;
+calendarProto.onClick = function (defination){
+	var calendar = this;
+	calendar.customFun = defination;
 };
 
-calenderProto.getDate = function (){
-	var calender = this;
-	return calender.isCalenderDrawn ? calender.selectedDate : 'select a date first';
+calendarProto.getDate = function (){
+	var calendar = this;
+	return calendar.isCalendarDrawn ? calendar.selectedDate : 'select a date first';
 };
 
-calenderProto.setRange = function (minLimit, maxLimit){
-	var calender = this;
-	calender.startingDateLimit = new Date(minLimit);
-	calender.endingDateLimit = new Date(maxLimit);
-	calender.isRangeSet = true;
+calendarProto.setRange = function (minLimit, maxLimit){
+	var calendar = this;
+	calendar.startingDateLimit = new Date(minLimit);
+	calendar.endingDateLimit = new Date(maxLimit);
+	calendar.isRangeSet = true;
 };
 
-calenderProto.getRange = function (selectedDate){
-	var calender = this,
+calendarProto.getRange = function (selectedDate){
+	var calendar = this,
 		selectedDate = new Date(selectedDate);
-	return calender.startingDateLimit <= selectedDate && calender.endingDateLimit >= selectedDate;
+	return calendar.startingDateLimit <= selectedDate && calendar.endingDateLimit >= selectedDate;
 };
