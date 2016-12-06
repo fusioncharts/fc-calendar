@@ -9,7 +9,7 @@ var Calendar = ( function Calendar(){
                  'October', 'November', 'December'],
 
         createElement: function (type, id, appendTo, val){
-        	!type ? console.log('create element type not defined') : undefined;
+        	//!type ? console.log('create element type not defined') : undefined;
         	var element = document.createElement(type),
         		typeOfVal = typeof val;
         		element.id = id,
@@ -34,8 +34,7 @@ var Calendar = ( function Calendar(){
         		date;
 
         	element.addEventListener('click', function (){
-        		date = element.textContent + '-' + currMon + '-' + currYear;
-        		calendar.config.date = date;
+        		date = currMon + '-' + element.textContent + '-' + currYear;
         		privateFun.setDate(date);
         		if(isRangeSet && !privateFun.getDateRange()){
 
@@ -73,7 +72,7 @@ var Calendar = ( function Calendar(){
 			if(mm < 10){
 			    mm = '0' + mm;
 			} 
-			today = dd + '-' + mm + '-' + yyyy;
+			today = mm + '-' + dd + '-' + yyyy;
 			return today;
 		},
 
@@ -133,22 +132,23 @@ var Calendar = ( function Calendar(){
         },
         //this function will update the calender
         //without re-drawing the elements
-        update: {
+        update: function (){
+            var privateFun = this,
+                cls = document.getElementsByClassName('dayElement');
+                console.log(cls[0].innerText)
+
 
         },
         //function responsible for drawing the calendar-container
-        draw: function(){
+        draw: function (){
         	var privateFun = this,
         		calendar = privateFun.calendarInfo.calendar,
         		config = calendar.config,
         		container = config.container,
-        		date = config.date,
-        		chooseNum = /\d+/g,
-				num = Number,
-        		splitedDate = date.split('-'),
-        		currDate = privateFun.calendarInfo.currDate = num(splitedDate[0]),
-				currMon = privateFun.calendarInfo.currMon = num(splitedDate[1]),
-				currYear = privateFun.calendarInfo.currYear = num(splitedDate[2]),
+        		date = new Date(config.date),
+        		currDate = privateFun.calendarInfo.currDate = date.getDate(),
+				currMon = privateFun.calendarInfo.currMon = (date.getMonth() + 1),
+				currYear = privateFun.calendarInfo.currYear = date.getFullYear(),
 				str1 = '<li class="prev" id="gotoPreviousMon">&#10094;</li>',
 		    	str2 = '<li class="next" id="gotoNextMon">&#10095;</li>',
 		    	calendarHeader = privateFun.createElement('div','month', container),
@@ -229,7 +229,9 @@ var Calendar = ( function Calendar(){
     //     		console.log(config.date);
         		
         		config.container.innerHTML = '';
-        		privateFun.draw(calendar);
+        		privateFun.draw();
+                privateFun.update();
+
 
 			// var dayElements = document.getElementsByClassName('dayElement');
 		 //    for(i = 0; i < 36; i++){
@@ -250,13 +252,13 @@ var Calendar = ( function Calendar(){
 			// }
 
         },
-        addDateRange = function (date1, date2){
+        addDateRange: function (date1, date2){
         	var privateFun = this,
         		calendarInfo = privateFun.calendarInfo;
         		calendarInfo.firstDate = new Date(date1);
         		calendarInfo.lastDate = new Date(date2);		
         },
-        getDateRange = function (){
+        getDateRange: function (){
         	var privateFun = this,
         		calendarInfo = privateFun.calendarInfo,
         		calendar = privateFun.calendarInfo.calendar,
