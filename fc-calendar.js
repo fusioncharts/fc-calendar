@@ -8,11 +8,11 @@ var Calendar = ( function Calendar(){
                  'May', 'June', 'July', 'August', 'September',
                  'October', 'November', 'December'],
 
-        createElement: function (type, id, appendTo, val){
+        createElement: function (type, id, appendTo, val, _class){
         	var element = document.createElement(type),
         		typeOfVal = typeof val;
         		element.id = id,
-        		element.className = id;
+        		element.className = _class || id;
 
         	if(typeOfVal === 'object'){
         		element.appendChild(val);
@@ -28,8 +28,7 @@ var Calendar = ( function Calendar(){
         		calendarInfo = privateFun.calendarInfo,
         		date = element.dateData,
                 callFun = func || function (){
-                    date = element.dateData;
-                    if(calendarInfo.isRangeSet && !privateFun.getDateRange(date)){
+                    if(calendarInfo.isRangeSet && privateFun.getDateRange(date)){
                         
                     }else{
                         date && privateFun.setDate(date);
@@ -119,13 +118,16 @@ var Calendar = ( function Calendar(){
         changeDate: function (){
             var privateFun = this,
                 calendarInfo = privateFun.calendarInfo,
+                calendar = calendarInfo.calendar,
+                config = calendar.config,
+                graphic = config.graphic,
                 currDate = calendarInfo.currDate,
                 currMon = calendarInfo.currMon,
                 currYear = calendarInfo.currYear,
-                gotoPreviousMon = document.getElementById('gotoPreviousMon'),
-                gotoNextMon = document.getElementById('gotoNextMon'),
-                gotoPreviousYear = document.getElementById('gotoPreviousYear'),
-                gotoNextYear = document.getElementById('gotoNextYear');
+                gotoPreviousMon = graphic.prevMon,
+                gotoNextMon = graphic.nextMon,
+                gotoPreviousYear = graphic.prevYear,
+                gotoNextYear = graphic.nextYear;
 
                 gotoPreviousMon.addEventListener('click', function(){
                     currMon--;
@@ -162,6 +164,7 @@ var Calendar = ( function Calendar(){
                 calendarInfo = privateFun.calendarInfo,
                 calendar = calendarInfo.calendar,
                 config = calendar.config,
+                graphic = config.graphic,
                 dayElements = config.graphic.dayElements,
                 headerMonthLi = config.graphic.headerMonthLi,
                 headerYearLi = config.graphic.headerYearLi,
@@ -174,10 +177,12 @@ var Calendar = ( function Calendar(){
                 weekDay = startingOfMonth.getDay(),
                 printDate,
                 limit = privateFun.daysInMonth[currMon - 1] + weekDay -1,
+                monthStr = graphic.monthStr,
+                yearStr = graphic.yearStr,
                 i;
 
-                headerMonthLi.innerHTML = privateFun.monthLabel[currMon - 1];
-                headerYearLi.innerHTML = currYear;
+                monthStr.innerHTML = privateFun.monthLabel[currMon - 1];
+                yearStr.innerHTML = currYear;
 
             for(i = 0; i < len; i++){
                 if(i < weekDay || i > limit){
@@ -213,14 +218,18 @@ var Calendar = ( function Calendar(){
 				currMon = privateFun.calendarInfo.currMon = (date.getMonth() + 1),
 				currYear = privateFun.calendarInfo.currYear = date.getFullYear(),
                 dateStr,
-                str1 = '<li class="prev" id="gotoPreviousMon">&#10094;</li>',
-                str2 = '<li class="next" id="gotoNextMon">&#10095;</li>',
-                str3 = '<li class="prev" id="gotoPreviousYear">&#10094;</li>',
-                str4 = '<li class="next" id="gotoNextYear">&#10095;</li>',
+
+                nextMon = privateFun.createElement('li','gotoNextMon', undefined, '&#10095;', 'next'),
+                nextYear = privateFun.createElement('li','gotoNextYear', undefined, '&#10095;', 'next'),
+                prevYear = privateFun.createElement('li','gotoPreviousYear', undefined, '&#10094;', 'prev'),
+                prevMon = privateFun.createElement('li','gotoPreviousMon', undefined, '&#10094;', 'prev'),
+                monthStr = privateFun.createElement('span','monthStr', undefined, privateFun.monthLabel[currMon - 1]),
+                yearStr = privateFun.createElement('span','yearStr', undefined, currYear),
+
 		    	calendarHeader = privateFun.createElement('div','month', container),
 				headerMonthUl = privateFun.createElement('ul', 'month-ul', calendarHeader),
-				headerMonthLi = privateFun.createElement('li', 'month-li', headerMonthUl, str1 + privateFun.monthLabel[currMon - 1] + str2),
-                headerYearLi = privateFun.createElement('li', 'year-li', headerMonthUl, str3 + currYear + str4),
+				headerMonthLi = privateFun.createElement('li', 'month-li', headerMonthUl, ''),
+                headerYearLi = privateFun.createElement('li', 'year-li', headerMonthUl, ''),
 				weekDays = privateFun.createElement('ul', 'weekdays', container),
 				days = config.dayCell = privateFun.createElement('ul', 'days', container),
 				startingOfMonth = new Date(currMon + '-01-' + currYear),
@@ -229,6 +238,13 @@ var Calendar = ( function Calendar(){
 				limit = privateFun.daysInMonth[currMon - 1] + weekDay -1,
 				element,
 				i;
+
+                headerMonthLi.appendChild(prevMon);
+                headerMonthLi.appendChild(monthStr);
+                headerMonthLi.appendChild(nextMon);
+                headerYearLi.appendChild(prevYear)
+                headerYearLi.appendChild(yearStr)
+                headerYearLi.appendChild(nextYear)
 
 			privateFun.checkLeapYear(currYear) ? privateFun.daysInMonth[1] = 29 :
 			 privateFun.daysInMonth[1] = 28;
@@ -262,6 +278,12 @@ var Calendar = ( function Calendar(){
             graphic.dayElements = dayElements;
             graphic.headerMonthLi = headerMonthLi;
             graphic.headerYearLi = headerYearLi;
+            graphic.prevMon = prevMon;
+            graphic.monthStr = monthStr;
+            graphic.nextMon = nextMon;
+            graphic.prevYear = prevYear;
+            graphic.yearStr = yearStr;
+            graphic.nextYear = nextYear;
             privateFun.changeDate();
 			calendar.isCalendarDrawn = true;
         },
