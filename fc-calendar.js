@@ -7,7 +7,9 @@ var Calendar = ( function Calendar(){
 		monthLabel: ['January', 'February', 'March', 'April',
                  'May', 'June', 'July', 'August', 'September',
                  'October', 'November', 'December'],
-
+        //containg private members of calender
+        calendarInfo: {},
+        //create dom element
         createElement: function (type, id, appendTo, val, _class){
         	var element = document.createElement(type),
         		typeOfVal = typeof val;
@@ -22,13 +24,14 @@ var Calendar = ( function Calendar(){
         	appendTo && appendTo.appendChild(element);
         	return element;
         },
-
+        //add event and apply custom functions to date
         addEvent: function(element, func){
         	var privateFun = this,
         		calendarInfo = privateFun.calendarInfo,
-        		date = element.dateData,
+        		date,
                 callFun = func || function (){
-                    if(calendarInfo.isRangeSet && privateFun.getDateRange(date)){
+                    date = element.dateData;
+                    if(calendarInfo.isRangeSet && !privateFun.getDateRange(date)){
                         
                     }else{
                         date && privateFun.setDate(date);
@@ -38,7 +41,7 @@ var Calendar = ( function Calendar(){
 
         	element.addEventListener('click', callFun);
         },
-
+        //apply custom style to the container
         setStyle: function (element, config){
 			var container;
 
@@ -53,7 +56,7 @@ var Calendar = ( function Calendar(){
 			    }
 			}
 		},
-
+        //get current local date
 		getCurrentDate: function (){
 			var today = new Date(),
 				dd = today.getDate(),
@@ -65,11 +68,11 @@ var Calendar = ( function Calendar(){
 			today = mm + '-' + dd + '-' + yyyy;
 			return today;
 		},
-
+        //check if it is leap year
 		checkLeapYear: function(year){
         	return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
         },
-
+        //initialise calendar
         init: function(_config){
         	var privateFun = this,
         		config = {},
@@ -112,47 +115,50 @@ var Calendar = ( function Calendar(){
         	privateFun.setStyle(config.container, graphic);
         	return config;
         },
-        //containg private members of calender
-        calendarInfo: {},
-
+        //changeDate on click
         changeDate: function (){
             var privateFun = this,
                 calendarInfo = privateFun.calendarInfo,
                 calendar = calendarInfo.calendar,
                 config = calendar.config,
                 graphic = config.graphic,
-                currDate = calendarInfo.currDate,
-                currMon = calendarInfo.currMon,
-                currYear = calendarInfo.currYear,
                 gotoPreviousMon = graphic.prevMon,
                 gotoNextMon = graphic.nextMon,
                 gotoPreviousYear = graphic.prevYear,
-                gotoNextYear = graphic.nextYear;
+                gotoNextYear = graphic.nextYear,
+                date,
+                currDate,
+                currMon,
+                currYear,
+                getCurrentDate = function (){
+                    date = new Date(config.date);
+                    currDate = calendarInfo.currDate;
+                    currMon = calendarInfo.currMon;
+                    currYear = calendarInfo.currYear;
+                };
 
                 gotoPreviousMon.addEventListener('click', function(){
+                    getCurrentDate();
                     currMon--;
-                    if(currMon < 1){
-                        currMon = 12;
-                        currYear--;
-                    }
+                    currMon < 1 && (currMon = 12, currYear--);
                     privateFun.setDate(currMon + '-'+ currDate +'-'+currYear);
                 });
 
                 gotoNextMon.addEventListener('click', function(){
+                    getCurrentDate();
                     currMon++;
-                    if(currMon > 12){
-                        currMon = 1;
-                        currYear++;
-                    }
+                    currMon > 12 && (currMon = 1, currYear++);
                     privateFun.setDate(currMon + '-'+ currDate +'-'+currYear);
                 });
                 
                 gotoNextYear.addEventListener('click', function(){
+                    getCurrentDate();
                     currYear++;
                     privateFun.setDate(currMon + '-'+ currDate +'-'+currYear);
                 });
                 
                 gotoPreviousYear.addEventListener('click', function(){
+                    getCurrentDate();
                     currYear--;
                     privateFun.setDate(currMon + '-'+ currDate +'-'+currYear);
                 });
@@ -166,6 +172,7 @@ var Calendar = ( function Calendar(){
                 config = calendar.config,
                 graphic = config.graphic,
                 dayElements = config.graphic.dayElements,
+                weekElements = config.graphic.weekElements,
                 headerMonthLi = config.graphic.headerMonthLi,
                 headerYearLi = config.graphic.headerYearLi,
                 len = dayElements.length,
@@ -174,16 +181,27 @@ var Calendar = ( function Calendar(){
                 currYear = calendarInfo.currYear,
                 dateStr,
                 startingOfMonth = new Date(currMon + '-01-' + currYear),
-                weekDay = startingOfMonth.getDay(),
+                weekDay = startingOfMonth.getDay() - calendarInfo.weekStartingDay,
                 printDate,
-                limit = privateFun.daysInMonth[currMon - 1] + weekDay -1,
+                limit,
                 monthStr = graphic.monthStr,
                 yearStr = graphic.yearStr,
                 i;
 
-                monthStr.innerHTML = privateFun.monthLabel[currMon - 1];
-                yearStr.innerHTML = currYear;
+            weekDay < 0 && (weekDay += 7);
+            limit = privateFun.daysInMonth[currMon - 1] + weekDay -1;
+            //month and year changed
+            monthStr.innerHTML = privateFun.monthLabel[currMon - 1];
+            yearStr.innerHTML = currYear;
+            //if calendar weeks have to repaint then do it
+            if(calendarInfo.weekdayLabelChanged){
+                for(i = 0; i < 7; i++){
+                    weekElements[i].innerHTML = privateFun.weekLabel2[i];
+                }
+                calendarInfo.weekdayLabelChanged = false;
+            }
 
+            //repaint date elements
             for(i = 0; i < len; i++){
                 if(i < weekDay || i > limit){
                     dayElements[i].innerHTML = '';
@@ -201,6 +219,8 @@ var Calendar = ( function Calendar(){
                     }
                     if(privateFun.calendarInfo.isRangeSet && !privateFun.getDateRange(dateStr)){
                         dayElements[i].style.color = '#ff0000';
+                    }else{
+                        dayElements[i].style.color = '#777';
                     }
                 }
             }
@@ -208,24 +228,24 @@ var Calendar = ( function Calendar(){
         //function responsible for drawing the calendar-container
         draw: function (){
         	var privateFun = this,
-        		calendar = privateFun.calendarInfo.calendar,
+                calendarInfo = privateFun.calendarInfo,
+                calendar = calendarInfo.calendar,
         		config = calendar.config,
                 graphic = config.graphic,
                 dayElements = [],
+                weekElements = [],
         		container = config.container,
         		date = new Date(config.date),
-        		currDate = privateFun.calendarInfo.currDate = date.getDate(),
-				currMon = privateFun.calendarInfo.currMon = (date.getMonth() + 1),
-				currYear = privateFun.calendarInfo.currYear = date.getFullYear(),
+        		currDate = calendarInfo.currDate = date.getDate(),
+				currMon = calendarInfo.currMon = (date.getMonth() + 1),
+				currYear = calendarInfo.currYear = date.getFullYear(),
                 dateStr,
-
                 nextMon = privateFun.createElement('li','gotoNextMon', undefined, '&#10095;', 'next'),
                 nextYear = privateFun.createElement('li','gotoNextYear', undefined, '&#10095;', 'next'),
                 prevYear = privateFun.createElement('li','gotoPreviousYear', undefined, '&#10094;', 'prev'),
                 prevMon = privateFun.createElement('li','gotoPreviousMon', undefined, '&#10094;', 'prev'),
                 monthStr = privateFun.createElement('span','monthStr', undefined, privateFun.monthLabel[currMon - 1]),
                 yearStr = privateFun.createElement('span','yearStr', undefined, currYear),
-
 		    	calendarHeader = privateFun.createElement('div','month', container),
 				headerMonthUl = privateFun.createElement('ul', 'month-ul', calendarHeader),
 				headerMonthLi = privateFun.createElement('li', 'month-li', headerMonthUl, ''),
@@ -250,10 +270,11 @@ var Calendar = ( function Calendar(){
 			 privateFun.daysInMonth[1] = 28;
 
 			for(i = 0; i < 7; i++){
-				privateFun.createElement('li', (i+'-weekdays'), weekdays, privateFun.weekLabel[i]);
+				element = privateFun.createElement('li', (i+'-weekdays'), weekdays, privateFun.weekLabel[i]);
+                weekElements.push(element);
 			}
 
-			for(i = 0; i < 36; i++){
+			for(i = 0; i < 37; i++){
 				if(i < weekDay || i > limit){
 					element = privateFun.createElement('li','dayElement-' + i, days, '');
                     element.dateData = '';
@@ -276,6 +297,7 @@ var Calendar = ( function Calendar(){
                 dayElements.push(element);
 			}
             graphic.dayElements = dayElements;
+            graphic.weekElements = weekElements;
             graphic.headerMonthLi = headerMonthLi;
             graphic.headerYearLi = headerYearLi;
             graphic.prevMon = prevMon;
@@ -286,7 +308,9 @@ var Calendar = ( function Calendar(){
             graphic.nextYear = nextYear;
             privateFun.changeDate();
 			calendar.isCalendarDrawn = true;
+            calendarInfo.weekStartingDay = 0;
         },
+        //shows the calender
         show: function(){
         	var privateFun = this,
         		calendar = privateFun.calendarInfo.calendar,
@@ -297,6 +321,7 @@ var Calendar = ( function Calendar(){
 		    	container.style.opacity = '1';
 			}
         },
+        //hides the calender
         hide: function(){
         	var privateFun = this,
         		calendar = privateFun.calendarInfo.calendar,
@@ -307,19 +332,27 @@ var Calendar = ( function Calendar(){
 		    	container.style.opacity = '0';
 			}
         },
+        //Change the date to user input date
         setDate: function(date){
         	var privateFun = this,
                 calendarInfo = privateFun.calendarInfo,
         		calendar = calendarInfo.calendar,
-        		config = calendar.config;
-	     		config.date = date;
+        		config = calendar.config,
+                timestamp=Date.parse(date);
+
+            if (isNaN(timestamp)==false)
+            {
+                config.date = date;
                 newDate = new Date(date);
                 calendarInfo.currYear = newDate.getFullYear();
                 calendarInfo.currMon = newDate.getMonth()+1;
                 calendarInfo.currDate = newDate.getDate();
                 privateFun.update();
-
+            }else{
+                //throw error invalid Date
+            }
         },
+        //Adds the date range
         addDateRange: function (date1, date2){
         	var privateFun = this,
         		calendarInfo = privateFun.calendarInfo;
@@ -327,11 +360,10 @@ var Calendar = ( function Calendar(){
         		calendarInfo.lastDate = new Date(date2);
                 calendarInfo.isRangeSet = true;		
         },
+        // returns the date that can be selectable
         getDateRange: function (_date){
         	var privateFun = this,
         		calendarInfo = privateFun.calendarInfo,
-        		calendar = privateFun.calendarInfo.calendar,
-        		conf = calendar.config,
         		date = new Date(_date),
         		date1 = calendarInfo.firstDate,
         		date2 = calendarInfo.lastDate,
@@ -340,6 +372,25 @@ var Calendar = ( function Calendar(){
 
                 date1 > date2 && (tempDate = date1, date1 = date2, date2 = tempDate);
         		return date1 <= date && date2 >= date;
+        },
+        //Re-arrange week labels
+        arrangeWeekLabel: function (_day){
+            var privateFun = this,
+                weekdayLabel = privateFun.weekLabel,
+                calendarInfo = privateFun.calendarInfo,
+                startingDay = weekdayLabel.indexOf(_day),
+                newWeekArr = [],
+                i;
+            for(i = startingDay; i < 7; i++){
+                newWeekArr.push(weekdayLabel[i]);
+            }
+            for(i = 0; i < startingDay; i++){
+                newWeekArr.push(weekdayLabel[i]);
+            }
+            privateFun.weekLabel2 = newWeekArr;
+            calendarInfo.weekStartingDay = startingDay;
+            calendarInfo.weekdayLabelChanged = true;
+            privateFun.update();
         }
 	};
 
@@ -347,8 +398,7 @@ var Calendar = ( function Calendar(){
 		var calendar = this,
 			config = calendar.config = _private.init(style);
 		_private.calendarInfo.calendar = calendar;
-
-		_private.draw(calendar);
+		_private.draw();
 
 		calendar.show = function(){ _private.show()};
 		calendar.setDate = function(date){ _private.setDate(date)};
@@ -360,6 +410,8 @@ var Calendar = ( function Calendar(){
 			_private.customFun = defination;
 		};
 		calendar.hide = function(){ _private.hide()};
-		calendar.startingDay = function(){};
+		calendar.startingDay = function(day){
+            _private.arrangeWeekLabel(day)
+        };
 	};
 })();
