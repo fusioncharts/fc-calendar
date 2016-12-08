@@ -186,9 +186,13 @@ var Calendar = ( function Calendar(){
                 limit,
                 monthStr = graphic.monthStr,
                 yearStr = graphic.yearStr,
+                isRangeSet,
+                dateColor,
                 i;
 
             weekDay < 0 && (weekDay += 7);
+            privateFun.checkLeapYear(currYear) ? i = 29 : i = 28;
+            privateFun.daysInMonth[1] = i;
             limit = privateFun.daysInMonth[currMon - 1] + weekDay -1;
             //month and year changed
             monthStr.innerHTML = privateFun.monthLabel[currMon - 1];
@@ -208,20 +212,17 @@ var Calendar = ( function Calendar(){
                 }else{
                     printDate = (i - weekDay + 1);
                     dateStr = currMon + '-' + printDate + '-' + currYear;
-                    if(printDate === currDate){
+                    isRangeSet = privateFun.calendarInfo.isRangeSet && privateFun.getDateRange(dateStr);
+                    if(printDate === currDate && isRangeSet){
                         var choosed = privateFun.createElement('span', 'active', undefined, printDate);
                         dayElements[i].innerHTML = '';
                         dayElements[i].appendChild(choosed);
-                        dayElements[i].dateData = dateStr;
                     }else{
                         dayElements[i].innerHTML = printDate;
-                        dayElements[i].dateData = dateStr;
                     }
-                    if(privateFun.calendarInfo.isRangeSet && !privateFun.getDateRange(dateStr)){
-                        dayElements[i].style.color = '#ff0000';
-                    }else{
-                        dayElements[i].style.color = '#777';
-                    }
+                    dayElements[i].dateData = dateStr;
+                    isRangeSet ? dateColor = '#777' : dateColor = '#ff0000';
+                    dayElements[i].style.color = dateColor;
                 }
             }
         },
@@ -257,6 +258,8 @@ var Calendar = ( function Calendar(){
 				printDate,
 				limit = privateFun.daysInMonth[currMon - 1] + weekDay -1,
 				element,
+                isRangeSet,
+                dateColor,
 				i;
 
                 headerMonthLi.appendChild(prevMon);
@@ -266,8 +269,7 @@ var Calendar = ( function Calendar(){
                 headerYearLi.appendChild(yearStr)
                 headerYearLi.appendChild(nextYear)
 
-			privateFun.checkLeapYear(currYear) ? privateFun.daysInMonth[1] = 29 :
-			 privateFun.daysInMonth[1] = 28;
+			privateFun.checkLeapYear(currYear) && (privateFun.daysInMonth[1] = 29);
 
 			for(i = 0; i < 7; i++){
 				element = privateFun.createElement('li', (i+'-weekdays'), weekdays, privateFun.weekLabel[i]);
@@ -281,17 +283,16 @@ var Calendar = ( function Calendar(){
 				}else{
 					printDate = (i - weekDay + 1);
                     dateStr = currMon + '-' + printDate + '-' + currYear;
+                    isRangeSet = privateFun.calendarInfo.isRangeSet && privateFun.getDateRange(dateStr);
 					if(printDate === currDate){
 						var choosed = privateFun.createElement('span', 'active', undefined, printDate);
 						element = privateFun.createElement('li', 'dayElement-' + i, days, choosed, true);
-                        element.dateData = dateStr;
-					}else{
+                    }else{
 						element = privateFun.createElement('li', 'dayElement-' + i, days, printDate);
-                        element.dateData = dateStr;
 					}
-                    if(privateFun.calendarInfo.isRangeSet && !privateFun.getDateRange(dateStr)){
-                        element.style.color = '#ff0000';
-                    }
+                    element.dateData = dateStr;
+                    isRangeSet ? dateColor = '#ff0000' : dateColor = '#777';
+                    element.style.color = dateColor;
 				}
                 privateFun.addEvent(element);
                 dayElements.push(element);
@@ -358,7 +359,7 @@ var Calendar = ( function Calendar(){
         		calendarInfo = privateFun.calendarInfo;
         		calendarInfo.firstDate = new Date(date1);
         		calendarInfo.lastDate = new Date(date2);
-                calendarInfo.isRangeSet = true;		
+                calendarInfo.isRangeSet = true;  
         },
         // returns the date that can be selectable
         getDateRange: function (_date){
