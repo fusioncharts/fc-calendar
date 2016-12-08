@@ -32,7 +32,7 @@ var Calendar = ( function Calendar(){
                 callFun = func || function (){
                     date = element.dateData;
                     if(calendarInfo.isRangeSet && !privateFun.getDateRange(date)){
-                        
+                        //add function to the disabled date
                     }else{
                         date && privateFun.setDate(date);
                         privateFun.customFun && privateFun.customFun();
@@ -73,16 +73,18 @@ var Calendar = ( function Calendar(){
         	return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
         },
         //initialise calendar
-        init: function(_config){
+        init: function(_conf){
         	var privateFun = this,
         		config = {},
-        		graphic = {};
-        	
+        		graphic = {},
+                _config = _conf.config,
+                container = _config.container && document.getElementById(_config.container);
+
         	config.posX = (_config.x || 0);
         	config.posY = (_config.y || 0);
         	config.verticalAlignment = _config.verticalalignment || 'top';
         	config.horizontalAlignment = _config.horizontalalignment || 'left';
-        	config.container = _config.container || privateFun.createElement('div','calendar-container', document.body);
+        	config.container = container || privateFun.createElement('div','calendar-container', document.body);
         	config.date = _config.date || privateFun.getCurrentDate();
 
         	graphic.position = config.position || 'relative';
@@ -221,7 +223,7 @@ var Calendar = ( function Calendar(){
                         dayElements[i].innerHTML = printDate;
                     }
                     dayElements[i].dateData = dateStr;
-                    isRangeSet ? dateColor = '#777' : dateColor = '#ff0000';
+                    !isRangeSet ? dateColor = '#777' : dateColor = '#ff0000';
                     dayElements[i].style.color = dateColor;
                 }
             }
