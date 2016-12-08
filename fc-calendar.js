@@ -214,8 +214,9 @@ var Calendar = ( function Calendar(){
                 }else{
                     printDate = (i - weekDay + 1);
                     dateStr = currMon + '-' + printDate + '-' + currYear;
-                    isRangeSet = privateFun.calendarInfo.isRangeSet && privateFun.getDateRange(dateStr);
-                    if(printDate === currDate && isRangeSet){
+
+                    isRangeSet = !!privateFun.calendarInfo.isRangeSet && !privateFun.getDateRange(dateStr);
+                    if(printDate === currDate && !isRangeSet){
                         var choosed = privateFun.createElement('span', 'active', undefined, printDate);
                         dayElements[i].innerHTML = '';
                         dayElements[i].appendChild(choosed);
@@ -223,7 +224,7 @@ var Calendar = ( function Calendar(){
                         dayElements[i].innerHTML = printDate;
                     }
                     dayElements[i].dateData = dateStr;
-                    !isRangeSet ? dateColor = '#777' : dateColor = '#ff0000';
+                    isRangeSet ? dateColor = '#ff0000' : dateColor = '#777';
                     dayElements[i].style.color = dateColor;
                 }
             }
@@ -285,7 +286,6 @@ var Calendar = ( function Calendar(){
 				}else{
 					printDate = (i - weekDay + 1);
                     dateStr = currMon + '-' + printDate + '-' + currYear;
-                    isRangeSet = privateFun.calendarInfo.isRangeSet && privateFun.getDateRange(dateStr);
 					if(printDate === currDate){
 						var choosed = privateFun.createElement('span', 'active', undefined, printDate);
 						element = privateFun.createElement('li', 'dayElement-' + i, days, choosed, true);
@@ -293,7 +293,6 @@ var Calendar = ( function Calendar(){
 						element = privateFun.createElement('li', 'dayElement-' + i, days, printDate);
 					}
                     element.dateData = dateStr;
-                    isRangeSet ? dateColor = '#ff0000' : dateColor = '#777';
                     element.style.color = dateColor;
 				}
                 privateFun.addEvent(element);
@@ -371,7 +370,6 @@ var Calendar = ( function Calendar(){
         		date1 = calendarInfo.firstDate,
         		date2 = calendarInfo.lastDate,
                 tempDate;
-        		calendarInfo.isRangeSet = true;
 
                 date1 > date2 && (tempDate = date1, date1 = date2, date2 = tempDate);
         		return date1 <= date && date2 >= date;
