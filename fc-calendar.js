@@ -82,7 +82,7 @@ var Calendar = (function() {
             };
         element.addEventListener('click', callFun);
     },
-    //this function will update the calender
+    //this function will update the calendar
     //without re-drawing the elements
     update = function(calendarObj) {
         var calendar = calendarObj,
@@ -99,8 +99,9 @@ var Calendar = (function() {
             currMon = calendarInfo.currMon,
             currYear = calendarInfo.currYear,
             dateStr,
+            startingDay = calendarInfo.weekStartingDay,
             startingOfMonth = new Date(currMon + '-01-' + currYear),
-            weekDay = startingOfMonth.getDay() - calendarInfo.weekStartingDay,
+            weekDay = startingOfMonth.getDay() - startingDay,
             printDate,
             limit,
             monthStr = graphic.monthStr,
@@ -108,7 +109,8 @@ var Calendar = (function() {
             isRangeSet,
             dateColor,
             className,
-            i;
+            i,
+            j;
 
         weekDay < 0 && (weekDay += 7);
         currMon === 2 && checkLeapYear(currYear) ? i = 29 : i = 28;
@@ -119,8 +121,11 @@ var Calendar = (function() {
         yearStr.innerHTML = currYear;
         //if calendar weeks have to repaint then do it
         if (calendarInfo.weekdayLabelChanged) {
-            for (i = 0; i < 7; i++) {
-                weekElements[i].innerHTML = info.tempWeekLabel[i];
+            for (j = 0, i = startingDay; j < (7 - startingDay); i++, j++) {
+                weekElements[j].innerHTML = info.weekLabel[i];
+            }
+            for (j, i = 7 - i; j < 7; j++, i++) {
+                weekElements[j].innerHTML = info.weekLabel[i];
             }
             calendarInfo.weekdayLabelChanged = false;
         }
@@ -185,25 +190,6 @@ var Calendar = (function() {
         setStyle(config.container, graphic);
         info.containerCnt++;
         return config;
-    },
-    //Re-arrange week labels
-    arrangeWeekLabel = function(_day, calendarObj) {
-        var weekdayLabel = info.weekLabel,
-            calendar = calendarObj,
-            calendarInfo = calendar.calendarInfo,
-            startingDay = weekdayLabel.indexOf(_day),
-            newWeekArr = [],
-            i;
-        for (i = startingDay; i < 7; i++) {
-            newWeekArr.push(weekdayLabel[i]);
-        }
-        for (i = 0; i < startingDay; i++) {
-            newWeekArr.push(weekdayLabel[i]);
-        }
-        info.tempWeekLabel = newWeekArr;
-        calendarInfo.weekStartingDay = startingDay;
-        calendarInfo.weekdayLabelChanged = true;
-        update(calendar);
     },
     //changeDate on click
     changeDate = function(calendarObj) {
@@ -353,13 +339,18 @@ var Calendar = (function() {
     function Calendar(config) {
         var calendar = this;
         calendar.calendarInfo = {};
+        calendar.configure(config);
+    };
+    //configure calendar
+    calendarProto.configure = function (config){
+        var calendar = this;
+        config = config || {},
         calendar.config = init(config);
-        draw(calendar);
+        calendar.isCalendarDrawn ? update(calendar) : draw(calendar);
     };
     //call show function show calendar
     calendarProto.show = function() {
         var calendar = this,
-            calendarInfo = calendar.calendarInfo,
             config = calendar.config,
             container = config.container;
         if (calendar.isCalendarDrawn) {
@@ -370,7 +361,6 @@ var Calendar = (function() {
     //call hide function to hide calendar
     calendarProto.hide = function() {
         var calendar = this,
-            calendarInfo = calendar.calendarInfo,
             config = calendar.config,
             container = config.container;
         if (calendar.isCalendarDrawn) {
@@ -388,19 +378,35 @@ var Calendar = (function() {
         var calendar = this;
         setDate(date, calendar);
     };
-    calendarProto.setDateRange = function(firstDate, lastDate) {
+    calendarProto.setActiveRange = function(firstDate, lastDate) {
         var calendar = this;
-            calendarInfo = calendar.calendarInfo,
+            calendarInfo = calendar.calendarInfo;
+
         calendarInfo.firstDate = new Date(firstDate);
         calendarInfo.lastDate = new Date(lastDate);
         calendarInfo.isRangeSet = true;
         update(calendar);
     };
+    calendarProto.removeRange = function () {
+        var calendar = this,
+            calendarInfo = calendar.calendarInfo;
+
+        calendarInfo.isRangeSet = false;
+        update(calendar);
+    }
     calendarProto.startingDay = function(day) {
-        var calendar = this;
-        arrangeWeekLabel(day, calendar);
+        var calendar = this,
+            weekdayLabel = info.weekLabel,
+            calendarInfo = calendar.calendarInfo,
+            startingDay = weekdayLabel.indexOf(day);
+
+        if(startingDay !== -1) {
+            calendarInfo.weekdayLabelChanged = true;
+            calendarInfo.weekStartingDay = startingDay;
+            update(calendar);
+        }
     };
-    calendarProto.onClick = function(defination) {
+    calendarProto.setClickHandler = function(defination) {
         calendar.customFun = defination;
     };
     return Calendar;

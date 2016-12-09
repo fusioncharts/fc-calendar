@@ -128,11 +128,11 @@
 			horizontalalignment: 'right',
 			container: 'my-container'
 		};
-		var x = new Calendar(style);
-		var y = new Calendar(style2);
+		var x = new Calendar();
+		//var y = new Calendar(style2);
 
 		function showC(){
-			x.setDateRange('01-10-2017','01-20-2017');
+			x.setActiveRange('01-10-2017','01-20-2017');
 			x.setDate('01-12-2017');
 		}
 
