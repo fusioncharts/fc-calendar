@@ -73,9 +73,11 @@ var Calendar = (function() {
         addEvent = function(element, calendarObj, func) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
-                date = element.dateData;
-                isRangeSet = !!calendarInfo.isRangeSet && !getDateRange(date, calendarObj);
+                date,
+                isRangeSet,
                 callFun = func || function() {
+                    date = element.dateData;
+                    isRangeSet = !!calendarInfo.isRangeSet && !getDateRange(date, calendarObj);
                     if (!isRangeSet){
                         date && setDate(date, calendar);
                         calendar.isSetClickHandler && calendar.customFun(); 
