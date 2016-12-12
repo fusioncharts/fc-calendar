@@ -84,7 +84,9 @@
 }
 
 .days li .active {
-    padding: 5px;
+    padding: 3px 5px;
+    font-size:11px;
+    font-weight: bold;
     background: #1abc9c;
     color: white !important
 }
@@ -109,4 +111,5 @@
 .days li .normal:hover { 
     color: #590c0c !important;
     font-size:11px;
+    font-weight: bold;
 }
