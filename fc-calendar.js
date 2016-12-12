@@ -162,7 +162,7 @@ var Calendar = (function() {
             graphic.verticalAlignment = _graphic.verticalalignment || 'top';
             graphic.horizontalAlignment = _graphic.horizontalalignment || 'left';
             graphic.container = container || createElement('div', 'calendar-container-' + cnt, document.body);
-            graphic.date = _graphic.date && _graphic.date.replace(/[.\-_]/,'/', -1) || getCurrentDate();
+            graphic.date = _graphic.date && _graphic.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
             graphic.height = (_graphic.height || 200);
             graphic.width = (_graphic.width || 300);
 
