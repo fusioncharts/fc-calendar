@@ -49,7 +49,7 @@ var Calendar = (function () {
             if (isNaN(timestamp) === false) {
                 newDate = new Date(date);
                 return (newDate.getMonth() + 1) + '/' + newDate.getDate() + '/' + newDate.getFullYear();
-            }else{
+            } else {
                 throw new Error('invalid Date: ' + date);
             }
         },
@@ -87,7 +87,7 @@ var Calendar = (function () {
                     if (!isRangeSet) {
                         calendar.previousDate = date;
                         date && setDate(date, calendar);
-                        calendar.isSetClickHandler && calendar.customFun();
+                        calendar.isSetClickHandler && calendar.customeEvents.onDateChange(calendar);
                     }
                 };
             element.addEventListener('click', callFun);
@@ -99,12 +99,10 @@ var Calendar = (function () {
                 calendarInfo = calendar.calendarInfo,
                 graphic = calendar.graphic,
                 style = graphic.style,
-                date = calendar.date,
                 dayElements = graphic.style.dayElements,
                 weekElements = graphic.style.weekElements,
                 dateSpan = graphic.style.spanElement,
                 len = dayElements.length,
-                currDate = calendarInfo.currDate,
                 currMon = calendarInfo.currMon,
                 currYear = calendarInfo.currYear,
                 dateStr,
@@ -224,6 +222,7 @@ var Calendar = (function () {
                 currMon--;
                 currMon < 1 && (currMon = 12, currYear--);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
+                calendar.isSetOnMonthChange && calendar.customeEvents.onMonthChange(calendar);
             });
 
             gotoNextMon.addEventListener('click', function () {
@@ -231,18 +230,21 @@ var Calendar = (function () {
                 currMon++;
                 currMon > 12 && (currMon = 1, currYear++);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
+                calendar.isSetOnMonthChange && calendar.customeEvents.onMonthChange(calendar);
             });
 
             gotoNextYear.addEventListener('click', function () {
                 getCurrentDate();
                 currYear++;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
+                calendar.isSetOnYearChange && calendar.customeEvents.onYearChange(calendar);
             });
 
             gotoPreviousYear.addEventListener('click', function () {
                 getCurrentDate();
                 currYear--;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
+                calendar.isSetOnYearChange && calendar.customeEvents.onYearChange(calendar);
             });
         },
         // function to create dom elements
@@ -347,16 +349,22 @@ var Calendar = (function () {
         },
         calendarProto = Calendar.prototype;
     // calendar constructor
-    function Calendar (graphic) {
+    function Calendar (config) {
         var calendar = this;
         calendar.calendarInfo = {};
-        calendar.configure(graphic);
+        config = config || {};
+        calendar.configure(config);
     };
     // configure calendar
     calendarProto.configure = function (config) {
         var calendar = this,
-            graphic = config || calendar.graphic || {};
+            graphic = config.style || calendar.graphic;
+
         calendar.graphic && calendar.graphic.container.remove();
+        calendar.customeEvents = config.events || {};
+        calendar.customeEvents.onDateChange && (calendar.isSetClickHandler = true);
+        calendar.customeEvents.onYearChange && (calendar.isSetOnYearChange = true);
+        calendar.customeEvents.onMonthChange && (calendar.isSetOnMonthChange = true);
         calendar.graphic = init(graphic);
         calendar.date = config.date && config.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
         calendar.previousDate = validateDate(calendar.date);
@@ -426,7 +434,7 @@ var Calendar = (function () {
     // add custom funcion on click
     calendarProto.setClickHandler = function (defination) {
         var calendar = this;
-        calendar.customFun = defination;
+        calendar.customeEvents.onDateChange = defination;
         calendar.isSetClickHandler = true;
     };
     // remove custom funcion on click

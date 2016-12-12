@@ -28,8 +28,9 @@
 .month ul li {
     color: white;
     font-size: 12px;
+    font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 
 .month .prev {

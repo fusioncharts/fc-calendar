@@ -10,26 +10,42 @@
 	<div id = 'my-container'></div>
 	<input type="button" name="" value="show calendar" onclick="showC()">
 	<script type="text/javascript">
-		var style = {
-			width: 300,
-			height: 200,
-			x: 100,
-			y: 100,
-			date: '1)2&2016',
-			verticalalignment: 'top',
-			horizontalalignment: 'left'
+		var config1 = {
+			style: {
+				width: 300,
+				height: 200,
+				x: 100,
+				y: 100,
+				date: '1)2&2016',
+				verticalalignment: 'top',
+				horizontalalignment: 'left'
+			}
 		};
-		var style2 = {
-			width: 300,
-			height: 200,
-			x: 200,
-			y: 200,
-			date: '05-5-2016',
-			verticalalignment: 'top',
-			horizontalalignment: 'right'
+		var config = {
+			style: {
+				width: 300,
+				height: 200,
+				x: 200,
+				y: 200,
+				date: '05-5-2016',
+				verticalalignment: 'top',
+				horizontalalignment: 'right'
+			},
+			events: {
+				onDateChange: function(obj){
+					console.log(obj);
+				},
+				onYearChange: function(obj){
+					console.log(obj.getDate());
+				},
+				onMonthChange: function(obj){
+					console.log(obj.getDate());
+				}
+			}
 		};
-		var x = new Calendar(style);
-		var y = new Calendar(style2);
+
+		var x = new Calendar(config1);
+		var y = new Calendar(config);
 
 		function showC(){
 			x.setActiveRange('01-10-2017','01-20-2017');
