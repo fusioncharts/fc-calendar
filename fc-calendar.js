@@ -40,24 +40,28 @@ var Calendar = (function () {
                 }
             }
         },
+        // validate Input
+        validateDate = function (date) {
+            var timestamp = Date.parse(date),
+                newDate;
+
+            // check input date is valid or not
+            if (isNaN(timestamp) === false) {
+                newDate = new Date(date);
+                return (newDate.getMonth() + 1) + '/' + newDate.getDate() + '/' + newDate.getFullYear();
+            }else{
+                throw new Error('invalid Date: ' + date);
+            }
+        },
         // Change the date to user input date
         setDate = function (date, calendarObj) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
-                graphic = calendar.graphic,
-                timestamp = Date.parse(date),
-                newDate;
-            // check input date is valid or not
-            if (isNaN(timestamp) === false) {
-                graphic.date = date;
-                newDate = new Date(date);
-                calendarInfo.currYear = newDate.getFullYear();
-                calendarInfo.currMon = newDate.getMonth() + 1;
-                calendarInfo.currDate = newDate.getDate();
-                update(calendarObj);
-            } else {
-                throw new Error('invalid Date: ' + date);
-            }
+                newDate = validateDate(date).split('/');
+            calendarInfo.currYear = newDate[2];
+            calendarInfo.currMon = newDate[0];
+            calendarInfo.currDate = newDate[1];
+            update(calendarObj);
         },
         // returns the date that can be selectable
         getDateRange = function (_date, calendarObj) {
@@ -81,6 +85,7 @@ var Calendar = (function () {
                     date = element.dateData;
                     isRangeSet = !!calendarInfo.isRangeSet && !getDateRange(date, calendarObj);
                     if (!isRangeSet) {
+                        calendar.previousDate = date;
                         date && setDate(date, calendar);
                         calendar.isSetClickHandler && calendar.customFun();
                     }
@@ -94,6 +99,7 @@ var Calendar = (function () {
                 calendarInfo = calendar.calendarInfo,
                 graphic = calendar.graphic,
                 style = graphic.style,
+                date = calendar.date,
                 dayElements = graphic.style.dayElements,
                 weekElements = graphic.style.weekElements,
                 dateSpan = graphic.style.spanElement,
@@ -142,11 +148,11 @@ var Calendar = (function () {
                     printDate = (i - weekDay + 1);
                     dateStr = currMon + '/' + printDate + '/' + currYear;
                     isRangeSet = !!calendarInfo.isRangeSet && !getDateRange(dateStr, calendarObj);
-                    printDate === currDate && !isRangeSet ? className = 'active' : className = 'normal';
+                    calendar.previousDate === dateStr && !isRangeSet ? className = 'active' : className = 'normal';
+                    isRangeSet && (className = 'disabled');
                     dateSpan[i].className = className;
                     dateSpan[i].innerHTML = printDate;
                     dayElements[i].dateData = dateStr;
-                    isRangeSet && (dateSpan[i].className = 'disabled');
                 }
             }
         },
@@ -162,7 +168,6 @@ var Calendar = (function () {
             graphic.verticalAlignment = _graphic.verticalalignment || 'top';
             graphic.horizontalAlignment = _graphic.horizontalalignment || 'left';
             graphic.container = container || createElement('div', 'calendar-container ' + cnt, document.body);
-            graphic.date = _graphic.date && _graphic.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
             graphic.height = (_graphic.height || 200);
             graphic.width = (_graphic.width || 300);
 
@@ -208,7 +213,7 @@ var Calendar = (function () {
                 currMon,
                 currYear,
                 getCurrentDate = function () {
-                    date = new Date(graphic.date);
+                    date = new Date(calendar.date);
                     currDate = calendarInfo.currDate;
                     currMon = calendarInfo.currMon;
                     currYear = calendarInfo.currYear;
@@ -266,7 +271,7 @@ var Calendar = (function () {
                 weekElements = [],
                 spanElement = [],
                 container = graphic.container,
-                date = new Date(graphic.date),
+                date = new Date(calendar.date),
                 currDate = calendarInfo.currDate = date.getDate(),
                 currMon = calendarInfo.currMon = (date.getMonth() + 1),
                 currYear = calendarInfo.currYear = date.getFullYear(),
@@ -353,6 +358,8 @@ var Calendar = (function () {
             graphic = config || calendar.graphic || {};
         calendar.graphic && calendar.graphic.container.remove();
         calendar.graphic = init(graphic);
+        calendar.date = config.date && config.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
+        calendar.previousDate = validateDate(calendar.date);
         draw(calendar);
     };
     // call show function show calendar
@@ -377,13 +384,12 @@ var Calendar = (function () {
     };
     // returns the current or selected date
     calendarProto.getDate = function () {
-        var calendar = this,
-            graphic = calendar.graphic;
-        return graphic.date;
+        return this.date;
     };
     // goto the desired date
     calendarProto.setDate = function (date) {
         var calendar = this;
+        calendar.previousDate = validateDate(date);
         setDate(date, calendar);
     };
     // set calendar date range
@@ -427,7 +433,6 @@ var Calendar = (function () {
     calendarProto.removeClickHandler = function () {
         var calendar = this;
         calendar.isSetClickHandler = false;
-        update(calendar);
     };
 
     return Calendar;
