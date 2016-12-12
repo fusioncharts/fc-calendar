@@ -1,6 +1,6 @@
-var Calendar = (function() {
-    var UNDEFINED = undefined,
-        //basic calendar configaration
+var Calendar = (function () {
+    var UNDEFINED,
+        // basic calendar configaration
         info = {
             daysInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
             weekLabel: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -9,12 +9,12 @@ var Calendar = (function() {
                 'October', 'November', 'December'
             ]
         },
-        //check if the year is leap year or not
-        checkLeapYear = function(year) {
-            return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+        // check if the year is leap year or not
+        checkLeapYear = function (year) {
+            return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
         },
-        //get current local date
-        getCurrentDate = function() {
+        // get current local date
+        getCurrentDate = function () {
             var today = new Date(),
                 dd = today.getDate(),
                 mm = today.getMonth() + 1,
@@ -24,29 +24,31 @@ var Calendar = (function() {
             mm < 10 && (mm = '0' + mm);
             return mm + '/' + dd + '/' + yyyy;
         },
-        //apply custom style to the container
-        setStyle = function(element, graphic) {
-            var container;
+        // apply custom style to the container
+        setStyle = function (element, graphic) {
+            var container,
+                property;
 
             if (typeof element === 'object') {
                 container = element;
             } else {
                 container = document.getElementById(element);
             }
-            for (var property in graphic) {
+            for (property in graphic) {
                 if (graphic.hasOwnProperty(property)) {
                     container.style[property] = graphic[property];
                 }
             }
         },
-        //Change the date to user input date
-        setDate = function(date, calendarObj) {
+        // Change the date to user input date
+        setDate = function (date, calendarObj) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
                 graphic = calendar.graphic,
-                timestamp = Date.parse(date);
-            //check input date is valid or not
-            if (isNaN(timestamp) == false) {
+                timestamp = Date.parse(date),
+                newDate;
+            // check input date is valid or not
+            if (isNaN(timestamp) === false) {
                 graphic.date = date;
                 newDate = new Date(date);
                 calendarInfo.currYear = newDate.getFullYear();
@@ -54,11 +56,11 @@ var Calendar = (function() {
                 calendarInfo.currDate = newDate.getDate();
                 update(calendarObj);
             } else {
-                //throw error invalid Date
+                throw new Error('invalid Date: ' + date);
             }
         },
         // returns the date that can be selectable
-        getDateRange = function(_date, calendarObj) {
+        getDateRange = function (_date, calendarObj) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
                 date = new Date(_date),
@@ -69,13 +71,13 @@ var Calendar = (function() {
             date1 > date2 && (tempDate = date1, date1 = date2, date2 = tempDate);
             return date1 <= date && date2 >= date;
         },
-        //add event and apply custom functions to date
-        addEvent = function(element, calendarObj, func) {
+        // add event and apply custom functions to date
+        addEvent = function (element, calendarObj, func) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
                 date,
                 isRangeSet,
-                callFun = func || function() {
+                callFun = func || function () {
                     date = element.dateData;
                     isRangeSet = !!calendarInfo.isRangeSet && !getDateRange(date, calendarObj);
                     if (!isRangeSet) {
@@ -85,17 +87,15 @@ var Calendar = (function() {
                 };
             element.addEventListener('click', callFun);
         },
-        //this function will update the calendar
-        //without re-drawing the elements
-        update = function(calendarObj) {
+        // this function will update the calendar
+        // without re-drawing the elements
+        update = function (calendarObj) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
                 graphic = calendar.graphic,
                 style = graphic.style,
                 dayElements = graphic.style.dayElements,
                 weekElements = graphic.style.weekElements,
-                headerMonthLi = graphic.style.headerMonthLi,
-                headerYearLi = graphic.style.headerYearLi,
                 dateSpan = graphic.style.spanElement,
                 len = dayElements.length,
                 currDate = calendarInfo.currDate,
@@ -110,7 +110,6 @@ var Calendar = (function() {
                 monthStr = style.monthStr,
                 yearStr = style.yearStr,
                 isRangeSet,
-                dateColor,
                 className,
                 i,
                 j;
@@ -119,10 +118,10 @@ var Calendar = (function() {
             currMon === 2 && checkLeapYear(currYear) ? i = 29 : i = 28;
             info.daysInMonth[1] = i;
             limit = info.daysInMonth[currMon - 1] + weekDay - 1;
-            //month and year changed
+            // month and year changed
             monthStr.innerHTML = info.monthLabel[currMon - 1];
             yearStr.innerHTML = currYear;
-            //if calendar weeks have to repaint then do it
+            // if calendar weeks have to repaint then do it
             if (calendarInfo.weekdayLabelChanged) {
                 for (j = 0, i = startingDay; j < (7 - startingDay); i++, j++) {
                     weekElements[j].innerHTML = info.weekLabel[i];
@@ -133,7 +132,7 @@ var Calendar = (function() {
                 calendarInfo.weekdayLabelChanged = false;
             }
 
-            //repaint date elements
+            // repaint date elements
             for (i = 0; i < len; i++) {
                 if (i < weekDay || i > limit) {
                     dateSpan[i].innerHTML = '';
@@ -151,8 +150,8 @@ var Calendar = (function() {
                 }
             }
         },
-        //initialise the calendar graphicaration
-        init = function(_graphic) {
+        // initialise the calendar graphicaration
+        init = function (_graphic) {
             var graphic = {},
                 style = {},
                 container = _graphic.container && document.getElementById(_graphic.container),
@@ -170,7 +169,7 @@ var Calendar = (function() {
             style.position = graphic.position || 'relative';
             style.height = graphic.height + 'px';
             style.width = graphic.width + 'px';
-            style.top = (function(conf) {
+            style.top = (function (conf) {
                 if (conf.verticalAlignment.toLowerCase() === 'top') {
                     return conf.posY + 'px';
                 } else if (conf.verticalAlignment.toLowerCase() === 'middle') {
@@ -179,7 +178,7 @@ var Calendar = (function() {
                     return (conf.posY + conf.height) + 'px';
                 }
             })(graphic);
-            style.left = (function(conf) {
+            style.left = (function (conf) {
                 if (conf.horizontalAlignment.toLowerCase() === 'left') {
                     return conf.posX + 'px';
                 } else if (conf.horizontalAlignment.toLowerCase() === 'middle') {
@@ -194,8 +193,8 @@ var Calendar = (function() {
             info.containerCnt++;
             return graphic;
         },
-        //changeDate on click
-        changeDate = function(calendarObj) {
+        // changeDate on click
+        changeDate = function (calendarObj) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
                 graphic = calendar.graphic,
@@ -208,45 +207,45 @@ var Calendar = (function() {
                 currDate,
                 currMon,
                 currYear,
-                getCurrentDate = function() {
+                getCurrentDate = function () {
                     date = new Date(graphic.date);
                     currDate = calendarInfo.currDate;
                     currMon = calendarInfo.currMon;
                     currYear = calendarInfo.currYear;
                 };
-            //adding events to the month and year changer
-            gotoPreviousMon.addEventListener('click', function() {
+            // adding events to the month and year changer
+            gotoPreviousMon.addEventListener('click', function () {
                 getCurrentDate();
                 currMon--;
                 currMon < 1 && (currMon = 12, currYear--);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
             });
 
-            gotoNextMon.addEventListener('click', function() {
+            gotoNextMon.addEventListener('click', function () {
                 getCurrentDate();
                 currMon++;
                 currMon > 12 && (currMon = 1, currYear++);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
             });
 
-            gotoNextYear.addEventListener('click', function() {
+            gotoNextYear.addEventListener('click', function () {
                 getCurrentDate();
                 currYear++;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
             });
 
-            gotoPreviousYear.addEventListener('click', function() {
+            gotoPreviousYear.addEventListener('click', function () {
                 getCurrentDate();
                 currYear--;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
             });
         },
-        //function to create dom elements
-        createElement = function(type, id, appendTo, val, _class) {
+        // function to create dom elements
+        createElement = function (type, id, appendTo, val, _class) {
             var element = document.createElement(type),
                 typeOfVal = typeof val;
-            element.id = id,
-                element.className = _class || id;
+            element.id = id;
+            element.className = _class || id;
 
             if (typeOfVal === 'object') {
                 element.appendChild(val);
@@ -256,8 +255,8 @@ var Calendar = (function() {
             appendTo && appendTo.appendChild(element);
             return element;
         },
-        //function to draw calender for the first time with user graphic
-        draw = function(calendarObj) {
+        // function to draw calender for the first time with user graphic
+        draw = function (calendarObj) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
                 cnt = info.containerCnt,
@@ -342,22 +341,22 @@ var Calendar = (function() {
             changeDate(calendar);
         },
         calendarProto = Calendar.prototype;
-    //calendar constructor
-    function Calendar(graphic) {
+    // calendar constructor
+    function Calendar (graphic) {
         var calendar = this;
         calendar.calendarInfo = {};
         calendar.configure(graphic);
     };
-    //configure calendar
-    calendarProto.configure = function(config) {
-        var calendar = this;
-        graphic = config || calendar.graphic || {};
+    // configure calendar
+    calendarProto.configure = function (config) {
+        var calendar = this,
+            graphic = config || calendar.graphic || {};
         calendar.graphic && calendar.graphic.container.remove();
         calendar.graphic = init(graphic);
         draw(calendar);
     };
-    //call show function show calendar
-    calendarProto.show = function() {
+    // call show function show calendar
+    calendarProto.show = function () {
         var calendar = this,
             graphic = calendar.graphic,
             container = graphic.container;
@@ -366,8 +365,8 @@ var Calendar = (function() {
             container.style.opacity = '1';
         }
     };
-    //call hide function to hide calendar
-    calendarProto.hide = function() {
+    // call hide function to hide calendar
+    calendarProto.hide = function () {
         var calendar = this,
             graphic = calendar.graphic,
             container = graphic.container;
@@ -376,37 +375,37 @@ var Calendar = (function() {
             container.style.opacity = '0';
         }
     };
-    //returns the current or selected date
-    calendarProto.getDate = function() {
+    // returns the current or selected date
+    calendarProto.getDate = function () {
         var calendar = this,
             graphic = calendar.graphic;
         return graphic.date;
     };
-    //goto the desired date
-    calendarProto.setDate = function(date) {
+    // goto the desired date
+    calendarProto.setDate = function (date) {
         var calendar = this;
         setDate(date, calendar);
     };
-    //set calendar date range
-    calendarProto.setActiveRange = function(firstDate, lastDate) {
-        var calendar = this;
-        calendarInfo = calendar.calendarInfo;
+    // set calendar date range
+    calendarProto.setActiveRange = function (firstDate, lastDate) {
+        var calendar = this,
+            calendarInfo = calendar.calendarInfo;
 
         calendarInfo.firstDate = new Date(firstDate);
         calendarInfo.lastDate = new Date(lastDate);
         calendarInfo.isRangeSet = true;
         update(calendar);
     };
-    //remove cander date range
-    calendarProto.removeActiveRange = function() {
-            var calendar = this,
-                calendarInfo = calendar.calendarInfo;
+    // remove cander date range
+    calendarProto.removeActiveRange = function () {
+        var calendar = this,
+            calendarInfo = calendar.calendarInfo;
 
-            calendarInfo.isRangeSet = false;
-            update(calendar);
-        }
-        //change week starting day
-    calendarProto.startingDay = function(day) {
+        calendarInfo.isRangeSet = false;
+        update(calendar);
+    };
+    // change week starting day
+    calendarProto.startingDay = function (day) {
         var calendar = this,
             weekdayLabel = info.weekLabel,
             calendarInfo = calendar.calendarInfo,
@@ -418,14 +417,14 @@ var Calendar = (function() {
             update(calendar);
         }
     };
-    //add custom funcion on click
-    calendarProto.setClickHandler = function(defination) {
+    // add custom funcion on click
+    calendarProto.setClickHandler = function (defination) {
         var calendar = this;
         calendar.customFun = defination;
         calendar.isSetClickHandler = true;
     };
-    //remove custom funcion on click
-    calendarProto.removeClickHandler = function() {
+    // remove custom funcion on click
+    calendarProto.removeClickHandler = function () {
         var calendar = this;
         calendar.isSetClickHandler = false;
         update(calendar);
