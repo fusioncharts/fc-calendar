@@ -107,5 +107,6 @@
     color: #ff0000 !important;
 }
 .days li .normal:hover { 
-    color: blue !important;
+    color: #590c0c !important;
+    font-size:11px;
 }
