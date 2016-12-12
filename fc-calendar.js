@@ -78,9 +78,9 @@ var Calendar = (function() {
                 callFun = func || function() {
                     date = element.dateData;
                     isRangeSet = !!calendarInfo.isRangeSet && !getDateRange(date, calendarObj);
-                    if (!isRangeSet){
+                    if (!isRangeSet) {
                         date && setDate(date, calendar);
-                        calendar.isSetClickHandler && calendar.customFun(); 
+                        calendar.isSetClickHandler && calendar.customFun();
                     }
                 };
             element.addEventListener('click', callFun);
@@ -162,7 +162,7 @@ var Calendar = (function() {
             graphic.posY = (_graphic.y || 0);
             graphic.verticalAlignment = _graphic.verticalalignment || 'top';
             graphic.horizontalAlignment = _graphic.horizontalalignment || 'left';
-            graphic.container = container || createElement('div', 'calendar-container-' + cnt, document.body);
+            graphic.container = container || createElement('div', 'calendar-container ' + cnt, document.body);
             graphic.date = _graphic.date && _graphic.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
             graphic.height = (_graphic.height || 200);
             graphic.width = (_graphic.width || 300);
@@ -242,7 +242,7 @@ var Calendar = (function() {
             });
         },
         //function to create dom elements
-        createElement = function (type, id, appendTo, val, _class) {
+        createElement = function(type, id, appendTo, val, _class) {
             var element = document.createElement(type),
                 typeOfVal = typeof val;
             element.id = id,
@@ -257,7 +257,7 @@ var Calendar = (function() {
             return element;
         },
         //function to draw calender for the first time with user graphic
-        draw = function (calendarObj){
+        draw = function(calendarObj) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
                 cnt = info.containerCnt,
@@ -294,49 +294,52 @@ var Calendar = (function() {
                 dateSpan,
                 i;
 
-                headerMonthLi.appendChild(prevMon);
-                headerMonthLi.appendChild(monthStr);
-                headerMonthLi.appendChild(nextMon);
-                headerYearLi.appendChild(prevYear);
-                headerYearLi.appendChild(yearStr);
-                headerYearLi.appendChild(nextYear);
-                checkLeapYear(currYear) && (info.daysInMonth[1] = 29);
+            headerMonthLi.appendChild(prevMon);
+            headerMonthLi.appendChild(monthStr);
+            headerMonthLi.appendChild(nextMon);
+            headerYearLi.appendChild(prevYear);
+            headerYearLi.appendChild(yearStr);
+            headerYearLi.appendChild(nextYear);
+            checkLeapYear(currYear) && (info.daysInMonth[1] = 29);
 
-                for (i = 0; i < 7; i++) {
-                    element = createElement('li', (i + '-weekdays ' + cnt), weekDays, info.weekLabel[i]);
-                    weekElements.push(element);
-                }
+            for (i = 0; i < 7; i++) {
+                element = createElement('li', (i + '-weekdays ' + cnt), weekDays, info.weekLabel[i]);
+                weekElements.push(element);
+            }
 
-                for (i = 0; i < 37; i++) {
-                    if (i < weekDay || i > limit) {
-                        dateSpan = createElement('span', 'normal', UNDEFINED, '');
-                        element.dateData = '';
-                    } else {
-                        printDate = (i - weekDay + 1);
-                        dateStr = currMon + '/' + printDate + '/' + currYear;
-                        printDate === currDate ? className = 'active' : className = 'normal';
-                        dateSpan = createElement('span', className, UNDEFINED, printDate);
-                    }
-                    element = createElement('li', 'dayElement-' + i + cnt, days, dateSpan, true);
-                    element.dateData = dateStr;
-                    addEvent(element, calendar);
-                    spanElement.push(dateSpan);
-                    dayElements.push(element);
+            for (i = 0; i < 37; i++) {
+                if (i < weekDay || i > limit) {
+                    dateSpan = createElement('span', 'normal', UNDEFINED, '');
+                    element.dateData = '';
+                } else {
+                    printDate = (i - weekDay + 1);
+                    dateStr = currMon + '/' + printDate + '/' + currYear;
+                    isRangeSet = !!calendarInfo.isRangeSet && !getDateRange(dateStr, calendarObj);
+                    printDate === currDate && !isRangeSet ? className = 'active' : className = 'normal';
+                    isRangeSet && (className = 'disabled');
+                    dateSpan = createElement('span', className, UNDEFINED, printDate);
                 }
-                style.dayElements = dayElements;
-                style.weekElements = weekElements;
-                style.headerMonthLi = headerMonthLi;
-                style.headerYearLi = headerYearLi;
-                style.prevMon = prevMon;
-                style.monthStr = monthStr;
-                style.nextMon = nextMon;
-                style.prevYear = prevYear;
-                style.yearStr = yearStr;
-                style.nextYear = nextYear;
-                style.spanElement = spanElement;
-                calendar.isCalendarDrawn = true;
-                calendarInfo.weekStartingDay = 0;
-                changeDate(calendar);
+                element = createElement('li', 'dayElement-' + i + cnt, days, dateSpan, true);
+                element.dateData = dateStr;
+                addEvent(element, calendar);
+                spanElement.push(dateSpan);
+                dayElements.push(element);
+            }
+
+            style.dayElements = dayElements;
+            style.weekElements = weekElements;
+            style.headerMonthLi = headerMonthLi;
+            style.headerYearLi = headerYearLi;
+            style.prevMon = prevMon;
+            style.monthStr = monthStr;
+            style.nextMon = nextMon;
+            style.prevYear = prevYear;
+            style.yearStr = yearStr;
+            style.nextYear = nextYear;
+            style.spanElement = spanElement;
+            calendar.isCalendarDrawn = true;
+            calendarInfo.weekStartingDay = 0;
+            changeDate(calendar);
         },
         calendarProto = Calendar.prototype;
     //calendar constructor
@@ -346,7 +349,7 @@ var Calendar = (function() {
         calendar.configure(graphic);
     };
     //configure calendar
-    calendarProto.configure = function (config){
+    calendarProto.configure = function(config) {
         var calendar = this;
         graphic = config || calendar.graphic || {};
         calendar.graphic && calendar.graphic.container.remove();
@@ -387,7 +390,7 @@ var Calendar = (function() {
     //set calendar date range
     calendarProto.setActiveRange = function(firstDate, lastDate) {
         var calendar = this;
-            calendarInfo = calendar.calendarInfo;
+        calendarInfo = calendar.calendarInfo;
 
         calendarInfo.firstDate = new Date(firstDate);
         calendarInfo.lastDate = new Date(lastDate);
@@ -395,21 +398,21 @@ var Calendar = (function() {
         update(calendar);
     };
     //remove cander date range
-    calendarProto.removeActiveRange = function () {
-        var calendar = this,
-            calendarInfo = calendar.calendarInfo;
+    calendarProto.removeActiveRange = function() {
+            var calendar = this,
+                calendarInfo = calendar.calendarInfo;
 
-        calendarInfo.isRangeSet = false;
-        update(calendar);
-    }
-    //change week starting day
+            calendarInfo.isRangeSet = false;
+            update(calendar);
+        }
+        //change week starting day
     calendarProto.startingDay = function(day) {
         var calendar = this,
             weekdayLabel = info.weekLabel,
             calendarInfo = calendar.calendarInfo,
             startingDay = weekdayLabel.indexOf(day);
 
-        if(startingDay !== -1) {
+        if (startingDay !== -1) {
             calendarInfo.weekdayLabelChanged = true;
             calendarInfo.weekStartingDay = startingDay;
             update(calendar);
