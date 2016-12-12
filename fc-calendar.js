@@ -73,10 +73,9 @@ var Calendar = (function() {
         addEvent = function(element, calendarObj, func) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
-                date,
-                isRangeSet = !!calendarInfo.isRangeSet && !getDateRange(dateStr, calendarObj);
+                date = element.dateData;
+                isRangeSet = !!calendarInfo.isRangeSet && !getDateRange(date, calendarObj);
                 callFun = func || function() {
-                    date = element.dateData;
                     if (!isRangeSet){
                         date && setDate(date, calendar);
                         calendar.isSetClickHandler && calendar.customFun(); 
@@ -394,7 +393,7 @@ var Calendar = (function() {
         update(calendar);
     };
     //remove cander date range
-    calendarProto.removeRange = function () {
+    calendarProto.removeActiveRange = function () {
         var calendar = this,
             calendarInfo = calendar.calendarInfo;
 
