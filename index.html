@@ -27,14 +27,29 @@
 				height: 300,
 				x: 600,
 				y: 100,
-				container: 'my-container',
 				verticalalignment: 'top',
 				horizontalalignment: 'left'
 			},
-			date: '1)2&2016',
+			container: 'my-container',
+			activeDate: {
+				day: 12,
+				month: 1,
+				year: 2016
+			},
+			rangeStart: {
+				day: 9,
+				month: 1,
+				year: 2016,
+			},
+			rangeEnd: {
+				day: 24,
+				month: 1,
+				year: 2016,
+			},
+			weekStart: 3,
 			events: {
 				onDateChange: function(date){
-					console.log('new date event: '+date.date);
+					console.log('new date event: '+date.day);
 				}
 			}
 		};
@@ -47,10 +62,9 @@
 				verticalalignment: 'top',
 				horizontalalignment: 'right'
 			},
-			date: '05-5-2016',
 			events: {
 				onDateChange: function(obj){
-					console.log(obj.date);
+					console.log(obj.day);
 				},
 				onYearChange: function(obj){
 					console.log(obj.year);
@@ -62,11 +76,11 @@
 		};
 
 		//var x = new Calendar(config1);
-		var y = new Calendar(config);
+		var y = new Calendar(config2);
 
 		function showC(){
-			x.setActiveRange('01-10-2017','01-20-2017');
-			x.setDate('1*12-2017');
+			y.setActiveRange('01-10-2017','01-20-2017');
+			y.setDate('1*12-2017');
 		}
 
 	</script>

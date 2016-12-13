@@ -41,14 +41,21 @@ var Calendar = (function () {
             }
         },
         // validate Input
-        validateDate = function (date) {
-            var timestamp = Date.parse(date),
-                newDate;
-
+        validateDate = function (_date) {
+            var timestamp,
+                newDate,
+                date,
+                slash = '/';
+            if(typeof _date === 'object'){
+                date = _date.month + slash + _date.day + slash + _date.year;
+            }else{
+                date = _date;
+            }
+            
+            timestamp = Date.parse(date)
             // check input date is valid or not
             if (isNaN(timestamp) === false) {
-                newDate = new Date(date);
-                return (newDate.getMonth() + 1) + '/' + newDate.getDate() + '/' + newDate.getFullYear();
+                return date;
             } else {
                 throw new Error('invalid Date: ' + date);
             }
@@ -68,8 +75,8 @@ var Calendar = (function () {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
                 date = new Date(_date),
-                date1 = calendarInfo.firstDate,
-                date2 = calendarInfo.lastDate,
+                date1 = calendarInfo.rangeStart,
+                date2 = calendarInfo.rangeEnd,
                 tempDate;
 
             date1 > date2 && (tempDate = date1, date1 = date2, date2 = tempDate);
@@ -87,7 +94,7 @@ var Calendar = (function () {
                     if (!isRangeSet) {
                         calendar.previousDate = date;
                         date && setDate(date, calendar);
-                        calendar.customEvents.onDateChange && calendar.customEvents.onDateChange(info.date);
+                        calendar.events.onDateChange && calendar.events.onDateChange(info.date);
                     }
                 };
             element.addEventListener('click', callFun);
@@ -155,7 +162,7 @@ var Calendar = (function () {
             }
         },
         // initialise the calendar graphicaration
-        init = function (calendar, _graphic) {
+        validateStyle = function (calendar, _graphic) {
             var graphic = calendar.graphic,
                 style = {},
                 cnt = info.containerCnt || (info.containerCnt = 0);
@@ -218,7 +225,7 @@ var Calendar = (function () {
                     currDate = calendarInfo.currDate;
                     currMon = calendarInfo.currMon;
                     currYear = calendarInfo.currYear;
-                    date = {date: currDate, month: currMon, year: currYear};
+                    date = {day: currDate, month: currMon, year: currYear};
                     info.date = date;
                     return date;
                 })();
@@ -227,26 +234,26 @@ var Calendar = (function () {
                 currMon--;
                 currMon < 1 && (currMon = 12, currYear--);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.customEvents.onMonthChange && calendar.customEvents.onMonthChange(getCurrentDate);
+                calendar.events.onMonthChange && calendar.events.onMonthChange(getCurrentDate);
             });
 
             gotoNextMon.addEventListener('click', function () {
                 currMon++;
                 currMon > 12 && (currMon = 1, currYear++);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.customEvents.onMonthChange && calendar.customEvents.onMonthChange(getCurrentDate);
+                calendar.events.onMonthChange && calendar.events.onMonthChange(getCurrentDate);
             });
 
             gotoNextYear.addEventListener('click', function () {
                 currYear++;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.customEvents.onYearChange && calendar.customEvents.onYearChange(getCurrentDate);
+                calendar.events.onYearChange && calendar.events.onYearChange(getCurrentDate);
             });
 
             gotoPreviousYear.addEventListener('click', function () {
                 currYear--;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.customEvents.onYearChange && calendar.customEvents.onYearChange(getCurrentDate);
+                calendar.events.onYearChange && calendar.events.onYearChange(getCurrentDate);
             });
         },
         // function to create dom elements
@@ -263,6 +270,22 @@ var Calendar = (function () {
             }
             appendTo && appendTo.appendChild(element);
             return element;
+        },
+        init = function (calendarObj) {
+            var cnt = info.containerCnt,
+                graphic = calendar.graphic,
+                nextMon = createElement('li', 'gotoNextMon ' + cnt, UNDEFINED, '&#10095;', 'next'),
+                nextYear = createElement('li', 'gotoNextYear ' + cnt, UNDEFINED, '&#10095;', 'next'),
+                prevYear = createElement('li', 'gotoPreviousYear ' + cnt, UNDEFINED, '&#10094;', 'prev'),
+                prevMon = createElement('li', 'gotoPreviousMon ' + cnt, UNDEFINED, '&#10094;', 'prev'),
+                monthStr = createElement('span', 'monthStr ' + cnt, UNDEFINED, info.monthLabel[currMon - 1]),
+                yearStr = createElement('span', 'yearStr ' + cnt, UNDEFINED, currYear),
+                calendarHeader = createElement('div', 'month ' + cnt, container),
+                headerMonthUl = createElement('ul', 'month-ul ' + cnt, calendarHeader),
+                headerMonthLi = createElement('li', 'month-li ' + cnt, headerMonthUl, ''),
+                headerYearLi = createElement('li', 'year-li ' + cnt, headerMonthUl, ''),
+                weekDays = createElement('ul', 'weekdays ' + cnt, container),
+                days = graphic.dayCell = createElement('ul', 'days ' + cnt, container),
         },
         // function to draw calender for the first time with user graphic
         draw = function (calendarObj) {
@@ -293,15 +316,18 @@ var Calendar = (function () {
                 weekDays = createElement('ul', 'weekdays ' + cnt, container),
                 days = graphic.dayCell = createElement('ul', 'days ' + cnt, container),
                 startingOfMonth = new Date(currMon + '/01/' + currYear),
-                weekDay = startingOfMonth.getDay(),
+                startingDay = calendarInfo.weekStartingDay,
+                weekDay = startingOfMonth.getDay() - startingDay,
                 printDate,
                 limit = info.daysInMonth[currMon - 1] + weekDay - 1,
                 element,
                 isRangeSet,
                 className,
                 dateSpan,
-                i;
+                i,
+                j;
 
+            weekDay < 0 && (weekDay += 7);
             headerMonthLi.appendChild(prevMon);
             headerMonthLi.appendChild(monthStr);
             headerMonthLi.appendChild(nextMon);
@@ -309,16 +335,32 @@ var Calendar = (function () {
             headerYearLi.appendChild(yearStr);
             headerYearLi.appendChild(nextYear);
             checkLeapYear(currYear) && (info.daysInMonth[1] = 29);
+            //set Previous Date
+            calendar.previousDate = calendar.date;
 
-            for (i = 0; i < 7; i++) {
-                element = createElement('li', (i + '-weekdays ' + cnt), weekDays, info.weekLabel[i]);
-                weekElements.push(element);
+            // for (i = 0; i < 7; i++) {
+            //     element = createElement('li', (i + '-weekdays ' + cnt), weekDays, info.weekLabel[i]);
+            //     weekElements.push(element);
+            // }
+
+            // if calendar weeks have to repaint then do it
+            if (calendarInfo.weekdayLabelChanged) {
+                for (j = 0, i = startingDay; j < (7 - startingDay); i++, j++) {
+                    element = createElement('li', (i + '-weekdays ' + cnt), weekDays, info.weekLabel[i]);
+                    weekElements.push(element);
+                    //weekElements[j].innerHTML = info.weekLabel[i];
+                }
+                for (j, i = 7 - i; j < 7; j++, i++) {
+                    element = createElement('li', (i + '-weekdays ' + cnt), weekDays, info.weekLabel[i]);
+                    weekElements.push(element);
+                    //weekElements[j].innerHTML = info.weekLabel[i];
+                }
+                calendarInfo.weekdayLabelChanged = false;
             }
 
             for (i = 0; i < 37; i++) {
                 if (i < weekDay || i > limit) {
                     dateSpan = createElement('span', 'normal', UNDEFINED, '');
-                    element.dateData = '';
                 } else {
                     printDate = (i - weekDay + 1);
                     dateStr = currMon + '/' + printDate + '/' + currYear;
@@ -328,7 +370,7 @@ var Calendar = (function () {
                     dateSpan = createElement('span', className, UNDEFINED, printDate);
                 }
                 element = createElement('li', 'dayElement-' + i + cnt, days, dateSpan, true);
-                element.dateData = dateStr;
+                element.dateData = dateStr || '';
                 addEvent(element, calendar);
                 spanElement.push(dateSpan);
                 dayElements.push(element);
@@ -346,41 +388,52 @@ var Calendar = (function () {
             graphic.nextYear = nextYear;
             graphic.spanElement = spanElement;
             calendar.isCalendarDrawn = true;
-            calendarInfo.weekStartingDay = 0;
             changeDate(calendar);
         },
         calendarProto = Calendar.prototype;
     // calendar constructor
     function Calendar (config) {
         var calendar = this;
-        calendar.calendarInfo = {};
         calendar.events = {};
         calendar.graphic = {};
         calendar.configure(config);
+        // create the elements for first time only
+
+        // set the styles
     };
     // configure calendar
     calendarProto.configure = function (_config) {
         var calendar = this,
             config = _config || {},
             graphic = _config.style || calendar.graphic,
-            customEvents = calendar.customEvents || {},
+            events = calendar.events,
+            calendarInfo = calendar.calendarInfo = {};
             userEvents = config.events || {},
-            container = config.style.container && document.getElementById(_config.style.container),
-            onDateChange,
-            onYearChange,
-            onMonthChange;
+            container = config.container && document.getElementById(_config.container);
+        // set container
+        container && calendar.graphic.container && (container.appendChild(calendar.graphic.container));
+        // set events
+        typeof userEvents.onDateChange === 'function' && (events.onDateChange = userEvents.onDateChange);
+        typeof userEvents.onYearChange === 'function' && (events.onYearChange = userEvents.onYearChange);
+        typeof userEvents.onMonthChange === 'function' && (events.onMonthChange = userEvents.onMonthChange);
 
-        container && (container.appendChild(calendar.graphic.container));
+        calendar.date = config.activeDate && validateDate(config.activeDate) || getCurrentDate();
+        // configure the style elements
+        calendar.graphic = validateStyle(calendar, graphic);
+        // set Starting day of week
+        calendarInfo.weekStartingDay = config.weekStart;
+        calendarInfo.weekdayLabelChanged = true;
+        // Set active range start
+        calendarInfo.rangeStart = new Date(validateDate(config.rangeStart));
+        // Set active range end
+        calendarInfo.rangeEnd = new Date(validateDate(config.rangeEnd));
 
-        typeof userEvents.onDateChange === 'function' && (customEvents.onDateChange = userEvents.onDateChange);
-        typeof userEvents.onYearChange === 'function' && (customEvents.onYearChange = userEvents.onYearChange);
-        typeof userEvents.onMonthChange === 'function' && (customEvents.onMonthChange = userEvents.onMonthChange);
-
-        calendar.customEvents = customEvents;
-        calendar.graphic = init(calendar, graphic);
-        calendar.date = config.date && config.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
-        calendar.previousDate = validateDate(calendar.date);
-        calendar.isCalendarDrawn ? setDate(calendar.date, calendar) : draw(calendar);
+        //draw(calendar);
+        //console.log(config, calendar)
+        // calendar.graphic = validateStyle(calendar, graphic);
+        // calendar.date = config.date && config.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
+        // calendar.previousDate = validateDate(calendar.date);
+         calendar.isCalendarDrawn ? setDate(calendar.date, calendar) : draw(calendar);
     };
     // call show function show calendar
     calendarProto.show = function () {
@@ -404,7 +457,7 @@ var Calendar = (function () {
     };
     // returns the current or selected date
     calendarProto.getDate = function () {
-        return this.date;
+        return info.date;
     };
     // goto the desired date
     calendarProto.setDate = function (date) {
@@ -412,47 +465,46 @@ var Calendar = (function () {
         calendar.previousDate = validateDate(date);
         setDate(date, calendar);
     };
-    // set calendar date range
-    calendarProto.setActiveRange = function (firstDate, lastDate) {
-        var calendar = this,
-            calendarInfo = calendar.calendarInfo;
+    // // set calendar date range
+    // calendarProto.setActiveRange = function (firstDate, lastDate) {
+    //     var calendar = this,
+    //         calendarInfo = calendar.calendarInfo;
 
-        calendarInfo.firstDate = new Date(firstDate);
-        calendarInfo.lastDate = new Date(lastDate);
-        calendarInfo.isRangeSet = true;
-        update(calendar);
-    };
-    // remove cander date range
-    calendarProto.removeActiveRange = function () {
-        var calendar = this,
-            calendarInfo = calendar.calendarInfo;
+    //     calendarInfo.firstDate = new Date(firstDate);
+    //     calendarInfo.lastDate = new Date(lastDate);
+    //     calendarInfo.isRangeSet = true;
+    //     update(calendar);
+    // };
+    // // remove cander date range
+    // calendarProto.removeActiveRange = function () {
+    //     var calendar = this,
+    //         calendarInfo = calendar.calendarInfo;
 
-        calendarInfo.isRangeSet = false;
-        update(calendar);
-    };
-    // change week starting day
-    calendarProto.startingDay = function (day) {
-        var calendar = this,
-            weekdayLabel = info.weekLabel,
-            calendarInfo = calendar.calendarInfo,
-            startingDay = weekdayLabel.indexOf(day);
+    //     calendarInfo.isRangeSet = false;
+    //     update(calendar);
+    // };
+    // // change week starting day
+    // calendarProto.startingDay = function (day) {
+    //     var calendar = this,
+    //         weekdayLabel = info.weekLabel,
+    //         calendarInfo = calendar.calendarInfo,
+    //         startingDay = weekdayLabel.indexOf(day);
 
-        if (startingDay !== -1) {
-            calendarInfo.weekdayLabelChanged = true;
-            calendarInfo.weekStartingDay = startingDay;
-            update(calendar);
-        }
-    };
+    //     if (startingDay !== -1) {
+    //         calendarInfo.weekdayLabelChanged = true;
+    //         calendarInfo.weekStartingDay = startingDay;
+    //         update(calendar);
+    //     }
+    // };
     // add custom funcion on click
-    calendarProto.setClickHandler = function (defination) {
-        var calendar = this;
-        calendar.customeEvents.onDateChange = defination;
-        calendar.isSetClickHandler = true;
+    calendarProto.addEventListner = function (eventName, handler) {
+        typeof handler === 'function' && (this.events && (this.events[eventName] = handler));
     };
     // remove custom funcion on click
-    calendarProto.removeClickHandler = function () {
-        var calendar = this;
-        delete calendar.customEvents.onDateChange;
+    calendarProto.removeEventListner = function (eventName) {
+        if(this.events && this.events[eventName]) {
+            delete this.events[eventName];
+        }
     };
 
     return Calendar;
