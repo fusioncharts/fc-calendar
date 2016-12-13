@@ -165,9 +165,10 @@ var Calendar = (function () {
             graphic.posY = (_graphic.y || 0);
             graphic.verticalAlignment = _graphic.verticalalignment || 'top';
             graphic.horizontalAlignment = _graphic.horizontalalignment || 'left';
-            graphic.container = container || createElement('div', 'calendar-container ' + cnt, document.body);
+            graphic.container = container || createElement('div', 'calendar ' + cnt, document.body);
             graphic.height = (_graphic.height || 200);
             graphic.width = (_graphic.width || 300);
+            graphic.container.className += ' calendar-container';
 
             style.position = graphic.position || 'relative';
             style.height = graphic.height + 'px';
@@ -362,9 +363,12 @@ var Calendar = (function () {
 
         calendar.graphic && calendar.graphic.container.remove();
         calendar.customeEvents = config.events || {};
-        calendar.customeEvents.onDateChange && (calendar.isSetClickHandler = true);
-        calendar.customeEvents.onYearChange && (calendar.isSetOnYearChange = true);
-        calendar.customeEvents.onMonthChange && (calendar.isSetOnMonthChange = true);
+        calendar.customeEvents.onDateChange && (calendar.isSetClickHandler = true)
+         || (calendar.isSetClickHandler = false);
+        calendar.customeEvents.onYearChange && (calendar.isSetOnYearChange = true)
+         || (calendar.isSetOnYearChange = false);
+        calendar.customeEvents.onMonthChange && (calendar.isSetOnMonthChange = true)
+         || (calendar.isSetOnMonthChange = false);
         calendar.graphic = init(graphic);
         calendar.date = config.date && config.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
         calendar.previousDate = validateDate(calendar.date);
