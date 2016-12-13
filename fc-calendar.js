@@ -87,7 +87,7 @@ var Calendar = (function () {
                     if (!isRangeSet) {
                         calendar.previousDate = date;
                         date && setDate(date, calendar);
-                        calendar.isSetClickHandler && calendar.customeEvents.onDateChange(calendar);
+                        calendar.customEvents.onDateChange && calendar.customEvents.onDateChange(info.date);
                     }
                 };
             element.addEventListener('click', callFun);
@@ -99,9 +99,9 @@ var Calendar = (function () {
                 calendarInfo = calendar.calendarInfo,
                 graphic = calendar.graphic,
                 style = graphic.style,
-                dayElements = graphic.style.dayElements,
-                weekElements = graphic.style.weekElements,
-                dateSpan = graphic.style.spanElement,
+                dayElements = graphic.dayElements,
+                weekElements = graphic.weekElements,
+                dateSpan = graphic.spanElement,
                 len = dayElements.length,
                 currMon = calendarInfo.currMon,
                 currYear = calendarInfo.currYear,
@@ -111,8 +111,8 @@ var Calendar = (function () {
                 weekDay = startingOfMonth.getDay() - startingDay,
                 printDate,
                 limit,
-                monthStr = style.monthStr,
-                yearStr = style.yearStr,
+                monthStr = graphic.monthStr,
+                yearStr = graphic.yearStr,
                 isRangeSet,
                 className,
                 i,
@@ -155,20 +155,23 @@ var Calendar = (function () {
             }
         },
         // initialise the calendar graphicaration
-        init = function (_graphic) {
-            var graphic = {},
+        init = function (calendar, _graphic) {
+            var graphic = calendar.graphic,
                 style = {},
-                container = _graphic.container && document.getElementById(_graphic.container),
                 cnt = info.containerCnt || (info.containerCnt = 0);
 
             graphic.posX = (_graphic.x || 0);
             graphic.posY = (_graphic.y || 0);
             graphic.verticalAlignment = _graphic.verticalalignment || 'top';
             graphic.horizontalAlignment = _graphic.horizontalalignment || 'left';
-            graphic.container = container || createElement('div', 'calendar ' + cnt, document.body);
             graphic.height = (_graphic.height || 200);
             graphic.width = (_graphic.width || 300);
-            graphic.container.className += ' calendar-container';
+
+
+            calendar.graphic.container || (graphic.container = createElement('div', 'calendar ' + cnt, document.body),
+             graphic.container.className += ' calendar-container');
+            // console.log(calendar.graphic.container,graphic)
+
 
             style.position = graphic.position || 'relative';
             style.height = graphic.height + 'px';
@@ -203,49 +206,47 @@ var Calendar = (function () {
                 calendarInfo = calendar.calendarInfo,
                 graphic = calendar.graphic,
                 style = graphic.style,
-                gotoPreviousMon = style.prevMon,
-                gotoNextMon = style.nextMon,
-                gotoPreviousYear = style.prevYear,
-                gotoNextYear = style.nextYear,
+                gotoPreviousMon = graphic.prevMon,
+                gotoNextMon = graphic.nextMon,
+                gotoPreviousYear = graphic.prevYear,
+                gotoNextYear = graphic.nextYear,
                 date,
                 currDate,
                 currMon,
                 currYear,
-                getCurrentDate = function () {
-                    date = new Date(calendar.date);
+                getCurrentDate = (function () {
                     currDate = calendarInfo.currDate;
                     currMon = calendarInfo.currMon;
                     currYear = calendarInfo.currYear;
-                };
+                    date = {date: currDate, month: currMon, year: currYear};
+                    info.date = date;
+                    return date;
+                })();
             // adding events to the month and year changer
             gotoPreviousMon.addEventListener('click', function () {
-                getCurrentDate();
                 currMon--;
                 currMon < 1 && (currMon = 12, currYear--);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.isSetOnMonthChange && calendar.customeEvents.onMonthChange(calendar);
+                calendar.customEvents.onMonthChange && calendar.customEvents.onMonthChange(getCurrentDate);
             });
 
             gotoNextMon.addEventListener('click', function () {
-                getCurrentDate();
                 currMon++;
                 currMon > 12 && (currMon = 1, currYear++);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.isSetOnMonthChange && calendar.customeEvents.onMonthChange(calendar);
+                calendar.customEvents.onMonthChange && calendar.customEvents.onMonthChange(getCurrentDate);
             });
 
             gotoNextYear.addEventListener('click', function () {
-                getCurrentDate();
                 currYear++;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.isSetOnYearChange && calendar.customeEvents.onYearChange(calendar);
+                calendar.customEvents.onYearChange && calendar.customEvents.onYearChange(getCurrentDate);
             });
 
             gotoPreviousYear.addEventListener('click', function () {
-                getCurrentDate();
                 currYear--;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.isSetOnYearChange && calendar.customeEvents.onYearChange(calendar);
+                calendar.customEvents.onYearChange && calendar.customEvents.onYearChange(getCurrentDate);
             });
         },
         // function to create dom elements
@@ -333,17 +334,17 @@ var Calendar = (function () {
                 dayElements.push(element);
             }
 
-            style.dayElements = dayElements;
-            style.weekElements = weekElements;
-            style.headerMonthLi = headerMonthLi;
-            style.headerYearLi = headerYearLi;
-            style.prevMon = prevMon;
-            style.monthStr = monthStr;
-            style.nextMon = nextMon;
-            style.prevYear = prevYear;
-            style.yearStr = yearStr;
-            style.nextYear = nextYear;
-            style.spanElement = spanElement;
+            graphic.dayElements = dayElements;
+            graphic.weekElements = weekElements;
+            graphic.headerMonthLi = headerMonthLi;
+            graphic.headerYearLi = headerYearLi;
+            graphic.prevMon = prevMon;
+            graphic.monthStr = monthStr;
+            graphic.nextMon = nextMon;
+            graphic.prevYear = prevYear;
+            graphic.yearStr = yearStr;
+            graphic.nextYear = nextYear;
+            graphic.spanElement = spanElement;
             calendar.isCalendarDrawn = true;
             calendarInfo.weekStartingDay = 0;
             changeDate(calendar);
@@ -353,26 +354,33 @@ var Calendar = (function () {
     function Calendar (config) {
         var calendar = this;
         calendar.calendarInfo = {};
-        config = config || {};
+        calendar.events = {};
+        calendar.graphic = {};
         calendar.configure(config);
     };
     // configure calendar
-    calendarProto.configure = function (config) {
+    calendarProto.configure = function (_config) {
         var calendar = this,
-            graphic = config.style || calendar.graphic;
+            config = _config || {},
+            graphic = _config.style || calendar.graphic,
+            customEvents = calendar.customEvents || {},
+            userEvents = config.events || {},
+            container = config.style.container && document.getElementById(_config.style.container),
+            onDateChange,
+            onYearChange,
+            onMonthChange;
 
-        calendar.graphic && calendar.graphic.container.remove();
-        calendar.customeEvents = config.events || {};
-        calendar.customeEvents.onDateChange && (calendar.isSetClickHandler = true)
-         || (calendar.isSetClickHandler = false);
-        calendar.customeEvents.onYearChange && (calendar.isSetOnYearChange = true)
-         || (calendar.isSetOnYearChange = false);
-        calendar.customeEvents.onMonthChange && (calendar.isSetOnMonthChange = true)
-         || (calendar.isSetOnMonthChange = false);
-        calendar.graphic = init(graphic);
+        container && (container.appendChild(calendar.graphic.container));
+
+        typeof userEvents.onDateChange === 'function' && (customEvents.onDateChange = userEvents.onDateChange);
+        typeof userEvents.onYearChange === 'function' && (customEvents.onYearChange = userEvents.onYearChange);
+        typeof userEvents.onMonthChange === 'function' && (customEvents.onMonthChange = userEvents.onMonthChange);
+
+        calendar.customEvents = customEvents;
+        calendar.graphic = init(calendar, graphic);
         calendar.date = config.date && config.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
         calendar.previousDate = validateDate(calendar.date);
-        draw(calendar);
+        calendar.isCalendarDrawn ? setDate(calendar.date, calendar) : draw(calendar);
     };
     // call show function show calendar
     calendarProto.show = function () {
@@ -444,7 +452,7 @@ var Calendar = (function () {
     // remove custom funcion on click
     calendarProto.removeClickHandler = function () {
         var calendar = this;
-        calendar.isSetClickHandler = false;
+        delete calendar.customEvents.onDateChange;
     };
 
     return Calendar;

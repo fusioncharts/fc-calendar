@@ -16,10 +16,10 @@
 				height: 200,
 				x: 100,
 				y: 100,
-				date: '1)2&2016',
 				verticalalignment: 'top',
 				horizontalalignment: 'left'
-			}
+			},
+			date: '1)2&2016'
 		};
 		var config2 = {
 			style: {
@@ -28,9 +28,14 @@
 				x: 600,
 				y: 100,
 				container: 'my-container',
-				date: '1)2&2016',
 				verticalalignment: 'top',
 				horizontalalignment: 'left'
+			},
+			date: '1)2&2016',
+			events: {
+				onDateChange: function(date){
+					console.log('new date event: '+date.date);
+				}
 			}
 		};
 		var config = {
@@ -39,24 +44,24 @@
 				height: 200,
 				x: 200,
 				y: 200,
-				date: '05-5-2016',
 				verticalalignment: 'top',
 				horizontalalignment: 'right'
 			},
+			date: '05-5-2016',
 			events: {
 				onDateChange: function(obj){
-					console.log(obj);
+					console.log(obj.date);
 				},
 				onYearChange: function(obj){
-					console.log(obj.getDate());
+					console.log(obj.year);
 				},
 				onMonthChange: function(obj){
-					console.log(obj.getDate());
+					console.log(obj.month);
 				}
 			}
 		};
 
-		var x = new Calendar(config1);
+		//var x = new Calendar(config1);
 		var y = new Calendar(config);
 
 		function showC(){
