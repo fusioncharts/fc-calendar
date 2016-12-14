@@ -46,10 +46,10 @@
 				month: 1,
 				year: 2016,
 			},
-			weekStart: 3,
+			weekStart: 4,
 			events: {
-				onDateChange: function(date){
-					console.log('new date event: '+date.day);
+				onDateChange: function(obj){
+					console.log('new date event: '+ obj.day);
 				}
 			}
 		};
@@ -62,6 +62,8 @@
 				verticalalignment: 'top',
 				horizontalalignment: 'right'
 			},
+			rangeEnd: null,
+			weekStart: 4,
 			events: {
 				onDateChange: function(obj){
 					console.log(obj.day);
@@ -75,7 +77,7 @@
 			}
 		};
 
-		//var x = new Calendar(config1);
+		var x = new Calendar(config1);
 		var y = new Calendar(config2);
 
 		function showC(){
