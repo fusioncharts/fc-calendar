@@ -63,21 +63,21 @@
 				horizontalalignment: 'right'
 			},
 			rangeEnd: null,
-			weekStart: 4,
+			weekStart: 2,
 			events: {
 				onDateChange: function(obj){
 					console.log(obj.day);
 				},
-				onYearChange: function(obj){
-					console.log(obj.year);
+				onYearChange: function(year){
+					console.log(year);
 				},
-				onMonthChange: function(obj){
-					console.log(obj.month);
+				onMonthChange: function(month){
+					console.log(month);
 				}
 			}
 		};
 
-		var x = new Calendar(config1);
+		//var x = new Calendar({weekStart: 2});
 		var y = new Calendar(config2);
 
 		function showC(){
