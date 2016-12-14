@@ -52,11 +52,12 @@ var Calendar = (function () {
                 date = _date;
             }
             
-            timestamp = Date.parse(date)
+            timestamp = Date.parse(date);
+            console.log(date);
             // check input date is valid or not
-            if (isNaN(timestamp) === false) {
+            if (isNaN(timestamp) === false) {console.log('no problem')
                 return date;
-            } else {
+            } else {console.log('throwing error')
                 throw new Error('invalid Date: ' + date);
             }
         },
@@ -64,10 +65,10 @@ var Calendar = (function () {
         setDate = function (date, calendarObj) {
             var calendar = calendarObj,
                 calendarInfo = calendar.calendarInfo,
-                newDate = validateDate(date).split('/');
+                newDate = validateDate(date).split('/');console.log(newDate )
             calendarInfo.currYear = newDate[2];
             calendarInfo.currMon = newDate[0];
-            calendarInfo.currDate = newDate[1];
+            calendarInfo.currDate = Number(newDate[1]);
             update(calendarObj);
         },
         // returns the date that can be selectable
@@ -124,7 +125,7 @@ var Calendar = (function () {
                 className,
                 i,
                 j;
-
+console.log(weekDay, startingDay)
             weekDay < 0 && (weekDay += 7);
             currMon === 2 && checkLeapYear(currYear) ? i = 29 : i = 28;
             info.daysInMonth[1] = i;
@@ -221,39 +222,39 @@ var Calendar = (function () {
                 currDate,
                 currMon,
                 currYear,
-                getCurrentDate = (function () {
+                getCurrentDate = function () {
                     currDate = calendarInfo.currDate;
                     currMon = calendarInfo.currMon;
                     currYear = calendarInfo.currYear;
                     date = {day: currDate, month: currMon, year: currYear};
                     info.date = date;
                     return date;
-                })();
+                };
             // adding events to the month and year changer
             gotoPreviousMon.addEventListener('click', function () {
                 currMon--;
                 currMon < 1 && (currMon = 12, currYear--);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.events.onMonthChange && calendar.events.onMonthChange(getCurrentDate);
+                calendar.events.onMonthChange && calendar.events.onMonthChange(getCurrentDate());
             });
 
             gotoNextMon.addEventListener('click', function () {
                 currMon++;
                 currMon > 12 && (currMon = 1, currYear++);
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.events.onMonthChange && calendar.events.onMonthChange(getCurrentDate);
+                calendar.events.onMonthChange && calendar.events.onMonthChange(getCurrentDate());
             });
 
             gotoNextYear.addEventListener('click', function () {
                 currYear++;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.events.onYearChange && calendar.events.onYearChange(getCurrentDate);
+                calendar.events.onYearChange && calendar.events.onYearChange(getCurrentDate());
             });
 
             gotoPreviousYear.addEventListener('click', function () {
                 currYear--;
                 setDate((currMon + '/' + currDate + '/' + currYear), calendar);
-                calendar.events.onYearChange && calendar.events.onYearChange(getCurrentDate);
+                calendar.events.onYearChange && calendar.events.onYearChange(getCurrentDate());
             });
         },
         // function to create dom elements
@@ -272,20 +273,59 @@ var Calendar = (function () {
             return element;
         },
         init = function (calendarObj) {
-            var cnt = info.containerCnt,
+            var calendar = calendarObj,
                 graphic = calendar.graphic,
+                cnt = info.containerCnt,
+                container = graphic.container = createElement('div', 'calendar ' + cnt, document.body),
+                dayElements = [],
+                weekElements = [],
+                spanElement = [],
                 nextMon = createElement('li', 'gotoNextMon ' + cnt, UNDEFINED, '&#10095;', 'next'),
                 nextYear = createElement('li', 'gotoNextYear ' + cnt, UNDEFINED, '&#10095;', 'next'),
                 prevYear = createElement('li', 'gotoPreviousYear ' + cnt, UNDEFINED, '&#10094;', 'prev'),
                 prevMon = createElement('li', 'gotoPreviousMon ' + cnt, UNDEFINED, '&#10094;', 'prev'),
-                monthStr = createElement('span', 'monthStr ' + cnt, UNDEFINED, info.monthLabel[currMon - 1]),
-                yearStr = createElement('span', 'yearStr ' + cnt, UNDEFINED, currYear),
+                monthStr = createElement('span', 'monthStr ' + cnt, UNDEFINED, ''),
+                yearStr = createElement('span', 'yearStr ' + cnt, UNDEFINED, ''),
                 calendarHeader = createElement('div', 'month ' + cnt, container),
                 headerMonthUl = createElement('ul', 'month-ul ' + cnt, calendarHeader),
                 headerMonthLi = createElement('li', 'month-li ' + cnt, headerMonthUl, ''),
                 headerYearLi = createElement('li', 'year-li ' + cnt, headerMonthUl, ''),
                 weekDays = createElement('ul', 'weekdays ' + cnt, container),
                 days = graphic.dayCell = createElement('ul', 'days ' + cnt, container),
+                i;
+
+                headerMonthLi.appendChild(prevMon);
+                headerMonthLi.appendChild(monthStr);
+                headerMonthLi.appendChild(nextMon);
+                headerYearLi.appendChild(prevYear);
+                headerYearLi.appendChild(yearStr);
+                headerYearLi.appendChild(nextYear);
+                graphic.container.className += ' calendar-container';
+
+                for (i = 0; i < 37; i++) {
+                    if(i < 7){
+                        element = createElement('li', (i + '-weekdays ' + cnt), weekDays, info.weekLabel[i]);
+                        weekElements.push(element);
+                    }
+                    dateSpan = createElement('span', 'normal', UNDEFINED, '');
+                    element = createElement('li', 'dayElement-' + i + cnt, days, dateSpan, true);
+                    element.dateData = '';
+                    addEvent(element, calendar);
+                    spanElement.push(dateSpan);
+                    dayElements.push(element);
+                }
+
+                graphic.dayElements = dayElements;
+                graphic.weekElements = weekElements;
+                graphic.headerMonthLi = headerMonthLi;
+                graphic.headerYearLi = headerYearLi;
+                graphic.prevMon = prevMon;
+                graphic.monthStr = monthStr;
+                graphic.nextMon = nextMon;
+                graphic.prevYear = prevYear;
+                graphic.yearStr = yearStr;
+                graphic.nextYear = nextYear;
+                graphic.spanElement = spanElement;
         },
         // function to draw calender for the first time with user graphic
         draw = function (calendarObj) {
@@ -396,7 +436,10 @@ var Calendar = (function () {
         var calendar = this;
         calendar.events = {};
         calendar.graphic = {};
+        calendar.calendarInfo = {};
+        init(calendar);
         calendar.configure(config);
+        changeDate(calendar);
         // create the elements for first time only
 
         // set the styles
@@ -407,7 +450,7 @@ var Calendar = (function () {
             config = _config || {},
             graphic = _config.style || calendar.graphic,
             events = calendar.events,
-            calendarInfo = calendar.calendarInfo = {};
+            calendarInfo = calendar.calendarInfo,
             userEvents = config.events || {},
             container = config.container && document.getElementById(_config.container);
         // set container
@@ -418,22 +461,26 @@ var Calendar = (function () {
         typeof userEvents.onMonthChange === 'function' && (events.onMonthChange = userEvents.onMonthChange);
 
         calendar.date = config.activeDate && validateDate(config.activeDate) || getCurrentDate();
+        console.log('tyyyy: '+calendar.date);
         // configure the style elements
         calendar.graphic = validateStyle(calendar, graphic);
         // set Starting day of week
-        calendarInfo.weekStartingDay = config.weekStart;
+        config.weekStart && (calendarInfo.weekStartingDay = config.weekStart);
         calendarInfo.weekdayLabelChanged = true;
         // Set active range start
-        calendarInfo.rangeStart = new Date(validateDate(config.rangeStart));
+        config.rangeStart && (calendarInfo.rangeStart = new Date(validateDate(config.rangeStart)));
         // Set active range end
-        calendarInfo.rangeEnd = new Date(validateDate(config.rangeEnd));
+        config.rangeEnd && (calendarInfo.rangeEnd = new Date(validateDate(config.rangeEnd)));
 
         //draw(calendar);
         //console.log(config, calendar)
         // calendar.graphic = validateStyle(calendar, graphic);
         // calendar.date = config.date && config.date.replace(/[^0-9 ]/g, '/') || getCurrentDate();
         // calendar.previousDate = validateDate(calendar.date);
-         calendar.isCalendarDrawn ? setDate(calendar.date, calendar) : draw(calendar);
+        //calendar.isCalendarDrawn ? setDate(calendar.date, calendar) : draw(calendar);
+
+        setDate(calendar.date, calendar)
+
     };
     // call show function show calendar
     calendarProto.show = function () {
