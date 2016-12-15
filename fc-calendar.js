@@ -71,7 +71,8 @@ var Calendar = (function () {
                 currYear = active.year,
                 startingDay = (calendarInfo.weekStartingDay - 1) || 0,
                 startingOfMonth = new Date(currMon + '/1/' + currYear),
-                weekDay = calendarInfo.startingPos = startingOfMonth.getDay() - startingDay,
+                monthStaringDay = startingOfMonth.getDay(),
+                weekDay = calendarInfo.startingPos = monthStaringDay - startingDay,
                 rangeStart = calendarInfo.rangeStart,
                 rangeEnd = calendarInfo.rangeEnd,
                 dateObj = {},
@@ -92,9 +93,11 @@ var Calendar = (function () {
             checkLeapYear(currYear) ? info.daysInMonth[1] = 29 : info.daysInMonth[1] = 28;
 
             limit = info.daysInMonth[currMon - 1] + weekDay - 1;
+
             // month and year changed
             monthStr.innerHTML = info.monthLabel[currMon - 1];
             yearStr.innerHTML = currYear;
+
             // if calendar weeks have to repaint then do it
             if (calendarInfo.weekStartingDay > 0) {
                 for (j = 0, i = startingDay; j < (7 - startingDay); i++, j++) {
@@ -105,44 +108,65 @@ var Calendar = (function () {
                 }
             }
 
-            // repaint date elements
-            for (i = 0; i < len; i++) {
-                if (i < weekDay || i > limit) {
-                    dateSpan[i].innerHTML = '';
-                    dayElements[i].dateData = '';
-                    dateSpan[i].className = 'normal';
-                } else {
-                    printDate = (i - weekDay + 1);
-                    dateObj.day = printDate,
-                    dateObj.month = currMon;
-                    dateObj.year = currYear;
-                    // check if the date is in range or not
-                    // change class of the date element
-                    isRangeSet = !isUnderRange(dateObj, rangeStart, rangeEnd);
-                    compareDates(date, dateObj) && !isRangeSet ? className = 'active' : className = 'normal';
-                    isRangeSet && (className = 'disabled');
-                    dateSpan[i].className = className;
-                    // add date in date element
-                    dateSpan[i].innerHTML = printDate;
+            // blank dates 
+            for (i = 0; i < weekDay; i++) {
+                dateSpan[i].innerHTML = '';
+                dateSpan[i].className = 'normal';
+            }
+
+            // print dates
+            for  (;i <= limit; i++) {
+                printDate = (i - weekDay + 1);
+                dateObj.day = printDate,
+                dateObj.month = currMon;
+                dateObj.year = currYear;
+                dateSpan[i].innerHTML = printDate;
+                dateSpan[i].className = 'normal';
+                //rangeStart && printDate <= rangeStart.day && 
+            }
+            // print blank dates
+            for (;i < 37; i++) {
+                dateSpan[i].innerHTML = '';
+                dateSpan[i].className = 'normal';
+            }
+
+            // if the selected date is on this month, heighlight it
+            if(date.month === currMon && date.year === currYear){
+                dateSpan[date.day + weekDay - 1].className = 'active';
+            }
+            
+            // if the start range is in this month, set the inactive initial dates
+            if(rangeStart && validateRangeStart(dateObj,rangeStart)){
+                for(i = weekDay; i <= rangeStart.day; i++){
+                    dateSpan[i].className = 'disabled';
+                }
+            }
+            //if the end range is in this month, set the inactive end dates
+            if(rangeEnd && validateRangeEnd(dateObj,rangeEnd)){
+                for(i = rangeEnd.day; i <= limit; i++){
+                    dateSpan[i].className = 'disabled';
                 }
             }
         },
         // initialise the calendar graphicaration
         validateStyle = function (calendar, _graphic) {
             var graphic = calendar.graphic,
+                visuals = graphic.visuals,
                 style = {};
 
             graphic.posX = (_graphic.x || 0);
             graphic.posY = (_graphic.y || 0);
             graphic.verticalAlignment = _graphic.verticalalignment || 'top';
             graphic.horizontalAlignment = _graphic.horizontalalignment || 'left';
-            graphic.height = (graphic.height > 199 && _graphic.height || 200);
-            graphic.width = (_graphic.width > 299 && _graphic.width || 300);
+            graphic.height = (graphic.height > 199 && _graphic.height || 
+                (visuals.height && Number((visuals.height).match(/\d+/g)[0])) || 200);
+            graphic.width = (_graphic.width > 299 && _graphic.width ||
+             (visuals.width && Number((visuals.width).match(/\d+/g)[0])) || 300);
 
             style.position = graphic.position || 'relative';
             style.height = graphic.height + 'px';
             style.width = graphic.width + 'px';
-            style.top = (function (conf) {
+            style.top = visuals.top || (function (conf) {
                 if (conf.verticalAlignment.toLowerCase() === 'top') {
                     return conf.posY + 'px';
                 } else if (conf.verticalAlignment.toLowerCase() === 'middle') {
@@ -151,7 +175,7 @@ var Calendar = (function () {
                     return (conf.posY + conf.height) + 'px';
                 }
             })(graphic);
-            style.left = (function (conf) {
+            style.left = visuals.left || (function (conf) {
                 if (conf.horizontalAlignment.toLowerCase() === 'left') {
                     return conf.posX + 'px';
                 } else if (conf.horizontalAlignment.toLowerCase() === 'middle') {
@@ -165,51 +189,6 @@ var Calendar = (function () {
             setStyle(graphic.container, style);
             info.containerCnt++;
             return graphic;
-        },
-        // addClickEvent on click
-        addClickEvent = function (calendar) {
-            var calendarInfo = calendar && calendar.calendarInfo,
-                graphic = calendar && calendar.graphic,
-                gotoPreviousMon = graphic.prevMon,
-                gotoNextMon = graphic.nextMon,
-                gotoPreviousYear = graphic.prevYear,
-                gotoNextYear = graphic.nextYear;
-
-            // adding events to the month and year changer
-            gotoPreviousMon.addEventListener('click', function () {
-                calendarInfo.active.month--;
-                calendarInfo.active.month < 1 && (calendarInfo.active.month = 12, calendarInfo.active.year--);
-                calendarInfo.selectedDate.month = calendarInfo.active.month;
-                calendarInfo.selectedDate.year = calendarInfo.active.year;
-                setDate(calendar);
-                // call user defined function
-                calendar.events.onMonthChange && calendar.events.onMonthChange(calendarInfo.active.month);
-            });
-
-            gotoNextMon.addEventListener('click', function () {
-                calendarInfo.active.month++;
-                calendarInfo.active.month > 12 && (calendarInfo.active.month = 1, calendarInfo.active.year++);
-                setDate(calendar);
-                calendarInfo.selectedDate.month = calendarInfo.active.month;
-                calendarInfo.selectedDate.year = calendarInfo.active.year;
-                // call user defined function
-                calendar.events.onYearChange && calendar.events.onYearChange(calendarInfo.active.month);
-            });
-
-            gotoNextYear.addEventListener('click', function () {
-                calendarInfo.active.year++;
-                setDate(calendar);
-                calendarInfo.selectedDate.year = calendarInfo.active.year;
-                // call user defined function
-                calendar.events.onYearChange && calendar.events.onYearChange(calendarInfo.active.year);
-            });
-            gotoPreviousYear.addEventListener('click', function () {
-                calendarInfo.active.year--;
-                setDate(calendar);
-                calendarInfo.selectedDate.year = calendarInfo.active.year;
-                // call user defined function
-                calendar.events.onYearChange && calendar.events.onYearChange(calendarInfo.active.year);
-            });
         },
         // function to create dom elements
         createElement = function (type, options) {
@@ -235,44 +214,20 @@ var Calendar = (function () {
             appendTo && appendTo.appendChild(element);
             return element;
         },
-        // check if the date is under range or not
-        // return true or false
-        isUnderRange = function (date, date1, date2) {
-            var rangeStart = date1 || 0,
-                rangeEnd = date2 || 0,
-                returnType = true,
-                isValidRangeStart,
-                isValidRangeEnd;
-            // if both rangeStart and RangeEnd are defined
-            if (rangeStart && rangeEnd) {
-                isValidRangeStart = rangeStart.year <= date.year && (rangeStart.month < date.month
-                 || (rangeStart.month === date.month && rangeStart.day <= date.day));
-                isValidRangeEnd = rangeEnd.year >= date.year && (rangeEnd.month > date.month
-                 || (rangeEnd.month === date.month && rangeEnd.day >= date.day));
-
-                returnType = isValidRangeStart && isValidRangeEnd;
-            }
-            // if any of rangeStart and RangeEnd are defined
-            else if ( rangeStart || rangeEnd) {
-                rangeStart && (returnType = (rangeStart.year < date.year) || rangeStart.year === date.year
-                 && (rangeStart.month < date.month || (rangeStart.month === date.month && rangeStart.day <= date.day)));
-
-                rangeEnd && (returnType = (rangeEnd.year > date.year) || rangeEnd.year === date.year
-                 && (rangeEnd.month > date.month || (rangeEnd.month === date.month && rangeEnd.day >= date.day)));
-            }
-            return returnType;
-        },
         // return the date object
         showDate = function (calendar, index) {
             var calendarInfo = calendar && calendar.calendarInfo,
                 day = (index - calendarInfo.startingPos + 1),
                 selectedDate = calendarInfo.selectedDate,
-                events = calendar.events,
-                rangeStart = calendarInfo.rangeStart,
-                rangeEnd = calendarInfo.rangeEnd;
-            // change the date
-            calendarInfo.selectedDate.day = day;
-            if(isUnderRange(selectedDate, rangeStart, rangeEnd)){
+                events = calendar.events;
+            
+            if(validateActive({
+                day: day,
+                month: selectedDate.month,
+                year: selectedDate.year
+            }, calendarInfo.rangeStart, calendarInfo.rangeEnd)){
+                // change the date
+                selectedDate.day = day;
                 setDate(calendar);
                 calendar.events.onDateChange && calendar.events.onDateChange(selectedDate);
             }
@@ -300,10 +255,66 @@ var Calendar = (function () {
                     }
                 };
 
-            graphic.nextMon = createElement('li', {appendTo:headerMonthLi, className: 'next', innerHTML: '&#10095;'});
-            graphic.nextYear = createElement('li', {appendTo:headerYearLi, className: 'next', innerHTML: '&#10095;'});
-            graphic.prevYear = createElement('li', {appendTo:headerYearLi, className: 'prev', innerHTML: '&#10094;'});
-            graphic.prevMon = createElement('li', {appendTo:headerMonthLi, className: 'prev', innerHTML: '&#10094;'});
+            graphic.nextMon = createElement('li', {appendTo:headerMonthLi, className: 'next',
+             innerHTML: '&#10095;', events: {
+                click: function () {
+                    var nextMonth = (calendar.calendarInfo.active && calendar.calendarInfo.active.month) + 1,
+                    year = calendar.calendarInfo.active && calendar.calendarInfo.active.year;
+                    if (nextMonth > 12) {
+                        nextMonth = 1;
+                        year++;
+                    }
+                    info.moveToNext = true;
+                    calendar.configure({
+                        active: {
+                            month: nextMonth,
+                            year: year
+                        }
+                    });
+                }
+             }});
+            graphic.nextYear = createElement('li', {appendTo:headerYearLi, className: 'next',
+             innerHTML: '&#10095;', events: {
+                click: function () {
+                    info.moveToNext = true;
+                    calendar.configure({
+                        active: {
+                            year: (calendar.calendarInfo.active && calendar.calendarInfo.active.year) + 1,
+                            month: (calendar.calendarInfo.active && calendar.calendarInfo.active.month)
+                        }
+                    });
+                }
+             }});
+            graphic.prevYear = createElement('li', {appendTo:headerYearLi, className: 'prev',
+             innerHTML: '&#10094;', events: {
+                click: function () {
+                    info.moveToNext = false;
+                    calendar.configure({
+                        active: {
+                            year: (calendar.calendarInfo.active && calendar.calendarInfo.active.year) - 1,
+                            month: (calendar.calendarInfo.active && calendar.calendarInfo.active.month)
+                        }
+                    });
+                }
+             }});
+            graphic.prevMon = createElement('li', {appendTo:headerMonthLi, className: 'prev',
+             innerHTML: '&#10094;', events: {
+                click: function () {
+                    var nextMonth = (calendar.calendarInfo.active && calendar.calendarInfo.active.month) - 1,
+                    year = calendar.calendarInfo.active && calendar.calendarInfo.active.year;
+                    if (nextMonth < 1) {
+                        nextMonth = 12;
+                        year--;
+                    }
+                    info.moveToNext = false;
+                    calendar.configure({
+                        active: {
+                            month: nextMonth,
+                            year: year
+                        }
+                    });
+                }
+             }});
             graphic.monthStr = createElement('span', {appendTo:headerMonthLi, className: 'monthStr'});
             graphic.yearStr = createElement('span', {appendTo:headerYearLi, className: 'yearStr'});
 
@@ -330,6 +341,29 @@ var Calendar = (function () {
         validateRangeEnd = function (date1, date2) {
             return (date2.month <= date1.month) && (date2.year <= date1.year);
         },
+        // validate active date
+        validateActive = function (date, date1, date2) {
+            var returntype = true,
+                rangeEnd = date2 || 0,
+                rangeStart = date1 || 0,
+                nextMonth = date.month,
+                nextYear = date.year,
+                type1,
+                type2;
+
+            if(info.moveToNext && rangeEnd){
+                //rangeEnd && (returntype = (nextMonth <= rangeEnd.month) && (nextYear <= rangeEnd.year));
+                if((nextMonth <= rangeEnd.month) && (nextYear <= rangeEnd.year)){
+
+                } else if ((nextYear <= rangeEnd.year) && (nextYear <= rangeEnd.year)){
+
+                }
+                console.log(nextMonth, rangeEnd.month, nextYear, rangeEnd.year)
+            } else {
+                rangeStart && (returntype = (nextMonth >= rangeStart.month) && (nextYear >= rangeStart.year));
+            }
+            return returntype;
+        },
         calendarProto = Calendar.prototype;
 
     // calendar constructor
@@ -348,17 +382,13 @@ var Calendar = (function () {
                 month: currentDate.month,
                 year: currentDate.year
             },
-            weekStartingDay: 0
+            weekStartingDay: 0,
+            displayDisabledMonth: true
         };
-        
         // create the elements for first time only
         init(calendar);
         // configure Calendar with initial config
         calendar.configure(config);
-        
-        setDate(calendar);
-        // add event on change month and year
-        addClickEvent(calendar);
     };
     // configure calendar
     calendarProto.configure = function (_config) {
@@ -367,20 +397,17 @@ var Calendar = (function () {
             graphic = calendar.graphic,
             events = calendar.events,
             calendarInfo = calendar.calendarInfo,
+            displayDisabledMonth = calendarInfo.displayDisabledMonth,
             userEvents = config.events || {},
             parentElement,
             visuals = config.style,
             doRepaint = false;
 
-        
         // set container
         if (config.container && (parentElement = document.getElementById(config.container))) {
             graphic.parentElement = parentElement;
-            if (calendarInfo.rendered) {
-                parentElement.appendChild(graphic.container);
-            }
+            parentElement.appendChild(graphic.container);
         }
-        
         // applying visual styles to the container
         visuals && validateStyle(calendar, visuals);
         // set events on date, month and year change
@@ -388,11 +415,19 @@ var Calendar = (function () {
         typeof userEvents.onYearChange === 'function' && (events.onYearChange = userEvents.onYearChange);
         typeof userEvents.onMonthChange === 'function' && (events.onMonthChange = userEvents.onMonthChange);
         // set calendar date
-        if (config.activeDate && validateDate(config.activeDate)) {
-            calendarInfo.selectedDate = config.activeDate;
+        if (config.selectedDate && validateDate(config.selectedDate)) {
+            calendarInfo.selectedDate = config.selectedDate;
             // update the active month as well
             calendarInfo.active.month = calendarInfo.selectedDate.month;
             calendarInfo.active.year = calendarInfo.selectedDate.year;
+            doRepaint = true;
+        }
+        // set active month
+        if (config.active && validateActive(config.active, calendarInfo.rangeStart, calendarInfo.rangeEnd)
+         && (calendarInfo.active.month !== config.active.month ||
+            calendarInfo.active.year !== config.active.year)) {
+            calendarInfo.active.month = config.active.month || calendarInfo.active.month;
+            calendarInfo.active.year = config.active.year || calendarInfo.active.year;
             doRepaint = true;
         }
         // set Starting day of week

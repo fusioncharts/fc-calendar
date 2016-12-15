@@ -8,6 +8,7 @@
 </head>
 <body>
 	<div id = 'my-container'></div>
+	<div id = 'my-container-2'></div>
 	<input type="button" name="" value="show calendar" onclick="showC()">
 	<script type="text/javascript">
 		var config1 = {
@@ -25,13 +26,22 @@
 				width: 500,
 				height: 400,
 				x: 60,
-				y: 10,
+				y: 50,
 				verticalalignment: 'top',
 				horizontalalignment: 'left'
-			}
+			},
+			rangeStart: null
+		};
+
+		var config6 = {
+			style: {
+				y: 110,
+				width: 600,
+			},
+			container: 'my-container-2'
 		};
 		var config4 = {
-			activeDate: {
+			selectedDate: {
 				day: 26,
 				month: 10,
 				year: 2017
@@ -48,19 +58,19 @@
 				horizontalalignment: 'left'
 			},
 			container: 'my-container',
-			activeDate: {
+			selectedDate: {
 				day: 12,
-				month: 1,
+				month: 5,
 				year: 2016
 			},
 			rangeStart: {
 				day: 9,
-				month: 1,
+				month: 5,
 				year: 2016,
 			},
 			rangeEnd: {
 				day: 24,
-				month: 1,
+				month: 5,
 				year: 2016,
 			},
 			weekStart: 4,
