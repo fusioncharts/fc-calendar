@@ -357,23 +357,25 @@ var Calendar = (function () {
     calendarProto.configure = function (_config) {
         var calendar = this,
             config = _config || {},
-            graphic = _config.style || calendar.graphic,
+            graphic = calendar.graphic,
             events = calendar.events,
             calendarInfo = calendar.calendarInfo,
             userEvents = config.events || {},
             parentElement,
+            visuals = config.style,
             doRepaint = false;
 
         
         // set container
-        if (_config.container && (parentElement = document.getElementById(_config.container))) {
+        if (config.container && (parentElement = document.getElementById(config.container))) {
             graphic.parentElement = parentElement;
             if (calendarInfo.rendered) {
                 parentElement.appendChild(graphic.container);
             }
         }
+        
         // applying visual styles to the container
-        validateStyle(calendar, graphic);
+        visuals && validateStyle(calendar, visuals);
         // set events on date, month and year change
         typeof userEvents.onDateChange === 'function' && (events.onDateChange = userEvents.onDateChange);
         typeof userEvents.onYearChange === 'function' && (events.onYearChange = userEvents.onYearChange);
@@ -394,17 +396,21 @@ var Calendar = (function () {
         // Set active range start
         if (config.rangeStart && validateRangeStart(config.rangeStart, calendarInfo.selectedDate)) {
             calendarInfo.rangeStart = config.rangeStart;
+            doRepaint = true;
         }
         else if (config.rangeStart === null) {
             delete calendarInfo.rangeStart;
+            doRepaint = true;
         }
         // Set active range end
         if (config.rangeEnd && validateRangeEnd(config.rangeEnd, calendarInfo.selectedDate)) {
             calendarInfo.rangeEnd = config.rangeEnd;
+            doRepaint = true;
             // Check whether the old active date is valid or not
         }
         else if (config.rangeEnd === null) {
             delete calendarInfo.rangeEnd;
+            doRepaint = true;
         }
         // set calendar to the desired date
         doRepaint && calendarInfo.rendered && setDate(calendar);
