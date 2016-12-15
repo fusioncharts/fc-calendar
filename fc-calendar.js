@@ -10,6 +10,7 @@ var Calendar = (function () {
             ]
         },
         counter = 0,
+        // get id for container
         getuid = function () {
             return 'fc_calendar-' + (counter++);
         },
@@ -43,12 +44,6 @@ var Calendar = (function () {
                 }
             }
         },
-        // return date as string
-        getDateString = function (dateObj) {
-            if (typeof dateObj === 'object') {
-                return dateObj.month + '/' + dateObj.day + '/' + dateObj.year;
-            }
-        },
         // validate Input
         validateDate = function (date) {
             var timestamp,
@@ -63,7 +58,7 @@ var Calendar = (function () {
         // without re-drawing the elements
         setDate = function (calendar) {
             var calendarInfo = calendar && calendar.calendarInfo,
-                date = getDateString(calendarInfo.selectedDate),
+                date = calendarInfo.selectedDate,
                 active = calendarInfo.active,
                 graphic = calendar.graphic,
                 dayElements = graphic.dayElements,
@@ -76,7 +71,9 @@ var Calendar = (function () {
                 currYear = active.year,
                 startingDay = (calendarInfo.weekStartingDay - 1) || 0,
                 startingOfMonth = new Date(currMon + '/1/' + currYear),
-                weekDay = startingOfMonth.getDay() - startingDay,
+                weekDay = calendarInfo.startingPos = startingOfMonth.getDay() - startingDay,
+                rangeStart = calendarInfo.rangeStart,
+                rangeEnd = calendarInfo.rangeEnd,
                 dateObj = {},
                 printDate,
                 limit,
@@ -85,29 +82,8 @@ var Calendar = (function () {
                 dateStr,
                 i,
                 j,
-                // date range
-                isUnderRange = function (date) {
-                    var rangeStart = calendarInfo.rangeStart || 0,
-                        rangeEnd = calendarInfo.rangeEnd || 0,
-                        returnType = true,
-                        isValidRangeStart,
-                        isValidRangeEnd;
-                    if (rangeStart && rangeEnd) {
-                        isValidRangeStart = rangeStart.year <= date.year && (rangeStart.month < date.month
-                         || (rangeStart.month === date.month && rangeStart.day <= date.day));
-                        isValidRangeEnd = rangeEnd.year >= date.year && (rangeEnd.month > date.month
-                         || (rangeEnd.month === date.month && rangeEnd.day >= date.day));
-
-                        returnType = isValidRangeStart && isValidRangeEnd;
-                    }
-                    else if ( rangeStart || rangeEnd) {
-                        rangeStart && (returnType = (rangeStart.year < date.year) || rangeStart.year === date.year
-                         && (rangeStart.month < date.month || (rangeStart.month === date.month && rangeStart.day <= date.day)));
-
-                        rangeEnd && (returnType = (rangeEnd.year > date.year) || rangeEnd.year === date.year
-                         && (rangeEnd.month > date.month || (rangeEnd.month === date.month && rangeEnd.day >= date.day)));
-                    }
-                    return returnType;
+                compareDates = function (date1, date2) {
+                    return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;
                 };
 
             // manage week day
@@ -137,42 +113,19 @@ var Calendar = (function () {
                     dateSpan[i].className = 'normal';
                 } else {
                     printDate = (i - weekDay + 1);
-                    dateStr = currMon + '/' + printDate + '/' + currYear;
-                    dateObj = {
-                        day: printDate,
-                        month: currMon,
-                        year: currYear
-                    };
+                    dateObj.day = printDate,
+                    dateObj.month = currMon;
+                    dateObj.year = currYear;
                     // check if the date is in range or not
                     // change class of the date element
-                    isRangeSet = !isUnderRange(dateObj);
-                    date === dateStr && !isRangeSet ? className = 'active' : className = 'normal';
+                    isRangeSet = !isUnderRange(dateObj, rangeStart, rangeEnd);
+                    compareDates(date, dateObj) && !isRangeSet ? className = 'active' : className = 'normal';
                     isRangeSet && (className = 'disabled');
                     dateSpan[i].className = className;
                     // add date in date element
                     dateSpan[i].innerHTML = printDate;
-                    dayElements[i].dateData = dateObj;
-                    dayElements[i].isUnderRange = isRangeSet;
                 }
             }
-        },
-        // add event and apply custom functions to date
-        addEvent = function (element, calendarObj, func) {
-            var calendar = calendarObj,
-                calendarInfo = calendar.calendarInfo,
-                date,
-                isUnderRange,
-                callFun = func || function () {
-                    date = validateDate(element.dateData);
-                    isUnderRange = element.isUnderRange;
-                    calendarInfo.selectedDate = element.dateData;
-                    if (!isUnderRange) {
-                        calendar.date = date;
-                        date && setDate(calendar);
-                        calendar.events.onDateChange && calendar.events.onDateChange(element.dateData);
-                    }
-                };
-            element.addEventListener('click', callFun);
         },
         // initialise the calendar graphicaration
         validateStyle = function (calendar, _graphic) {
@@ -183,8 +136,8 @@ var Calendar = (function () {
             graphic.posY = (_graphic.y || 0);
             graphic.verticalAlignment = _graphic.verticalalignment || 'top';
             graphic.horizontalAlignment = _graphic.horizontalalignment || 'left';
-            graphic.height = (_graphic.height || 200);
-            graphic.width = (_graphic.width || 300);
+            graphic.height = (graphic.height > 199 && _graphic.height || 200);
+            graphic.width = (_graphic.width > 299 && _graphic.width || 300);
 
             style.position = graphic.position || 'relative';
             style.height = graphic.height + 'px';
@@ -259,65 +212,121 @@ var Calendar = (function () {
             });
         },
         // function to create dom elements
-        createElement = function (type, appendTo, _class, id, innerHTML) {
-            var element = document.createElement(type);
+        createElement = function (type, options) {
+            var appendTo = options.appendTo,
+                _class = options.className,
+                id = options.id,
+                innerHTML = options.innerHTML,
+                events = options.events,
+                element = document.createElement(type);
+            
             // set the class
             _class && (element.className = _class);
-
             // set the attributes
             id && (element.id = id);
             // add the innerHTML
-            if (innerHTML !== undefined) {
-                element.innerHTML = innerHTML;
+            innerHTML && (element.innerHTML = innerHTML);
+            if (events){
+                for (event in events) {
+                    element.addEventListener(event, events[event]);
+                }
             }
             // append to it's parent
             appendTo && appendTo.appendChild(element);
             return element;
         },
+        // check if the date is under range or not
+        // return true or false
+        isUnderRange = function (date, date1, date2) {
+            var rangeStart = date1 || 0,
+                rangeEnd = date2 || 0,
+                returnType = true,
+                isValidRangeStart,
+                isValidRangeEnd;
+            // if both rangeStart and RangeEnd are defined
+            if (rangeStart && rangeEnd) {
+                isValidRangeStart = rangeStart.year <= date.year && (rangeStart.month < date.month
+                 || (rangeStart.month === date.month && rangeStart.day <= date.day));
+                isValidRangeEnd = rangeEnd.year >= date.year && (rangeEnd.month > date.month
+                 || (rangeEnd.month === date.month && rangeEnd.day >= date.day));
+
+                returnType = isValidRangeStart && isValidRangeEnd;
+            }
+            // if any of rangeStart and RangeEnd are defined
+            else if ( rangeStart || rangeEnd) {
+                rangeStart && (returnType = (rangeStart.year < date.year) || rangeStart.year === date.year
+                 && (rangeStart.month < date.month || (rangeStart.month === date.month && rangeStart.day <= date.day)));
+
+                rangeEnd && (returnType = (rangeEnd.year > date.year) || rangeEnd.year === date.year
+                 && (rangeEnd.month > date.month || (rangeEnd.month === date.month && rangeEnd.day >= date.day)));
+            }
+            return returnType;
+        },
+        // return the date object
+        showDate = function (calendar, index) {
+            var calendarInfo = calendar && calendar.calendarInfo,
+                day = (index - calendarInfo.startingPos + 1),
+                selectedDate = calendarInfo.selectedDate,
+                events = calendar.events,
+                rangeStart = calendarInfo.rangeStart,
+                rangeEnd = calendarInfo.rangeEnd;
+            // change the date
+            calendarInfo.selectedDate.day = day;
+            if(isUnderRange(selectedDate, rangeStart, rangeEnd)){
+                setDate(calendar);
+                calendar.events.onDateChange && calendar.events.onDateChange(selectedDate);
+            }
+        },
         // initailise calendar for the first time
         init = function (calendar) {
             var graphic = calendar.graphic,
-                container = graphic.container = createElement('div', graphic.parentElement, UNDEFINED, calendar.id),
+                container = graphic.container = createElement('div', {appendTo: graphic.parentElement,
+                 className: 'calendar-container', id: calendar.id}),
                 dayElements = graphic.dayElements = [],
                 weekElements = graphic.weekElements = [],
                 spanElement = graphic.spanElement = [],
-                calendarHeader = graphic.calendarHeader = createElement('div', container, 'month'),
-                headerMonthUl = graphic.headerMonthUl = createElement('ul', calendarHeader, 'month-ul '),
-                headerMonthLi = graphic.headerMonthLi = createElement('li', headerMonthUl, 'month-li '),
-                headerYearLi = graphic.headerYearLi = createElement('li', headerMonthUl, 'year-li '),
-                weekDays = graphic.weekDays = createElement('ul', container, 'weekdays'),
-                days = graphic.days = graphic.dayCell = createElement('ul', container, 'days'),
+                calendarHeader = graphic.calendarHeader = createElement('div', {appendTo: container, className: 'month'}),
+                headerMonthUl = graphic.headerMonthUl = createElement('ul', {appendTo: calendarHeader, className: 'month-ul'}),
+                headerMonthLi = graphic.headerMonthLi = createElement('li', {appendTo: headerMonthUl, className: 'month-li'}),
+                headerYearLi = graphic.headerYearLi = createElement('li', {appendTo: headerMonthUl, className: 'year-li'}),
+                weekDays = graphic.weekDays = createElement('ul', {appendTo: container, className: 'weekdays'}),
+                days = graphic.days = graphic.dayCell = createElement('ul', {appendTo: container, className: 'days'}),
                 element,
                 dateSpan,
-                i;
-            graphic.nextMon = createElement('li', headerMonthLi, 'next', UNDEFINED, '&#10095;');
-            graphic.nextYear = createElement('li', headerYearLi, 'next', UNDEFINED, '&#10095;');
-            graphic.prevYear = createElement('li', headerYearLi, 'prev', UNDEFINED, '&#10094;');
-            graphic.prevMon = createElement('li', headerMonthLi, 'prev', UNDEFINED, '&#10094;');
-            graphic.monthStr = createElement('span', headerMonthLi, 'monthStr');
-            graphic.yearStr = createElement('span', headerYearLi, 'yearStr');
+                i,
+                callback = function(index){
+                    return function () {
+                        showDate(calendar, index);
+                    }
+                };
 
-            graphic.container.className += ' calendar-container';
+            graphic.nextMon = createElement('li', {appendTo:headerMonthLi, className: 'next', innerHTML: '&#10095;'});
+            graphic.nextYear = createElement('li', {appendTo:headerYearLi, className: 'next', innerHTML: '&#10095;'});
+            graphic.prevYear = createElement('li', {appendTo:headerYearLi, className: 'prev', innerHTML: '&#10094;'});
+            graphic.prevMon = createElement('li', {appendTo:headerMonthLi, className: 'prev', innerHTML: '&#10094;'});
+            graphic.monthStr = createElement('span', {appendTo:headerMonthLi, className: 'monthStr'});
+            graphic.yearStr = createElement('span', {appendTo:headerYearLi, className: 'yearStr'});
 
-            for (i = 0; i < 37; i++) {
+            for(i = 0; i < 7; i++){
                 // create week elements
-                if (i < 7) {
-                    element = createElement('li', weekDays, UNDEFINED, UNDEFINED, info.weekLabel[i]);
-                    weekElements.push(element);
-                }
+                element = createElement('li', {appendTo: weekDays, className: weekDays});
+                weekElements.push(element);
+            }
+            for (i = 0; i < 37; i++) {
                 // create date elements
-                element = createElement('li', days);
-                dateSpan = createElement('span', element, 'normal');
-                element.dateData = '';
-                element.isUnderRange = true;
-                addEvent(element, calendar);
+                element = createElement('li', {appendTo: days, className: days, events: {
+                    click: callback(i)
+                }});
+                dateSpan = createElement('span', {appendTo: element, className: 'normal'});
                 spanElement.push(dateSpan);
                 dayElements.push(element);
             }
         },
+        // validate range start date
         validateRangeStart = function (date1, date2) {
             return (date2.month >= date1.month) && (date2.year >= date1.year);
         },
+        // validate range End date 
         validateRangeEnd = function (date1, date2) {
             return (date2.month <= date1.month) && (date2.year <= date1.year);
         },
@@ -339,8 +348,7 @@ var Calendar = (function () {
                 month: currentDate.month,
                 year: currentDate.year
             },
-            weekStartingDay: 0,
-            rendered: false
+            weekStartingDay: 0
         };
         
         // create the elements for first time only
@@ -348,7 +356,6 @@ var Calendar = (function () {
         // configure Calendar with initial config
         calendar.configure(config);
         
-        calendar.calendarInfo.rendered = true;
         setDate(calendar);
         // add event on change month and year
         addClickEvent(calendar);
@@ -413,7 +420,7 @@ var Calendar = (function () {
             doRepaint = true;
         }
         // set calendar to the desired date
-        doRepaint && calendarInfo.rendered && setDate(calendar);
+        doRepaint && setDate(calendar);
     };
     // call show function show calendar
     calendarProto.show = function () {

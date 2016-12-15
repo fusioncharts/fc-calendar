@@ -81,7 +81,6 @@
     margin-bottom: 5px;
     font-size:10px;
     color: #777;
-    cursor: pointer;
 }
 
 .days li .active {
@@ -89,25 +88,29 @@
     font-size:11px;
     font-weight: bold;
     background: #1abc9c;
-    color: white !important
+    color: white !important;
+    cursor: pointer;
 }
 
 .days li .hovered {
     padding: 5px;
     background: #ddd;
     color: #666 !important;
+    cursor: pointer;
 }
 
 .days li .normal {
     padding: 5px;
     background: #eee;
     color: #777 !important;
+    cursor: pointer;
 }
 
 .days li .disabled {
     padding: 5px;
     background: #eee;
     color: #ff0000 !important;
+    cursor: default;
 }
 .days li .normal:hover { 
     color: #590c0c !important;
