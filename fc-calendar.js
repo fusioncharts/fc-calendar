@@ -178,8 +178,7 @@ var Calendar = (function () {
         validateStyle = function (calendar, _graphic) {
             var graphic = calendar.graphic,
                 style = {};
-            console.log(graphic,_graphic);
-            console.log(graphic.container)
+
             graphic.posX = (_graphic.x || 0);
             graphic.posY = (_graphic.y || 0);
             graphic.verticalAlignment = _graphic.verticalalignment || 'top';
@@ -209,7 +208,7 @@ var Calendar = (function () {
                 }
             })(graphic);
 
-            graphic.visuals = style;console.log(graphic.container)
+            graphic.visuals = style;
             setStyle(graphic.container, style);
             info.containerCnt++;
             return graphic;
@@ -343,10 +342,12 @@ var Calendar = (function () {
             weekStartingDay: 0,
             rendered: false
         };
-        // configure Calendar with initial config
-        calendar.configure(config);
+        
         // create the elements for first time only
         init(calendar);
+        // configure Calendar with initial config
+        calendar.configure(config);
+        
         calendar.calendarInfo.rendered = true;
         setDate(calendar);
         // add event on change month and year
@@ -371,9 +372,8 @@ var Calendar = (function () {
                 parentElement.appendChild(graphic.container);
             }
         }
-        
+        // applying visual styles to the container
         validateStyle(calendar, graphic);
-
         // set events on date, month and year change
         typeof userEvents.onDateChange === 'function' && (events.onDateChange = userEvents.onDateChange);
         typeof userEvents.onYearChange === 'function' && (events.onYearChange = userEvents.onYearChange);
