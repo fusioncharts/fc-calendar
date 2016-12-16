@@ -356,13 +356,22 @@ var Calendar = (function () {
             if(rangeStart && rangeEnd){
                 returntype = type1 && type2;
             }
-            else if (rangeStart || rangeEnd){
-                if(!rangeStart && !info.moveToNext){
+            else if (!rangeStart && rangeEnd){
+                // move backward with no issues
+                // check move
+                if(!info.moveToNext){
                     returntype = true;
-                }else if (!rangeEnd && info.moveToNext) {
+                }else{
+                    returntype = (nextMonth > rangeEnd.month && nextYear < rangeEnd.year) || type1;
+                }
+            }
+            else if (rangeStart && !rangeEnd) {
+                // move forward with no issues
+                // check move
+                if(info.moveToNext){
                     returntype = true;
-                } else {
-                    returntype = rangeStart && type2 || rangeEnd && type1;
+                }else{
+                    returntype = (nextMonth < rangeEnd.month && nextYear > rangeEnd.year) || type2;
                 }
             }
             return returntype;
@@ -428,8 +437,8 @@ var Calendar = (function () {
         if (config.active && validateActive(config.active, calendarInfo.rangeStart, calendarInfo.rangeEnd)
          && (calendarInfo.active.month !== config.active.month ||
             calendarInfo.active.year !== config.active.year)) {
-            calendarInfo.active.month = calendarInfo.selectedDate.month = config.active.month || calendarInfo.active.month;
-            calendarInfo.active.year = calendarInfo.selectedDate.year = config.active.year || calendarInfo.active.year;
+            calendarInfo.active.month = config.active.month || calendarInfo.active.month;
+            calendarInfo.active.year = config.active.year || calendarInfo.active.year;
             doRepaint = true;
         }
         // set Starting day of week
