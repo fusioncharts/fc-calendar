@@ -94,8 +94,8 @@
 
 .days li .hovered {
     padding: 5px;
-    background: #ddd;
-    color: #666 !important;
+    background: #eee;
+    color: #777 !important;
     cursor: pointer;
 }
 
@@ -103,7 +103,7 @@
     padding: 5px;
     background: #eee;
     color: #777 !important;
-    cursor: pointer;
+    cursor: default;
 }
 
 .days li .disabled {
@@ -112,7 +112,7 @@
     color: #ff0000 !important;
     cursor: default;
 }
-.days li .normal:hover { 
+.days li .hovered:hover { 
     color: #590c0c !important;
     font-size:11px;
     font-weight: bold;

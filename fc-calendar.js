@@ -61,12 +61,10 @@ var Calendar = (function () {
                 date = calendarInfo.selectedDate,
                 active = calendarInfo.active,
                 graphic = calendar.graphic,
-                dayElements = graphic.dayElements,
                 weekElements = graphic.weekElements,
                 monthStr = graphic.monthStr,
                 yearStr = graphic.yearStr,
                 dateSpan = graphic.spanElement,
-                len = dayElements.length,
                 currMon = active.month,
                 currYear = active.year,
                 startingDay = (calendarInfo.weekStartingDay - 1) || 0,
@@ -75,17 +73,10 @@ var Calendar = (function () {
                 weekDay = calendarInfo.startingPos = monthStaringDay - startingDay,
                 rangeStart = calendarInfo.rangeStart,
                 rangeEnd = calendarInfo.rangeEnd,
-                dateObj = {},
                 printDate,
                 limit,
-                isRangeSet,
-                className,
-                dateStr,
                 i,
-                j,
-                compareDates = function (date1, date2) {
-                    return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;
-                };
+                j;
 
             // manage week day
             weekDay < 0 && (weekDay += 7);
@@ -108,18 +99,18 @@ var Calendar = (function () {
                 }
             }
 
-            // blank dates 
+            // blank dates
             for (i = 0; i < weekDay; i++) {
                 dateSpan[i].innerHTML = '';
                 dateSpan[i].className = 'normal';
             }
 
             // print dates
-            for  (;i <= limit; i++) {
+            for (;i <= limit; i++) {
                 printDate = (i - weekDay + 1);
                 dateSpan[i].innerHTML = printDate;
-                dateSpan[i].className = 'normal';
-                //rangeStart && printDate <= rangeStart.day && 
+                dateSpan[i].className = 'hovered';
+                // rangeStart && printDate <= rangeStart.day &&
             }
             // print blank dates
             for (;i < 37; i++) {
@@ -128,19 +119,18 @@ var Calendar = (function () {
             }
 
             // if the selected date is on this month, heighlight it
-            if(date.month === currMon && date.year === currYear){
-                dateSpan[(date.day + weekDay -1)].className = 'active';
+            if (date.month === currMon && date.year === currYear) {
+                dateSpan[(date.day + weekDay - 1)].className = 'active';
             }
-            
             // if the start range is in this month, set the inactive initial dates
-            if(rangeStart && validateRangeStart(active,rangeStart)){
-                for(i = weekDay; i <= rangeStart.day; i++){
+            if (rangeStart && validateRangeStart(active, rangeStart)) {
+                for (i = weekDay; i <= rangeStart.day; i++) {
                     dateSpan[i].className = 'disabled';
                 }
             }
-            //if the end range is in this month, set the inactive end dates
-            if(rangeEnd && validateRangeEnd(active,rangeEnd)){
-                for(i = rangeEnd.day; i <= limit; i++){
+            // if the end range is in this month, set the inactive end dates
+            if (rangeEnd && validateRangeEnd(active, rangeEnd)) {
+                for (i = rangeEnd.day; i <= limit; i++) {
                     dateSpan[i].className = 'disabled';
                 }
             }
@@ -194,15 +184,15 @@ var Calendar = (function () {
                 id = options.id,
                 innerHTML = options.innerHTML,
                 events = options.events,
-                element = document.createElement(type);
-            
+                element = document.createElement(type),
+                event;
             // set the class
             _class && (element.className = _class);
             // set the attributes
             id && (element.id = id);
             // add the innerHTML
             innerHTML && (element.innerHTML = innerHTML);
-            if (events){
+            if (events) {
                 for (event in events) {
                     element.addEventListener(event, events[event]);
                 }
@@ -220,15 +210,15 @@ var Calendar = (function () {
                 selectedDate = calendarInfo.selectedDate,
                 events = calendar.events;
 
-            if(validateActive({
+            if (validateActive({
                 day: day,
                 month: selectedDate.month,
                 year: selectedDate.year
-            }, calendarInfo.rangeStart, calendarInfo.rangeEnd)){
+            }, calendarInfo.rangeStart, calendarInfo.rangeEnd)) {
                 // change the date
                 selectedDate.day = day;
                 setDate(calendar);
-                calendar.events.onDateChange && calendar.events.onDateChange(selectedDate);
+                events.onDateChange && events.onDateChange(selectedDate);
             }
         },
         // initailise calendar for the first time
@@ -248,17 +238,17 @@ var Calendar = (function () {
                 element,
                 dateSpan,
                 i,
-                callback = function(index){
+                callback = function (index) {
                     return function () {
                         showDate(calendar, index);
-                    }
+                    };
                 };
 
             graphic.nextMon = createElement('li', {appendTo:headerMonthLi, className: 'next',
              innerHTML: '&#10095;', events: {
                 click: function () {
                     var nextMonth = (calendar.calendarInfo.active && calendar.calendarInfo.active.month) + 1,
-                    year = calendar.calendarInfo.active && calendar.calendarInfo.active.year;
+                        year = calendar.calendarInfo.active && calendar.calendarInfo.active.year;
                     if (nextMonth > 12) {
                         nextMonth = 1;
                         year++;
@@ -300,7 +290,7 @@ var Calendar = (function () {
              innerHTML: '&#10094;', events: {
                 click: function () {
                     var nextMonth = (calendar.calendarInfo.active && calendar.calendarInfo.active.month) - 1,
-                    year = calendar.calendarInfo.active && calendar.calendarInfo.active.year;
+                        year = calendar.calendarInfo.active && calendar.calendarInfo.active.year;
                     if (nextMonth < 1) {
                         nextMonth = 12;
                         year--;
@@ -314,10 +304,10 @@ var Calendar = (function () {
                     });
                 }
              }});
-            graphic.monthStr = createElement('span', {appendTo:headerMonthLi, className: 'monthStr'});
-            graphic.yearStr = createElement('span', {appendTo:headerYearLi, className: 'yearStr'});
+            graphic.monthStr = createElement('span', {appendTo: headerMonthLi, className: 'monthStr'});
+            graphic.yearStr = createElement('span', {appendTo: headerYearLi, className: 'yearStr'});
 
-            for(i = 0; i < 7; i++){
+            for (i = 0; i < 7; i++) {
                 // create week elements
                 element = createElement('li', {appendTo: weekDays, className: weekDays});
                 weekElements.push(element);
@@ -336,7 +326,7 @@ var Calendar = (function () {
         validateRangeStart = function (date1, date2) {
             return (date2.month >= date1.month) && (date2.year >= date1.year);
         },
-        // validate range End date 
+        // validate range End date
         validateRangeEnd = function (date1, date2) {
             return (date2.month <= date1.month) && (date2.year <= date1.year);
         },
@@ -353,24 +343,24 @@ var Calendar = (function () {
             rangeEnd && (type1 = (nextMonth <= rangeEnd.month) && (nextYear <= rangeEnd.year));
             rangeStart && (type2 = (nextMonth >= rangeStart.month) && (nextYear >= rangeStart.year));
 
-            if(rangeStart && rangeEnd){
+            if (rangeStart && rangeEnd) {
                 returntype = type1 && type2;
             }
-            else if (!rangeStart && rangeEnd){
+            else if (!rangeStart && rangeEnd) {
                 // move backward with no issues
                 // check move
-                if(!info.moveToNext){
+                if (!info.moveToNext) {
                     returntype = true;
-                }else{
+                } else {
                     returntype = (nextMonth > rangeEnd.month && nextYear < rangeEnd.year) || type1;
                 }
             }
             else if (rangeStart && !rangeEnd) {
                 // move forward with no issues
                 // check move
-                if(info.moveToNext){
+                if (info.moveToNext) {
                     returntype = true;
-                }else{
+                } else {
                     returntype = (nextMonth < rangeEnd.month && nextYear > rangeEnd.year) || type2;
                 }
             }
