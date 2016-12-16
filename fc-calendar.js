@@ -117,9 +117,6 @@ var Calendar = (function () {
             // print dates
             for  (;i <= limit; i++) {
                 printDate = (i - weekDay + 1);
-                dateObj.day = printDate,
-                dateObj.month = currMon;
-                dateObj.year = currYear;
                 dateSpan[i].innerHTML = printDate;
                 dateSpan[i].className = 'normal';
                 //rangeStart && printDate <= rangeStart.day && 
@@ -132,17 +129,17 @@ var Calendar = (function () {
 
             // if the selected date is on this month, heighlight it
             if(date.month === currMon && date.year === currYear){
-                dateSpan[date.day + weekDay - 1].className = 'active';
+                dateSpan[(date.day + weekDay -1)].className = 'active';
             }
             
             // if the start range is in this month, set the inactive initial dates
-            if(rangeStart && validateRangeStart(dateObj,rangeStart)){
+            if(rangeStart && validateRangeStart(active,rangeStart)){
                 for(i = weekDay; i <= rangeStart.day; i++){
                     dateSpan[i].className = 'disabled';
                 }
             }
             //if the end range is in this month, set the inactive end dates
-            if(rangeEnd && validateRangeEnd(dateObj,rangeEnd)){
+            if(rangeEnd && validateRangeEnd(active,rangeEnd)){
                 for(i = rangeEnd.day; i <= limit; i++){
                     dateSpan[i].className = 'disabled';
                 }
@@ -217,10 +214,12 @@ var Calendar = (function () {
         // return the date object
         showDate = function (calendar, index) {
             var calendarInfo = calendar && calendar.calendarInfo,
-                day = (index - calendarInfo.startingPos + 1),
+                startingPos = calendarInfo.startingPos,
+                pos = startingPos < 0 && (startingPos + 7) || startingPos,
+                day = (index - pos + 1),
                 selectedDate = calendarInfo.selectedDate,
                 events = calendar.events;
-            
+
             if(validateActive({
                 day: day,
                 month: selectedDate.month,
@@ -353,11 +352,18 @@ var Calendar = (function () {
 
             rangeEnd && (type1 = (nextMonth <= rangeEnd.month) && (nextYear <= rangeEnd.year));
             rangeStart && (type2 = (nextMonth >= rangeStart.month) && (nextYear >= rangeStart.year));
+
             if(rangeStart && rangeEnd){
                 returntype = type1 && type2;
             }
             else if (rangeStart || rangeEnd){
-                returntype = rangeStart && type2 || rangeEnd && type1;
+                if(!rangeStart && !info.moveToNext){
+                    returntype = true;
+                }else if (!rangeEnd && info.moveToNext) {
+                    returntype = true;
+                } else {
+                    returntype = rangeStart && type2 || rangeEnd && type1;
+                }
             }
             return returntype;
         },
@@ -422,8 +428,8 @@ var Calendar = (function () {
         if (config.active && validateActive(config.active, calendarInfo.rangeStart, calendarInfo.rangeEnd)
          && (calendarInfo.active.month !== config.active.month ||
             calendarInfo.active.year !== config.active.year)) {
-            calendarInfo.active.month = config.active.month || calendarInfo.active.month;
-            calendarInfo.active.year = config.active.year || calendarInfo.active.year;
+            calendarInfo.active.month = calendarInfo.selectedDate.month = config.active.month || calendarInfo.active.month;
+            calendarInfo.active.year = calendarInfo.selectedDate.year = config.active.year || calendarInfo.active.year;
             doRepaint = true;
         }
         // set Starting day of week
