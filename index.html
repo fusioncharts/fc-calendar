@@ -73,7 +73,6 @@
 				month: 5,
 				year: 2016,
 			},
-			weekStart: 4,
 			events: {
 				onDateChange: function(obj){
 					console.log('new date event: '+ obj.day);
@@ -105,7 +104,7 @@
 		};
 
 		//var x = new Calendar({weekStart: 2});
-		var y = new Calendar(config2);
+		var y = new Calendar();
 
 		function showC(){
 			y.setActiveRange('01-10-2017','01-20-2017');

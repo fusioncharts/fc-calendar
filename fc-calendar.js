@@ -106,11 +106,10 @@ var Calendar = (function () {
             }
 
             // print dates
-            for (;i <= limit; i++) {
+            for (;i < limit; i++) {
                 printDate = (i - weekDay + 1);
                 dateSpan[i].innerHTML = printDate;
                 dateSpan[i].className = 'hovered';
-                // rangeStart && printDate <= rangeStart.day &&
             }
             // print blank dates
             for (;i < 37; i++) {
@@ -384,12 +383,14 @@ var Calendar = (function () {
                 month: currentDate.month,
                 year: currentDate.year
             },
-            weekStartingDay: 0
+            weekStartingDay: 1
         };
         // create the elements for first time only
         init(calendar);
         // configure Calendar with initial config
         calendar.configure(config);
+        // draw the calendar
+        setDate(calendar);
     };
     // configure calendar
     calendarProto.configure = function (_config) {
@@ -401,7 +402,7 @@ var Calendar = (function () {
             displayDisabledMonth = calendarInfo.displayDisabledMonth,
             userEvents = config.events || {},
             parentElement,
-            visuals = config.style,
+            visuals = config.style || {},
             doRepaint = false;
 
         // set container
