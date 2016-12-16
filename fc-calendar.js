@@ -351,16 +351,13 @@ var Calendar = (function () {
                 type1,
                 type2;
 
-            if(info.moveToNext && rangeEnd){
-                //rangeEnd && (returntype = (nextMonth <= rangeEnd.month) && (nextYear <= rangeEnd.year));
-                if((nextMonth <= rangeEnd.month) && (nextYear <= rangeEnd.year)){
-
-                } else if ((nextYear <= rangeEnd.year) && (nextYear <= rangeEnd.year)){
-
-                }
-                console.log(nextMonth, rangeEnd.month, nextYear, rangeEnd.year)
-            } else {
-                rangeStart && (returntype = (nextMonth >= rangeStart.month) && (nextYear >= rangeStart.year));
+            rangeEnd && (type1 = (nextMonth <= rangeEnd.month) && (nextYear <= rangeEnd.year));
+            rangeStart && (type2 = (nextMonth >= rangeStart.month) && (nextYear >= rangeStart.year));
+            if(rangeStart && rangeEnd){
+                returntype = type1 && type2;
+            }
+            else if (rangeStart || rangeEnd){
+                returntype = rangeStart && type2 || rangeEnd && type1;
             }
             return returntype;
         },
@@ -382,8 +379,7 @@ var Calendar = (function () {
                 month: currentDate.month,
                 year: currentDate.year
             },
-            weekStartingDay: 0,
-            displayDisabledMonth: true
+            weekStartingDay: 0
         };
         // create the elements for first time only
         init(calendar);
