@@ -129,7 +129,7 @@ var Calendar = (function () {
             }
             // if the end range is in this month, set the inactive end dates
             if (rangeEnd && validateRangeEnd(active, rangeEnd)) {
-                for (i = rangeEnd.day; i <= limit; i++) {
+                for (i = rangeEnd.day + weekDay - 1; i <= limit; i++) {
                     dateSpan[i].className = 'disabled';
                 }
             }
@@ -140,19 +140,20 @@ var Calendar = (function () {
                 visuals = graphic.visuals,
                 style = {};
 
-            graphic.posX = (_graphic.x || 0);
-            graphic.posY = (_graphic.y || 0);
+            graphic.posX = (_graphic.x || graphic.posX || 0);
+            graphic.posY = (_graphic.y || graphic.posY || 0);
+
             graphic.verticalAlignment = _graphic.verticalalignment || 'top';
             graphic.horizontalAlignment = _graphic.horizontalalignment || 'left';
             graphic.height = (graphic.height > 199 && _graphic.height || 
                 (visuals.height && Number((visuals.height).match(/\d+/g)[0])) || 200);
-            graphic.width = (_graphic.width > 299 && _graphic.width ||
-             (visuals.width && Number((visuals.width).match(/\d+/g)[0])) || 300);
+            graphic.width = (_graphic.width > 250 && _graphic.width ||
+             (visuals.width && Number((visuals.width).match(/\d+/g)[0])) || 250);
 
-            style.position = graphic.position || 'relative';
+            style.position = _graphic.position || visuals.position || 'absolute';
             style.height = graphic.height + 'px';
             style.width = graphic.width + 'px';
-            style.top = visuals.top || (function (conf) {
+            style.top = (function (conf) {
                 if (conf.verticalAlignment.toLowerCase() === 'top') {
                     return conf.posY + 'px';
                 } else if (conf.verticalAlignment.toLowerCase() === 'middle') {
@@ -160,8 +161,8 @@ var Calendar = (function () {
                 } else if (conf.verticalAlignment.toLowerCase() === 'bottom') {
                     return (conf.posY + conf.height) + 'px';
                 }
-            })(graphic);
-            style.left = visuals.left || (function (conf) {
+            })(graphic) || visuals.top;
+            style.left = (function (conf) {
                 if (conf.horizontalAlignment.toLowerCase() === 'left') {
                     return conf.posX + 'px';
                 } else if (conf.horizontalAlignment.toLowerCase() === 'middle') {
@@ -169,9 +170,10 @@ var Calendar = (function () {
                 } else if (conf.horizontalAlignment.toLowerCase() === 'right') {
                     return (conf.posX + conf.width) + 'px';
                 }
-            })(graphic);
+            })(graphic) || visuals.left;
 
             graphic.visuals = style;
+            //apply style for the container
             setStyle(graphic.container, style);
             info.containerCnt++;
             return graphic;
@@ -207,13 +209,14 @@ var Calendar = (function () {
                 pos = startingPos < 0 && (startingPos + 7) || startingPos,
                 day = (index - pos + 1),
                 selectedDate = calendarInfo.selectedDate,
+                active = calendarInfo.active,
                 events = calendar.events;
 
-            if (validateActive({
+            if (day > 0 && validateActive({
                 day: day,
-                month: selectedDate.month,
-                year: selectedDate.year
-            }, calendarInfo.rangeStart, calendarInfo.rangeEnd)) {
+                month: active.month,
+                year: active.year
+            }, calendarInfo.rangeStart, calendarInfo.rangeEnd, true)) {
                 // change the date
                 selectedDate.day = day;
                 setDate(calendar);
@@ -329,39 +332,49 @@ var Calendar = (function () {
         validateRangeEnd = function (date1, date2) {
             return (date2.month <= date1.month) && (date2.year <= date1.year);
         },
+        isValidActiveDate = function(date1, date2, date3){
+            var returnType,
+                date2Returns = date2 && (date1.month === date2.month ? date1.day > date2.day : true),
+                date3Returns = date3 && (date1.month === date3.month ? date1.day < date3.day : true);
+
+            if(date2 && date3){ 
+                return date2Returns && date3Returns;
+            }else{
+                return date2 && date2Returns || date3 && date3Returns;
+            }
+        }
         // validate active date
-        validateActive = function (date, date1, date2) {
+        validateActive = function (date, date1, date2, compareDate) {
             var returntype = true,
                 rangeEnd = date2 || 0,
                 rangeStart = date1 || 0,
                 nextMonth = date.month,
                 nextYear = date.year,
-                type1,
-                type2;
+                rangeEndReturns,
+                rangeStartReturns;
 
-            rangeEnd && (type1 = (nextMonth <= rangeEnd.month) && (nextYear <= rangeEnd.year));
-            rangeStart && (type2 = (nextMonth >= rangeStart.month) && (nextYear >= rangeStart.year));
+            rangeEnd && (rangeEndReturns = (nextMonth <= rangeEnd.month) && (nextYear <= rangeEnd.year));
+            rangeStart && (rangeStartReturns = (nextMonth >= rangeStart.month) && (nextYear >= rangeStart.year));
 
             if (rangeStart && rangeEnd) {
-                returntype = type1 && type2;
+                returntype = rangeEndReturns && rangeStartReturns;
             }
             else if (!rangeStart && rangeEnd) {
                 // move backward with no issues
                 // check move
-                if (!info.moveToNext) {
-                    returntype = true;
-                } else {
-                    returntype = (nextMonth > rangeEnd.month && nextYear < rangeEnd.year) || type1;
+                if (info.moveToNext) {
+                    returntype = (nextMonth > rangeEnd.month && nextYear < rangeEnd.year) || rangeEndReturns;
                 }
             }
             else if (rangeStart && !rangeEnd) {
                 // move forward with no issues
                 // check move
-                if (info.moveToNext) {
-                    returntype = true;
-                } else {
-                    returntype = (nextMonth < rangeEnd.month && nextYear > rangeEnd.year) || type2;
+                if (!info.moveToNext){
+                    returntype = (nextMonth < rangeEnd.month && nextYear > rangeEnd.year) || rangeStartReturns;
                 }
+            }
+            if(compareDate){
+                returntype = returntype && isValidActiveDate(date, rangeStart, rangeEnd);
             }
             return returntype;
         },
