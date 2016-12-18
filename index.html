@@ -35,8 +35,9 @@
 
 		var config6 = {
 			style: {
-				y: 110,
+				x: 110,
 				width: 600,
+				position: 'relative'
 			},
 			container: 'my-container-2'
 		};
@@ -71,6 +72,37 @@
 			rangeEnd: {
 				day: 24,
 				month: 5,
+				year: 2016,
+			},
+			events: {
+				onDateChange: function(obj){
+					console.log('new date event: '+ obj.day);
+				}
+			}
+		};
+		var config22 = {
+			style: {
+				width: 300,
+				height: 300,
+				x: 600,
+				y: 100,
+				verticalalignment: 'bottom',
+				horizontalalignment: 'left'
+			},
+			container: 'my-container',
+			selectedDate: {
+				day: 14,
+				month: 8,
+				year: 2016
+			},
+			rangeStart: {
+				day: 17,
+				month: 7,
+				year: 2016,
+			},
+			rangeEnd: {
+				day: 21,
+				month: 9,
 				year: 2016,
 			},
 			events: {
