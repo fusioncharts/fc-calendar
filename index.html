@@ -104,9 +104,30 @@
 		// 	}
 		// };
 
+<<<<<<< HEAD
 		//var x = new Calendar({weekStart: 2});
 		var y = new FusionCalendar({
       style: {
+=======
+		var config6 = {
+			style: {
+				x: 110,
+				width: 600,
+				position: 'relative'
+			},
+			container: 'my-container-2'
+		};
+		var config4 = {
+			selectedDate: {
+				day: 26,
+				month: 10,
+				year: 2017
+			},
+			weekStart: 0
+		};
+		var config2 = {
+			style: {
+>>>>>>> 0c1a791018956b8873a98a7ef492543f6bc97cfc
 				width: 300,
 				height: 300,
 				x: 600,
@@ -146,7 +167,68 @@
 					console.log('new date event: '+ obj.day);
 				}
 			}
+<<<<<<< HEAD
     });
+=======
+		};
+		var config22 = {
+			style: {
+				width: 300,
+				height: 300,
+				x: 600,
+				y: 100,
+				verticalalignment: 'bottom',
+				horizontalalignment: 'left'
+			},
+			container: 'my-container',
+			selectedDate: {
+				day: 14,
+				month: 8,
+				year: 2016
+			},
+			rangeStart: {
+				day: 17,
+				month: 7,
+				year: 2016,
+			},
+			rangeEnd: {
+				day: 21,
+				month: 9,
+				year: 2016,
+			},
+			events: {
+				onDateChange: function(obj){
+					console.log('new date event: '+ obj.day);
+				}
+			}
+		};
+		var config = {
+			style: {
+				width: 300,
+				height: 200,
+				x: 200,
+				y: 200,
+				verticalalignment: 'top',
+				horizontalalignment: 'right'
+			},
+			rangeEnd: null,
+			weekStart: 2,
+			events: {
+				onDateChange: function(obj){
+					console.log(obj.day);
+				},
+				onYearChange: function(year){
+					console.log(year);
+				},
+				onMonthChange: function(month){
+					console.log(month);
+				}
+			}
+		};
+
+		//var x = new Calendar({weekStart: 2});
+		var y = new Calendar();
+>>>>>>> 0c1a791018956b8873a98a7ef492543f6bc97cfc
 
 		function showC(){
 			y.setActiveRange('01-10-2017','01-20-2017');
