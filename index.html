@@ -3,53 +3,110 @@
 <head>
 	<title>calender</title>
 
-	<script type="text/javascript" src='fc-calendar.js'></script>
-	<link rel="stylesheet" type="text/css" href="fc-calendar.css">
+  	<!--script type="text/javascript" src='dist/fc-calendar.js'></script-->
+    <script type="text/javascript" src='dist/fc-calendar.js'></script>
+	<link rel="stylesheet" type="text/css" href="src/css/fc-calendar.css">
 </head>
 <body>
 	<div id = 'my-container'></div>
 	<div id = 'my-container-2'></div>
 	<input type="button" name="" value="show calendar" onclick="showC()">
 	<script type="text/javascript">
-		var config1 = {
-			style: {
-				width: 100,
-				height: 100,
-				x: 500,
-				y: 100,
-				verticalalignment: 'top',
-				horizontalalignment: 'left'
-			}
-		};
-		var config5 = {
-			style: {
-				width: 500,
-				height: 400,
-				x: 60,
-				y: 50,
-				verticalalignment: 'top',
-				horizontalalignment: 'left'
-			},
-			rangeStart: null
-		};
+		// var config1 = {
+		// 	style: {
+		// 		width: 100,
+		// 		height: 100,
+		// 		x: 500,
+		// 		y: 100,
+		// 		verticalalignment: 'top',
+		// 		horizontalalignment: 'left'
+		// 	}
+		// };
+		// var config5 = {
+		// 	style: {
+		// 		width: 500,
+		// 		height: 400,
+		// 		x: 60,
+		// 		y: 50,
+		// 		verticalalignment: 'top',
+		// 		horizontalalignment: 'left'
+		// 	},
+		// 	rangeStart: null
+		// };
+    //
+		// var config6 = {
+		// 	style: {
+		// 		y: 110,
+		// 		width: 600,
+		// 	},
+		// 	container: 'my-container-2'
+		// };
+		// var config4 = {
+		// 	selectedDate: {
+		// 		day: 26,
+		// 		month: 10,
+		// 		year: 2017
+		// 	},
+		// 	weekStart: 0
+		// };
+		// var config2 = {
+		// 	style: {
+		// 		width: 300,
+		// 		height: 300,
+		// 		x: 600,
+		// 		y: 100,
+		// 		verticalalignment: 'top',
+		// 		horizontalalignment: 'left'
+		// 	},
+		// 	container: 'my-container',
+		// 	selectedDate: {
+		// 		day: 12,
+		// 		month: 5,
+		// 		year: 2016
+		// 	},
+		// 	rangeStart: {
+		// 		day: 9,
+		// 		month: 5,
+		// 		year: 2016,
+		// 	},
+		// 	rangeEnd: {
+		// 		day: 24,
+		// 		month: 5,
+		// 		year: 2016,
+		// 	},
+		// 	events: {
+		// 		onDateChange: function(obj){
+		// 			console.log('new date event: ' + obj.day);
+		// 		}
+		// 	}
+		// };
+		// var config = {
+		// 	style: {
+		// 		width: 300,
+		// 		height: 200,
+		// 		x: 200,
+		// 		y: 200,
+		// 		verticalalignment: 'top',
+		// 		horizontalalignment: 'right'
+		// 	},
+		// 	rangeEnd: null,
+		// 	weekStart: 2,
+		// 	events: {
+		// 		onDateChange: function(obj){
+		// 			console.log(obj.day);
+		// 		},
+		// 		onYearChange: function(year){
+		// 			console.log(year);
+		// 		},
+		// 		onMonthChange: function(month){
+		// 			console.log(month);
+		// 		}
+		// 	}
+		// };
 
-		var config6 = {
-			style: {
-				y: 110,
-				width: 600,
-			},
-			container: 'my-container-2'
-		};
-		var config4 = {
-			selectedDate: {
-				day: 26,
-				month: 10,
-				year: 2017
-			},
-			weekStart: 0
-		};
-		var config2 = {
-			style: {
+		//var x = new Calendar({weekStart: 2});
+		var y = new FusionCalendar({
+      style: {
 				width: 300,
 				height: 300,
 				x: 600,
@@ -60,51 +117,36 @@
 			container: 'my-container',
 			selectedDate: {
 				day: 12,
-				month: 5,
+				month: 6,
 				year: 2016
 			},
 			rangeStart: {
 				day: 9,
-				month: 5,
+				month: 6,
 				year: 2016,
 			},
 			rangeEnd: {
 				day: 24,
-				month: 5,
+				month: 6,
 				year: 2016,
 			},
+      // highlight: {
+      //   2016: {
+      //     6: {
+      //       23: true
+      //     }
+      //   }
+      // },
+      // showInactiveMonths: true,
+      // weekStart: 1,
+      //weekLabel: ['Sunday', 'Monday', 'Tueday', 'Wedday', 'Thuday', 'Friday', 'Satday'],
+      // monthLabel: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 			events: {
 				onDateChange: function(obj){
 					console.log('new date event: '+ obj.day);
 				}
 			}
-		};
-		var config = {
-			style: {
-				width: 300,
-				height: 200,
-				x: 200,
-				y: 200,
-				verticalalignment: 'top',
-				horizontalalignment: 'right'
-			},
-			rangeEnd: null,
-			weekStart: 2,
-			events: {
-				onDateChange: function(obj){
-					console.log(obj.day);
-				},
-				onYearChange: function(year){
-					console.log(year);
-				},
-				onMonthChange: function(month){
-					console.log(month);
-				}
-			}
-		};
-
-		//var x = new Calendar({weekStart: 2});
-		var y = new Calendar();
+    });
 
 		function showC(){
 			y.setActiveRange('01-10-2017','01-20-2017');
