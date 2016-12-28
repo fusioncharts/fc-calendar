@@ -8,16 +8,23 @@
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none; /* Non-prefixed version, currently
 	                      not supported by any browser */
+    border: 1px solid #d6d6d6;
+    -moz-box-shadow:    3px 3px 2px -2px #d8d8d8;
+    -webkit-box-shadow: 3px 3px 2px -2px #d8d8d8;
+    box-shadow:         3px 3px 2px -2px #d8d8d8;
+
+    min-height: 245px;
 }
 .calendar-container ul {
 	list-style-type: none;
 }
 .month {
 	box-sizing:border-box;
-    padding: 10px 25px;
+    padding: 10px;
     width: 100%;
-    background: #1abc9c;
+    background-color: #ffffff;
     text-align: center;
+    overflow: hidden;
 }
 
 .month ul {
@@ -26,11 +33,20 @@
 }
 
 .month ul li {
-    color: white;
+    color: #464646;
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
+}
+
+.month ul li.year-li {
+    width: 35%;
+    float: right;
+}
+.month ul li.month-li  {
+    width: 55%;
+    float: left;
 }
 
 .month .prev {
@@ -46,17 +62,17 @@
 }
 
 .month .prev:hover { 
-    color: yellow;
+    color: #000;
 }
 
 .month .next:hover { 
-    color: yellow;
+    color: #000;
 }
 
 .weekdays {
     margin: 0;
     padding: 3px 0 5px 0;
-    background-color: #ddd;
+    text-transform: uppercase;
 }
 
 .weekdays li {
@@ -69,7 +85,7 @@
 
 .days {
     padding: 10px 0;
-    background: #eee;
+    border-bottom: 2px solid #b10000;
     margin: 0;
 }
 
@@ -78,42 +94,52 @@
     display: inline-block;
     width: 13.6%;
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     font-size:10px;
     color: #777;
 }
 
-.days li .active {
-    padding: 3px 5px;
-    font-size:11px;
-    font-weight: bold;
-    background: #1abc9c;
-    color: white !important;
-    cursor: pointer;
+.days li span {
+    display: block;
 }
 
-.days li .hovered {
-    padding: 5px;
-    background: #eee;
-    color: #777 !important;
+.days li .active {
+    background-color: #d63131;
+    color: #fff;
     cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    line-height: 20px;
+    margin: 0 auto;
+    padding: 3px;
+}
+
+.days li .hovered {   
+    color: #777;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin: 0 auto;
+    padding: 3px;
 }
 
 .days li .normal {
     padding: 5px;
-    background: #eee;
-    color: #777 !important;
+    color: #777;
     cursor: default;
 }
 
 .days li .disabled {
     padding: 5px;
-    background: #eee;
-    color: #ff0000 !important;
+    background-color: #eaeaea;
+    color: #c5c5c5;
     cursor: default;
 }
+
 .days li .hovered:hover { 
-    color: #590c0c !important;
-    font-size:11px;
-    font-weight: bold;
+    background-color: #d6d6d6;
+    border-radius: 50%;
+    color: #000;
 }
