@@ -24,6 +24,7 @@ const UNDEFINED = undefined,
     days: 'fc-cal-day', // Index will be added at the end
     body: 'fc-cal-body',
     date: 'fc-cal-date',
+    dateLI: 'fc-cal-date-li',
     selectedDate: 'fc-cal-date-selected',
     disabledDate: 'fc-cal-date-disabled',
     enabledDate: 'fc-cal-date-enabled',
@@ -333,6 +334,10 @@ const UNDEFINED = undefined,
       // create date elements
       element = createElement('li', {
         appendTo: days,
+        className: classNames.dateLI
+      });
+      element = createElement('span', {
+        appendTo: element,
         className: classNames.date + SP + classNames.dayCol + DASH + (i % 7),
         innerHTML: SPACE,
         events: {
