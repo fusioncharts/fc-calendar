@@ -129,24 +129,27 @@ ul, menu, dir {
 }
 
 .fc-cal-date{
+  box-sizing: border-box;
   text-align: center;
-  line-height: 1.8;
+  line-height: 2.3;
   display: block;  
   margin: 0 auto;
-  padding: 5px;
-  width: 20px;
-  height: 20px;
+  border: 2px solid transparent;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
 }
 
 .fc-cal-date-selected, 
 .fc-cal-date-selected:hover{ 
   background-color: #c32a2a !important;
+  border: 2px solid #c32a2a !important;
   color: #fff !important;
 }
 
 .fc-cal-date-disabled{
   background-color: #f3f3f3;
+  border: 2px solid #f3f3f3;
   color: #cacaca;
 }
 .fc-cal-date-enabled{
@@ -156,11 +159,11 @@ ul, menu, dir {
 .fc-cal-date-enabled:hover{
   color: #000;
   background-color: #dcdcdc;
+  border: 2px solid #dcdcdc;
 }
 
-.fc-cal-date-highlight, .fc-cal-date-highlight:hover{
-  background-color: #2d72de !important;
-  color: #fff !important;
+.fc-cal-date-highlight{
+  border: 2px solid #2d72de !important;
 }
 
 
