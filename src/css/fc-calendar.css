@@ -139,9 +139,10 @@ ul, menu, dir {
   border-radius: 50%;
 }
 
-.fc-cal-date-selected{
-  background-color: #c32a2a;
-  color: #fff;
+.fc-cal-date-selected, 
+.fc-cal-date-selected:hover{ 
+  background-color: #c32a2a !important;
+  color: #fff !important;
 }
 
 .fc-cal-date-disabled{
