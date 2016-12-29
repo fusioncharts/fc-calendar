@@ -158,9 +158,9 @@ ul, menu, dir {
   background-color: #dcdcdc;
 }
 
-.fc-cal-date-highlight{
-  background-color: #2d72de;
-  color: #fff;
+.fc-cal-date-highlight, .fc-cal-date-highlight:hover{
+  background-color: #2d72de !important;
+  color: #fff !important;
 }
 
 
