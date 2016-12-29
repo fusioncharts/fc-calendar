@@ -12,6 +12,8 @@
     "webpack": "v2.2.0-rc.2"
   },
   "scripts": {
+    "init-setup": "NODE_ENV=development npm install && npm run run-hot-server",
+    "start-hot-server": "webpack-dev-server --progress --colors --port 8181 && open http://localhost:8181/webpack-dev-server/test/",
     "build": "npm run build-es5 && npm run build-es6",
     "build-es5": "npm run build-es5-prod && npm run build-es5-dev",
     "build-es6": "npm run build-es6-prod && npm run build-es6-dev",
@@ -31,6 +33,8 @@
     "eslint-loader": "^1.6.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
-    "extract-text-webpack-plugin": "^1.0.1"
+    "extract-text-webpack-plugin": "^1.0.1",
+    "style-loader": "^0.13.1",
+    "webpack-dev-server": "^1.16.2"
   }
 }

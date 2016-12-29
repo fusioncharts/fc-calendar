@@ -1,8 +1,11 @@
+path = require("path");
+
 module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'fc-calendar.js',
-    path: './dist'
+    path: path.resolve(__dirname, "dist"),
+    publicPath: '/dist/'
   },
   module: {
     rules: [{
@@ -15,6 +18,12 @@ module.exports = {
         }
       }],
       exclude: /node_modules/
+    },
+    {
+      test: /\.css$/,
+      loader: "style-loader!css-loader",
+      exclude: /node_modules/
     }]
-  }
+  },
+  devServer: { inline: true }
 };

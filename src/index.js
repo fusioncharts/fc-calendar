@@ -1,4 +1,6 @@
 
+require('./css/fc-calendar.css');
+
 let counter = 0;
 const UNDEFINED = undefined,
   // basic calendar configaration
