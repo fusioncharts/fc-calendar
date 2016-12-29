@@ -12,7 +12,7 @@
     "webpack": "v2.2.0-rc.2"
   },
   "scripts": {
-    "init-setup": "NODE_ENV=development npm install && npm run run-hot-server",
+    "init-setup": "NODE_ENV=development npm install && npm run start-hot-server",
     "start-hot-server": "webpack-dev-server --progress --colors --port 8181 && open http://localhost:8181/webpack-dev-server/test/",
     "build": "npm run build-es5 && npm run build-es6",
     "build-es5": "npm run build-es5-prod && npm run build-es5-dev",
