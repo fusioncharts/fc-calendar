@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>calender</title>
+  <script type="text/javascript" src='../dist/fc-calendar.js'></script>
+</head>
+<body>
+	<div id = 'my-container'></div>
+	<div id = 'my-container-2'></div>
+	<input type="button" name="" value="show calendar" onclick="showC()">
+	<script type="text/javascript">
+		//var x = new Calendar({weekStart: 2});
+		var y = new FusionCalendar({
+      // style: {
+			// },
+      // width: 500,
+      // posX: 500,
+      // posY: 200,
+      // vAlignment: 'bottom',
+      // hAlignment: 'left',
+			container: 'my-container',
+			selectedDate: {
+				day: 12,
+				month: 6,
+				year: 2016
+			},
+			// rangeStart: {
+			// 	day: 9,
+			// 	month: 6,
+			// 	year: 2016,
+			// },
+			// rangeEnd: {
+			// 	day: 24,
+			// 	month: 6,
+			// 	year: 2016,
+			// },
+      // highlight: {
+      //   2016: {
+      //     6: {
+      //       23: 'test-class',
+      //       25: true
+      //     }
+      //   }
+      // },
+      // showInactiveMonths: true,
+      // weekStart: 1,
+      //weekLabel: ['Sunday', 'Monday', 'Tueday', 'Wedday', 'Thuday', 'Friday', 'Satday'],
+      // monthLabel: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+			// events: {
+			// 	onDateChange: function(obj){
+			// 		console.log('new date event: '+ obj.day);
+			// 	}
+			// }
+    });
+		// function showC(){
+		// 	y.setActiveRange('01-10-2017','01-20-2017');
+		// 	y.setDate('1*12-2017');
+		// }
+
+	</script>
+</body>
+</html>

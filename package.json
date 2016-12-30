@@ -1,0 +1,40 @@
+{
+  "name": "fc-calendar",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "url": "git@github.com:fusioncharts/fc-calendar.git",
+    "type": "git"
+  },
+  "author": "Ayan Pal <ayanonly1@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "webpack": "v2.2.0-rc.2"
+  },
+  "scripts": {
+    "init-setup": "NODE_ENV=development npm install && npm run start-hot-server",
+    "start-hot-server": "webpack-dev-server --progress --colors --port 8181 && open http://localhost:8181/webpack-dev-server/test/",
+    "build": "npm run build-es5 && npm run build-es6",
+    "build-es5": "npm run build-es5-prod && npm run build-es5-dev",
+    "build-es6": "npm run build-es6-prod && npm run build-es6-dev",
+    "build-es6-prod": "NODE_ENV=production webpack --config webpack-es6.config.js --progress --colors",
+    "build-es6-dev": "NODE_ENV=development webpack --config webpack-es6.config.js --progress --colors",
+    "build-es5-prod": "NODE_ENV=production webpack --config webpack-es5.config.js --progress --colors",
+    "build-es5-dev": "NODE_ENV=development webpack --config webpack-es5.config.js --progress --colors"
+  },
+  "devDependencies": {
+    "babel-loader": "^6.2.10",
+    "babel-preset-latest": "^6.16.0",
+    "babili-webpack-plugin": "^0.0.7",
+    "browser-sync-webpack-plugin": "^1.1.3",
+    "css-loader": "^0.26.1",
+    "eslint": "^3.12.2",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "style-loader": "^0.13.1",
+    "webpack-dev-server": "^1.16.2"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "extends": "standard",
+  "plugins": [
+      "standard",
+      "promise"
+  ],
+  "env": {
+    "jest": true,
+    "mocha": true,
+    "node": true
+  },
+  "globals":{
+    "define": true
+  },
+  "rules": {
+    "one-var": ["error", "always"],
+    "semi": ["error", "always"],
+    "no-unused-vars": ["warn"],
+    "no-debugger": ["warn"]
+  }
+}
