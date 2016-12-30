@@ -114,7 +114,14 @@
   height: 30px;
   border-radius: 50%;
 }
-
+.fc-cal-date-enabled{
+  cursor: pointer;
+}
+.fc-cal-date-enabled:hover {
+  color: #000;
+  background-color: #dcdcdc;
+  border: 2px solid #dcdcdc;
+}
 .fc-cal-date-selected,
 .fc-cal-date-selected:hover {
   background-color: #c32a2a;
@@ -126,16 +133,6 @@
   background-color: #f3f3f3;
   border: 2px solid #f3f3f3;
   color: #cacaca;
-}
-
-.fc-cal-date-enabled{
-  cursor: pointer;
-}
-
-.fc-cal-date-enabled:hover {
-  color: #000;
-  background-color: #dcdcdc;
-  border: 2px solid #dcdcdc;
 }
 
 .fc-cal-date-highlight {
