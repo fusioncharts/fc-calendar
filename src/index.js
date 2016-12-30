@@ -1,7 +1,7 @@
 
 require('./css/fc-calendar.css');
 
-let counter = 0;
+let idNo = 0;
 const UNDEFINED = undefined,
   // basic calendar configaration
   daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
@@ -21,7 +21,8 @@ const UNDEFINED = undefined,
     navMonth: 'fc-cal-nav-month',
     navYear: 'fc-cal-nav-year',
     subHeader: 'fc-cal-sub-header',
-    days: 'fc-cal-day', // Index will be added at the end
+    days: 'fc-cal-day',
+    indexedDays: 'fc-cal-day-', // Index will be added at the end
     body: 'fc-cal-body',
     date: 'fc-cal-date',
     dateLI: 'fc-cal-date-li',
@@ -54,7 +55,7 @@ const UNDEFINED = undefined,
     right: 1
   },
   // get id for container
-  getuid = () => `fc_calendar-${counter++}`,
+  getuid = () => `fc_calendar-${idNo++}`,
   // check if the year is leap year or not
   checkLeapYear = year => ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0),
   // apply custom style to the container
@@ -69,16 +70,20 @@ const UNDEFINED = undefined,
   },
   remoVeClassName = (className, element) => {
     let classNames = element && element.className;
-    if (classNames) {
-      element.className = classNames.replace(new RegExp('(?:^|\\s)' + className + '(?:\\s|$)'), ' ');
+    if (classNames && className) {
+      element.className = classNames.replace(new RegExp('(?:^|\\s*)' + className.trim() + '(?:\\s*|$)'), ' ');
     }
   },
   removeClassInChilds = (parent, className) => {
-    let children, i;
+    let children, i, j, l, classArr;
     if (parent && parent.getElementsByClassName) {
-      children = parent.getElementsByClassName(className);
-      for (i = children.length - 1; i >= 0; i--) {
-        remoVeClassName(className, children[i]);
+      classArr = className.trim().split(SP);
+      for (j = 0, l = classArr.length; j < l; j += 1) {
+        className = classArr[j];
+        children = parent.getElementsByClassName(className);
+        for (i = children.length - 1; i >= 0; i--) {
+          remoVeClassName(className, children[i]);
+        }
       }
     }
   },
@@ -86,8 +91,8 @@ const UNDEFINED = undefined,
   // without re-drawing the elements
   displayMonth = calendar => {
     const {info, graphic} = calendar,
-      {active, rangeStart, rangeEnd, weekStartingDay, highlight} = info,
-      {monthStr, yearStr, dateElements, container} = graphic,
+      {active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, showInactiveMonths} = info,
+      {monthStr, yearStr, dateElements, container, prevMonth, nextMonth, prevYear, nextYear} = graphic,
       {month, year} = active,
       highlightMonth = highlight && highlight[year] && highlight[year][month],
       startingOfMonth = new Date(`${month}/1/${year}`),
@@ -96,19 +101,39 @@ const UNDEFINED = undefined,
       totalDays = daysInMonth[month - 1] + (checkLeapYear(year) && month === 2 ? 1 : 0),
       limit = totalDays + monthStaringWeekDay,
       l = dateElements.length,
-      startInactiveLimit = validateActiveStart({day: 1, month, year}, rangeStart) ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
-      endInactiveLimit = validateActiveEnd({day: totalDays, month, year}, rangeEnd) ? totalDays + 1 : (rangeStart.month === month && rangeStart.year === year ? rangeEnd.day + 1 : 1);
-    let i, j, highlightInfo;
+      startActive = validateActiveStart({day: 1, month, year}, rangeStart),
+      endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
+      startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
+      endInactiveLimit = endActive ? totalDays + 1 : (rangeStart.month === month && rangeStart.year === year ? rangeEnd.day + 1 : 1);
+    let i, j, highlightInfo, highLightClass;
 
     // remove previously applied Classes
     removeClassInChilds(container, classNames.enabledDate);
     removeClassInChilds(container, classNames.selectedDate);
     removeClassInChilds(container, classNames.disabledDate);
+    removeClassInChilds(container, classNames.navInactive);
+
+    // make navigators inactive
+    if (!showInactiveMonths) {
+      if (!startActive) {
+        prevMonth.className += SP + classNames.navInactive;
+        prevYear.className += SP + classNames.navInactive;
+      }
+      if (!endActive) {
+        nextMonth.className += SP + classNames.navInactive;
+        nextYear.className += SP + classNames.navInactive;
+      }
+    }
+
+    // remobve all highlight classes
+    while (highlightClasses.length) {
+      highLightClass = highlightClasses.pop();
+      removeClassInChilds(container, highLightClass);
+    }
 
     // month and year changed
     monthStr.innerHTML = info.monthLabel[month - 1];
     yearStr.innerHTML = year;
-
     // print dates
     for (i = 0; i < l; i++) {
       if (i < monthStaringWeekDay || i >= limit) {
@@ -117,7 +142,12 @@ const UNDEFINED = undefined,
         j = i - monthStaringWeekDay + 1;
         dateElements[i].innerHTML = j;
         highlightInfo = highlightMonth && highlightMonth[j];
-        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (SP + (highlightInfo === true ? classNames.highlightedDate : highlightInfo)) : BLANK);
+        if (highlightInfo) {
+          highLightClass = SP + classNames.highlightedDate;
+          highlightInfo !== true && (highLightClass += SP + highlightInfo);
+          highlightClasses.push(highLightClass);
+        }
+        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
     // // if the selected date is on this month, heighlight it
@@ -239,7 +269,7 @@ const UNDEFINED = undefined,
     setStyle(headerMonthUl, ulPadZeroStyle);
     setStyle(headerYearUl, ulPadZeroStyle);
 
-    graphic.prevMon = createElement('li', {
+    graphic.prevMonth = createElement('li', {
       appendTo: headerMonthUl,
       className: classNames.nav + SP + classNames.navPrev + SP + classNames.navMonth,
       innerHTML: '&#10094;',
@@ -264,7 +294,7 @@ const UNDEFINED = undefined,
       appendTo: headerMonthUl,
       className: classNames.monthName
     });
-    graphic.nextMon = createElement('li', {
+    graphic.nextMonth = createElement('li', {
       appendTo: headerMonthUl,
       className: classNames.nav + SP + classNames.navNext + SP + classNames.navMonth,
       innerHTML: '&#10095;',
@@ -326,7 +356,7 @@ const UNDEFINED = undefined,
       element = createElement('li', {
         appendTo: weekDays,
         innerHTML: weekLabel[i],
-        className: classNames.days + SP + classNames.days + DASH + i
+        className: classNames.days + SP + classNames.indexedDays + i
       });
       dayElements.push(element);
     }
@@ -411,7 +441,8 @@ class Calendar {
       height: minHeight,
       width: minWidth,
       vAlignment: 'top',
-      hAlignment: 'left'
+      hAlignment: 'left',
+      highlightClasses: []
     };
     // create the elements for first time only
     init(calendar);

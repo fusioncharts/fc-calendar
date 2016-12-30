@@ -2,10 +2,7 @@
 <html>
 <head>
 	<title>calender</title>
-
-  	<!--script type="text/javascript" src='dist/fc-calendar.js'></script-->
-    <script type="text/javascript" src='../dist/fc-calendar.js'></script>
-	<!-- <link rel="stylesheet" type="text/css" href="src/css/fc-calendar.css"> -->
+  <script type="text/javascript" src='../dist/fc-calendar.js'></script>
 </head>
 <body>
 	<div id = 'my-container'></div>
@@ -41,14 +38,15 @@
       highlight: {
         2016: {
           6: {
-            23: true
+            23: 'test-class',
+            25: true
           }
         }
       },
-      // showInactiveMonths: true,
+      showInactiveMonths: true,
       // weekStart: 1,
       //weekLabel: ['Sunday', 'Monday', 'Tueday', 'Wedday', 'Thuday', 'Friday', 'Satday'],
-      // monthLabel: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      monthLabel: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 			events: {
 				onDateChange: function(obj){
 					console.log('new date event: '+ obj.day);
