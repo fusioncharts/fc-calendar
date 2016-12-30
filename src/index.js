@@ -36,7 +36,7 @@ const UNDEFINED = undefined,
     padding: '0',
     margin: 0
   },
-  minHeight = 200,
+  minHeight = 300,
   minWidth = 300,
   PX = 'px',
   SP = ' ',
@@ -46,13 +46,13 @@ const UNDEFINED = undefined,
   SLASH = '/',
   vAlignMultiplier = {
     top: 0,
-    middle: 0.5,
-    bottom: 1
+    middle: -0.5,
+    bottom: -1
   },
   hAlignMultiplier = {
     left: 0,
-    center: 0.5,
-    right: 1
+    center: -0.5,
+    right: -1
   },
   // get id for container
   getuid = () => `fc_calendar-${idNo++}`,
@@ -494,18 +494,13 @@ class Calendar {
       style.width = temp + PX;
       positioningChanged = true;
     }
-    if (config.vAlignment && (temp = config.vAlignment.toLowerCase()) && (hAlignMultiplier[temp] !== UNDEFINED)) {
+    if (config.vAlignment && (temp = config.vAlignment.toLowerCase()) && (vAlignMultiplier[temp] !== UNDEFINED)) {
       info.vAlignment = temp;
       positioningChanged = true;
     }
-    if (config.hAlignment && (temp = config.hAlignment.toLowerCase()) && (vAlignMultiplier[temp] !== UNDEFINED)) {
+    if (config.hAlignment && (temp = config.hAlignment.toLowerCase()) && (hAlignMultiplier[temp] !== UNDEFINED)) {
       info.hAlignment = temp;
       positioningChanged = true;
-    }
-    if (positioningChanged) {
-      style.left = (info.posX + (info.width * (hAlignMultiplier[info.hAlignment] || 0))) + PX;
-      style.top = (info.posY + (info.height * (vAlignMultiplier[info.vAlignment] || 0))) + PX;
-      setStyle(graphic.container, style);
     }
 
     // set events on date, month and year change
@@ -581,6 +576,12 @@ class Calendar {
     }
     // set calendar to the desired date
     doRepaint && displayMonth(calendar);
+    if (positioningChanged) {
+      style.left = (info.posX + (info.width * (hAlignMultiplier[info.hAlignment] || 0))) + PX;
+      info.height = (graphic.container && graphic.container.offsetHeight) || minHeight;
+      style.top = (info.posY + (info.height * (vAlignMultiplier[info.vAlignment] || 0))) + PX;
+      setStyle(graphic.container, style);
+    }
   }
   // call show function show calendar
   show () {
