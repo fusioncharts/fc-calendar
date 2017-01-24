@@ -13,7 +13,7 @@
     "define": true
   },
   "rules": {
-    "one-var": ["error", "always"],
+    "one-var": ["always"],
     "semi": ["error", "always"],
     "no-unused-vars": ["warn"],
     "no-debugger": ["warn"]
