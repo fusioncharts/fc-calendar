@@ -13,18 +13,21 @@
   },
   "scripts": {
     "init-setup": "NODE_ENV=development npm install && npm run start-hot-server",
-    "start-hot-server": "webpack-dev-server --progress --colors --port 8181 && open http://localhost:8181/webpack-dev-server/test/",
+    "start-hot-server": "open http://localhost:8181/webpack-dev-server/test/ && webpack-dev-server --progress --colors --port 8181",
+    "start-browser-sync": "browser-sync start --server --files './, !./src !./node_modules' --directory --reload-delay 500 --open http://localhost:3000/test/index.html",
     "build": "npm run build-es5 && npm run build-es6",
-    "build-es5": "npm run build-es5-prod && npm run build-es5-dev",
-    "build-es6": "npm run build-es6-prod && npm run build-es6-dev",
-    "build-es6-prod": "NODE_ENV=production webpack --config webpack-es6.config.js --progress --colors",
+    "build-es5": "npm run build-es5-prod",
+    "build-es6": "npm run build-es6-prod",
+    "build-es6-prod": "npm run build-es6-dev && babili dist/fc-calendar.js --out-file dist/fc-calendar.min.js --source-maps",
     "build-es6-dev": "NODE_ENV=development webpack --config webpack-es6.config.js --progress --colors",
-    "build-es5-prod": "NODE_ENV=production webpack --config webpack-es5.config.js --progress --colors",
-    "build-es5-dev": "NODE_ENV=development webpack --config webpack-es5.config.js --progress --colors"
+    "build-es5-prod": "npm run build-es5-dev && babili dist/fc-calendar-es5.js --out-file dist/fc-calendar-es5.min.js --source-maps",
+    "build-es5-dev": "NODE_ENV=development webpack --config webpack-es5.config.js --progress --colors",
+    "docs": "jsdoc src/index.js -d ./api"
   },
   "devDependencies": {
     "babel-loader": "^6.2.10",
     "babel-preset-latest": "^6.16.0",
+    "babili": "^0.0.9",
     "babili-webpack-plugin": "^0.0.7",
     "browser-sync-webpack-plugin": "^1.1.3",
     "css-loader": "^0.26.1",
