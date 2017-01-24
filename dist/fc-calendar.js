@@ -525,8 +525,8 @@ const UNDEFINED = undefined,
       l = dateElements.length,
       startActive = validateActiveStart({day: 1, month, year}, rangeStart),
       endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
-      startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
-      endInactiveLimit = endActive ? totalDays + 1 : (rangeStart.month === month && rangeStart.year === year ? rangeEnd.day + 1 : 1);
+      startInactiveLimit = startActive ? 0 : (rangeStart.month === (month) && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
+      endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === (month) && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
     let i, j, highlightInfo, highLightClass;
 
     // remove previously applied Classes
@@ -706,7 +706,7 @@ const UNDEFINED = undefined,
           calendar.configure({
             active: {
               month: nextMonth,
-              year
+              year: year
             }
           });
         }
@@ -731,7 +731,7 @@ const UNDEFINED = undefined,
           calendar.configure({
             active: {
               month: nextMonth,
-              year
+              year: year
             }
           });
         }
@@ -796,13 +796,16 @@ const UNDEFINED = undefined,
           click: () => {
             const {info, events} = calendar,
               selectedDate = info.selectedDate,
+              active = info.active,
               tempDate = {
                 day: i - info.startingPos + 1,
-                month: selectedDate.month,
-                year: selectedDate.year
+                month: active.month,
+                year: active.year
               };
             if (validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
               selectedDate.day = tempDate.day;
+              selectedDate.month = tempDate.month;
+              selectedDate.year = tempDate.year;
               setSelectedDate(calendar);
               events.onDateChange && events.onDateChange(selectedDate);
             }
