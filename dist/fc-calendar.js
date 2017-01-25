@@ -525,8 +525,8 @@ const UNDEFINED = undefined,
       l = dateElements.length,
       startActive = validateActiveStart({day: 1, month, year}, rangeStart),
       endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
-      startInactiveLimit = startActive ? 0 : (rangeStart.month === (month) && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
-      endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === (month) && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
+      startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
+      endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
     let i, j, highlightInfo, highLightClass;
 
     // remove previously applied Classes
