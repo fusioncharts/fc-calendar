@@ -562,7 +562,7 @@ displayMonth = function displayMonth(calendar) {
       startActive = validateActiveStart({ day: 1, month: month, year: year }, rangeStart),
       endActive = validateActiveEnd({ day: totalDays, month: month, year: year }, rangeEnd),
       startInactiveLimit = startActive ? 0 : rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays,
-      endInactiveLimit = endActive ? totalDays + 1 : rangeStart.month === month && rangeStart.year === year ? rangeEnd.day + 1 : 1;
+      endInactiveLimit = endActive ? totalDays + 1 : rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1;
 
   var i = void 0,
       j = void 0,
@@ -838,14 +838,17 @@ init = function init(calendar) {
           var info = calendar.info,
               events = calendar.events,
               selectedDate = info.selectedDate,
+              active = info.active,
               tempDate = {
             day: _i - info.startingPos + 1,
-            month: selectedDate.month,
-            year: selectedDate.year
+            month: active.month,
+            year: active.year
           };
 
           if (validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
             selectedDate.day = tempDate.day;
+            selectedDate.month = tempDate.month;
+            selectedDate.year = tempDate.year;
             setSelectedDate(calendar);
             events.onDateChange && events.onDateChange(selectedDate);
           }
