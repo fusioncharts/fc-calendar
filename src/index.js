@@ -471,14 +471,14 @@ class Calendar {
    * @param {string} [config.hAlignment = left] - Horizontal alighment of the calendar box w.r.t it's posX and posY.
    * @param {string} [config.container = body] - Id of the parent container of the calendar component.
    * @param {dateObj} [config.selectedDate = today] - The date which will be selected on the calendar.
-   * @param {dateObj} [config.rangeStart] -
-   * @param {dateObj} [config.rangeEnd] -
-   * @param {dateObj} [config.highlight] -
-   * @param {dateObj} [config.showInactiveMonths = false] -
-   * @param {dateObj} [config.weekStart = 0] -
-   * @param {dateObj} [config.weekLabel] -
-   * @param {dateObj} [config.monthLabel] -
-   * @param {dateObj} [config.events] -
+   * @param {dateObj} [config.rangeStart] - Add range to restrict selecting date before range.
+   * @param {dateObj} [config.rangeEnd] - To restrict selecting date after range.
+   * @param {dateObj} [config.highlight] - Highlight perticular dates on the calendar.
+   * @param {dateObj} [config.showInactiveMonths = false] - Toggle inactive months visibilty.
+   * @param {dateObj} [config.weekStart = 0] - The starting day of the week for the calendar.
+   * @param {dateObj} [config.weekLabel] - Change the labels of the week in the calendar.
+   * @param {dateObj} [config.monthLabel] - Change the labels of the months in the calendar.
+   * @param {dateObj} [config.events] - Add event on click.
    */
   configure (config, forceReDraw) {
     const calendar = this,

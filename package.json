@@ -22,7 +22,7 @@
     "build-es6-dev": "NODE_ENV=development webpack --config webpack-es6.config.js --progress --colors",
     "build-es5-prod": "npm run build-es5-dev && babili dist/fc-calendar-es5.js --out-file dist/fc-calendar-es5.min.js --source-maps",
     "build-es5-dev": "NODE_ENV=development webpack --config webpack-es5.config.js --progress --colors",
-    "docs": "jsdoc src/index.js -d ./api"
+    "docs": "jsdoc src/index.js -R ./README.md -d ./api"
   },
   "devDependencies": {
     "babel-loader": "^6.2.10",
