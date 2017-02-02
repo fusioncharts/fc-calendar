@@ -5,7 +5,7 @@ let idNo = 0;
 const UNDEFINED = undefined,
   // basic calendar configaration
   daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-  weekLabel = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  weekLabel = ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
   monthLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   classNames = {
     container: 'fc-cal-container',
@@ -30,14 +30,16 @@ const UNDEFINED = undefined,
     disabledDate: 'fc-cal-date-disabled',
     enabledDate: 'fc-cal-date-enabled',
     highlightedDate: 'fc-cal-date-highlight',
-    dayCol: 'fc-cal-day-col'
+    dayCol: 'fc-cal-day-col',
+    hiddenDate: 'fc-cal-date-hidden',
+    visibleDate: 'fc-cal-date-visible'
   },
   ulPadZeroStyle = {
     padding: '0',
     margin: 0
   },
-  minHeight = 300,
-  minWidth = 300,
+  minHeight = 200,
+  minWidth = 220,
   PX = 'px',
   SP = ' ',
   BLANK = '',
@@ -147,8 +149,13 @@ const UNDEFINED = undefined,
           highlightInfo !== true && (highLightClass += SP + highlightInfo);
           highlightClasses.push(highLightClass);
         }
-        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
+        dateElements[i].className += SP + classNames.visibleDate + SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
       }
+    }
+    // console.log((monthStaringWeekDay + 1 + daysInMonth[month - 1]));
+    for (i = (monthStaringWeekDay + 1 + daysInMonth[month - 1]); i < l; i++) {
+      console.log(i);
+      dateElements[i].className = classNames.date + SP + classNames.hiddenDate;
     }
     // // if the selected date is on this month, heighlight it
     setSelectedDate(calendar);

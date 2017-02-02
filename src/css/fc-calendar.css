@@ -21,50 +21,49 @@
 }
 .fc-cal-header {
     box-sizing:border-box;
-    color: #353535;
-    padding: 8px 0;
-    font-weight: bold;
-    font-size: 12px;
+    color: #6f6f6f;
+    padding: 8px 5px;
+    font-size: 11px;
     overflow: hidden;
 }
 .fc-cal-sub-header {
   font-size:11px;
   text-transform: uppercase;
-  //font-weight: bold;
-  color: #666;
-  padding: 8px 0 15px;
+  font-weight: bold;
+  color: #9a9898;
+  padding: 8px 0 10px;
   overflow: hidden;
 }
 .fc-cal-body {
   color: #676767;
   border-bottom: 2px  solid #c32a2a;
-
+  padding-bottom: 4px;
 }
 /* Header Classes */
 .fc-cal-month-header {
   display: block;
-  width: 55%;
   float: left;
 }
 .fc-cal-year-header {
   display: block;
-  width: 35%;
   float: right;
 }
 .fc-cal-month {
   display: inline-block;
-  padding-right: 5px;
-  padding-left: 5px;
+  font-weight: bold;
+  padding-right: 3px;
+  padding-left: 3px;
 }
 .fc-cal-year {
   display: inline-block;
-  padding-right: 5px;
-  padding-left: 5px;
+  font-weight: bold;
+  padding-right: 3px;
+  padding-left: 3px;
 }
 .fc-cal-nav {
   display: inline-block;
   cursor:pointer;
-  padding: 0 10px;
+  padding: 0 5px;
 }
 .fc-cal-nav-next {
   float: right;
@@ -85,9 +84,7 @@
   //border: 1px solid #000;
 }
 
-
 /* Body classes */
-
 .fc-cal-body ul {
   display: table;
   border-collapse: collapse;
@@ -97,9 +94,10 @@
   box-sizing: border-box;
   float: left;
   list-style-type: none;
+  font-size: 10px;
   width: 14.28571%;
   height: auto;
-  padding: 2px 0 8px;
+  padding: 2px 0;
   margin: 0;
 }
 
@@ -109,10 +107,11 @@
   line-height: 2.3;
   display: block;
   margin: 0 auto;
-  border: 2px solid transparent;
-  width: 30px;
-  height: 30px;
+  border: 1px solid transparent;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
+  cursor: default;
 }
 .fc-cal-date-enabled{
   cursor: pointer;
@@ -120,21 +119,27 @@
 .fc-cal-date-enabled:hover {
   color: #000;
   background-color: #dcdcdc;
-  border: 2px solid #dcdcdc;
+  border: 1px solid #dcdcdc;
 }
 .fc-cal-date-selected,
 .fc-cal-date-selected:hover {
   background-color: #c32a2a;
-  border: 2px solid #c32a2a;
+  border: 1px solid #c32a2a;
   color: #fff;
 }
 
 .fc-cal-date-disabled {
-  background-color: #f3f3f3;
-  border: 2px solid #f3f3f3;
   color: #cacaca;
 }
 
 .fc-cal-date-highlight {
-  border: 2px solid #2d72de;
+  border: 1px solid #2d72de;
+}
+
+.fc-cal-date-hidden {
+  display: none;
+}
+
+.fc-cal-date-visible {
+  display: block;
 }
