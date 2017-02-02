@@ -513,7 +513,7 @@ const UNDEFINED = undefined,
   },
   // this function will update the calendar
   // without re-drawing the elements
-  displayMonth = calendar => {
+  displayMonth = calendar => {debugger;
     const {info, graphic} = calendar,
       {active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, showInactiveMonths} = info,
       {monthStr, yearStr, dateElements, container, prevMonth, nextMonth, prevYear, nextYear} = graphic,
@@ -535,7 +535,9 @@ const UNDEFINED = undefined,
     removeClassInChilds(container, classNames.enabledDate);
     removeClassInChilds(container, classNames.selectedDate);
     removeClassInChilds(container, classNames.disabledDate);
+    removeClassInChilds(container, classNames.visibleDate);
     removeClassInChilds(container, classNames.navInactive);
+    removeClassInChilds(container, classNames.hiddenDate);
 
     // make navigators inactive
     if (!showInactiveMonths) {
@@ -574,12 +576,11 @@ const UNDEFINED = undefined,
         dateElements[i].className += SP + classNames.visibleDate + SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
-    // console.log((monthStaringWeekDay + 1 + daysInMonth[month - 1]));
-    for (i = (monthStaringWeekDay + 1 + daysInMonth[month - 1]); i < l; i++) {
-      console.log(i);
-      dateElements[i].className = classNames.date + SP + classNames.hiddenDate;
+
+    for (i = (monthStaringWeekDay + daysInMonth[month - 1]); i < l; i++) {
+      dateElements[i].className += SP + classNames.hiddenDate;
     }
-    // // if the selected date is on this month, heighlight it
+    // if the selected date is on this month, heighlight it
     setSelectedDate(calendar);
   },
 
