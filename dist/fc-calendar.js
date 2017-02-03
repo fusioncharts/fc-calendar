@@ -101,7 +101,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Verdana,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  -moz-box-shadow:    0px 1px 3px 0px #d8d8d8;\n  -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8;\n  box-shadow:         0px 1px 3px 0px #d8d8d8;\n  padding-bottom: 0;\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    color: #6f6f6f;\n    padding: 8px 5px;\n    font-size: 11px;\n    overflow: hidden;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  font-weight: bold;\n  color: #9a9898;\n  padding: 8px 0 10px;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #676767;\n  border-bottom: 2px  solid #c32a2a;\n  padding-bottom: 4px;\n}\n/* Header Classes */\n.fc-cal-month-header {\n  display: block;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  font-weight: bold;\n  padding-right: 3px;\n  padding-left: 3px;\n}\n.fc-cal-year {\n  display: inline-block;\n  font-weight: bold;\n  padding-right: 3px;\n  padding-left: 3px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  padding: 0 5px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  //border: 1px solid #000;\n}\n\n/* Body classes */\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  font-size: 10px;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  line-height: 2.3;\n  display: block;\n  margin: 0 auto;\n  border: 1px solid transparent;\n  width: 25px;\n  height: 25px;\n  border-radius: 50%;\n  cursor: default;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #000;\n  background-color: #dcdcdc;\n  border: 1px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #c32a2a;\n  border: 1px solid #c32a2a;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 1px solid #2d72de;\n}\n\n.fc-cal-date-hidden {\n  display: none;\n}\n\n.fc-cal-date-visible {\n  display: block;\n}", ""]);
+exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Verdana,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  -moz-box-shadow:    0px 1px 3px 0px #d8d8d8;\n  -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8;\n  box-shadow:         0px 1px 3px 0px #d8d8d8;\n  padding-bottom: 0;\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    color: #6f6f6f;\n    padding: 8px 5px;\n    font-size: 11px;\n    overflow: hidden;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  font-weight: bold;\n  color: #9a9898;\n  padding: 8px 0 10px;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #676767;\n  border-bottom: 2px  solid #c32a2a;\n  padding-bottom: 4px;\n}\n/* Header Classes */\n.fc-cal-month-header {\n  width: 49%;\n  display: block;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  font-weight: bold;\n  padding-right: 3px;\n  padding-left: 3px;\n}\n.fc-cal-year {\n  display: inline-block;\n  font-weight: bold;\n  padding-right: 3px;\n  padding-left: 3px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  padding: 0 5px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  //border: 1px solid #000;\n}\n\n/* Body classes */\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  font-size: 10px;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  line-height: 2.3;\n  display: block;\n  margin: 0 auto;\n  border: 1px solid transparent;\n  width: 25px;\n  height: 25px;\n  border-radius: 50%;\n  cursor: default;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #000;\n  background-color: #dcdcdc;\n  border: 1px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #c32a2a;\n  border: 1px solid #c32a2a;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 1px solid #2d72de;\n}\n\n.fc-cal-date-hidden {\n  display: none;\n}\n\n.fc-cal-date-visible {\n  display: block;\n}", ""]);
 
 // exports
 
@@ -513,7 +513,7 @@ const UNDEFINED = undefined,
   },
   // this function will update the calendar
   // without re-drawing the elements
-  displayMonth = calendar => {debugger;
+  displayMonth = calendar => {
     const {info, graphic} = calendar,
       {active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, showInactiveMonths} = info,
       {monthStr, yearStr, dateElements, container, prevMonth, nextMonth, prevYear, nextYear} = graphic,
@@ -535,9 +535,9 @@ const UNDEFINED = undefined,
     removeClassInChilds(container, classNames.enabledDate);
     removeClassInChilds(container, classNames.selectedDate);
     removeClassInChilds(container, classNames.disabledDate);
-    removeClassInChilds(container, classNames.visibleDate);
     removeClassInChilds(container, classNames.navInactive);
     removeClassInChilds(container, classNames.hiddenDate);
+    removeClassInChilds(container, classNames.visibleDate);
 
     // make navigators inactive
     if (!showInactiveMonths) {
@@ -576,9 +576,8 @@ const UNDEFINED = undefined,
         dateElements[i].className += SP + classNames.visibleDate + SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
-
     for (i = (monthStaringWeekDay + daysInMonth[month - 1]); i < l; i++) {
-      dateElements[i].className += SP + classNames.hiddenDate;
+      dateElements[i].className = classNames.date + SP + classNames.hiddenDate;
     }
     // if the selected date is on this month, heighlight it
     setSelectedDate(calendar);

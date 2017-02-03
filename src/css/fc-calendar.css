@@ -41,6 +41,7 @@
 }
 /* Header Classes */
 .fc-cal-month-header {
+  width: 49%;
   display: block;
   float: left;
 }

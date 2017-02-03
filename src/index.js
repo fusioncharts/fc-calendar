@@ -114,6 +114,8 @@ const UNDEFINED = undefined,
     removeClassInChilds(container, classNames.selectedDate);
     removeClassInChilds(container, classNames.disabledDate);
     removeClassInChilds(container, classNames.navInactive);
+    removeClassInChilds(container, classNames.hiddenDate);
+    removeClassInChilds(container, classNames.visibleDate);
 
     // make navigators inactive
     if (!showInactiveMonths) {
@@ -152,12 +154,10 @@ const UNDEFINED = undefined,
         dateElements[i].className += SP + classNames.visibleDate + SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
-    // console.log((monthStaringWeekDay + 1 + daysInMonth[month - 1]));
-    for (i = (monthStaringWeekDay + 1 + daysInMonth[month - 1]); i < l; i++) {
-      console.log(i);
+    for (i = (monthStaringWeekDay + daysInMonth[month - 1]); i < l; i++) {
       dateElements[i].className = classNames.date + SP + classNames.hiddenDate;
     }
-    // // if the selected date is on this month, heighlight it
+    // if the selected date is on this month, heighlight it
     setSelectedDate(calendar);
   },
 
