@@ -1,41 +1,41 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -46,7 +46,7 @@
 /******/ 			});
 /******/ 		}
 /******/ 	};
-
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -55,13 +55,13 @@
 /******/ 		__webpack_require__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/dist/";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
@@ -82,8 +82,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js!./fc-calendar.css", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js!./fc-calendar.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!./fc-calendar.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!./fc-calendar.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -179,7 +179,7 @@ var stylesInDom = {},
 		};
 	},
 	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
 	}),
 	getHeadElement = memoize(function () {
 		return document.head || document.getElementsByTagName("head")[0];
@@ -778,47 +778,47 @@ init = function init(calendar) {
     }
   });
 
-  graphic.prevYear = createElement('li', {
-    appendTo: headerYearUl,
-    className: classNames.nav + SP + classNames.navPrev + SP + classNames.navYear,
-    innerHTML: '&#10094;',
-    events: {
-      click: function click() {
-        calendar.configure({
-          active: {
-            year: (calendar.info.active && calendar.info.active.year) - 1,
-            month: calendar.info.active && calendar.info.active.month
-          }
-        });
-      }
-    }
-  });
-  graphic.yearStr = createElement('li', {
-    appendTo: headerYearUl,
-    className: classNames.yearName
-  });
-  graphic.nextYear = createElement('li', {
-    appendTo: headerYearUl,
-    className: classNames.nav + SP + classNames.navNext + SP + classNames.navYear,
-    innerHTML: '&#10095;',
-    events: {
-      click: function click() {
-        calendar.configure({
-          active: {
-            year: (calendar.info.active && calendar.info.active.year) + 1,
-            month: calendar.info.active && calendar.info.active.month
-          }
-        });
-      }
-    }
-  });
+  // graphic.prevYear = createElement('li', {
+  //   appendTo: headerYearUl,
+  //   className: classNames.nav + SP + classNames.navPrev + SP + classNames.navYear,
+  //   innerHTML: '&#10094;',
+  //   events: {
+  //     click () {
+  //       calendar.configure({
+  //         active: {
+  //           year: (calendar.info.active && calendar.info.active.year) - 1,
+  //           month: (calendar.info.active && calendar.info.active.month)
+  //         }
+  //       });
+  //     }
+  //   }
+  // });
+  // graphic.yearStr = createElement('li', {
+  //   appendTo: headerYearUl,
+  //   className: classNames.yearName
+  // });
+  // graphic.nextYear = createElement('li', {
+  //   appendTo: headerYearUl,
+  //   className: classNames.nav + SP + classNames.navNext + SP + classNames.navYear,
+  //   innerHTML: '&#10095;',
+  //   events: {
+  //     click () {
+  //       calendar.configure({
+  //         active: {
+  //           year: (calendar.info.active && calendar.info.active.year) + 1,
+  //           month: (calendar.info.active && calendar.info.active.month)
+  //         }
+  //       });
+  //     }
+  //   }
+  // });
 
-  for (i = 0; i < 7; i++) {
+  for (i = 1; i <= 8; i++) {
     // create week elements
     element = createElement('li', {
       appendTo: weekDays,
-      innerHTML: weekLabel[i],
-      className: classNames.days + SP + classNames.indexedDays + i
+      innerHTML: weekLabel[i % 7],
+      className: classNames.days + SP + classNames.indexedDays + i % 7
     });
     dayElements.push(element);
   }

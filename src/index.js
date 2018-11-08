@@ -30,7 +30,8 @@ const UNDEFINED = undefined,
     disabledDate: 'fc-cal-date-disabled',
     enabledDate: 'fc-cal-date-enabled',
     highlightedDate: 'fc-cal-date-highlight',
-    dayCol: 'fc-cal-day-col'
+    dayCol: 'fc-cal-day-col',
+    weekend: 'fc-cal-weekend'
   },
   ulPadZeroStyle = {
     padding: '0',
@@ -100,13 +101,13 @@ const UNDEFINED = undefined,
       monthStaringWeekDay = info.startingPos = (monthStaringDay - weekStartingDay) + (weekStartingDay <= monthStaringDay ? 0 : 7),
       totalDays = daysInMonth[month - 1] + (checkLeapYear(year) && month === 2 ? 1 : 0),
       limit = totalDays + monthStaringWeekDay,
-      l = dateElements.length,
       startActive = validateActiveStart({day: 1, month, year}, rangeStart),
       endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
       startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
       endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
-    let i, j, highlightInfo, highLightClass;
+    let i, j, l, highlightInfo, highLightClass, dateList, weekend, element;
 
+    dateList = graphic.calendarBody.children[0];
     // remove previously applied Classes
     removeClassInChilds(container, classNames.enabledDate);
     removeClassInChilds(container, classNames.selectedDate);
@@ -131,13 +132,63 @@ const UNDEFINED = undefined,
       removeClassInChilds(container, highLightClass);
     }
 
+    // If not enough list items are present, create them
+    if (dateList.childElementCount < 42) {
+      while (dateList.childElementCount < 42) {
+        i = dateList.childElementCount;
+        weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK);
+        // create date elements
+        element = createElement('li', {
+          appendTo: dateList,
+          className: classNames.dateLI + weekend
+        });
+        element = createElement('span', {
+          appendTo: element,
+          className: classNames.date + SP + classNames.dayCol + DASH + (i % 7),
+          innerHTML: SPACE,
+          events: {
+            click: () => {
+              const {info, events} = calendar,
+                selectedDate = info.selectedDate,
+                active = info.active,
+                tempDate = {
+                  day: i - info.startingPos + 1,
+                  month: active.month,
+                  year: active.year
+                };
+              if (validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
+                selectedDate.day = tempDate.day;
+                selectedDate.month = tempDate.month;
+                selectedDate.year = tempDate.year;
+                setSelectedDate(calendar);
+                events.onDateChange && events.onDateChange(selectedDate);
+              }
+            }
+          }
+        });
+        dateElements.push(element);
+      }
+    }
+
     // month and year changed
-    monthStr.innerHTML = info.monthLabel[month - 1];
-    yearStr.innerHTML = year;
+    monthStr.innerHTML = info.monthLabel[month - 1] + SP + year;
     // print dates
-    for (i = 0; i < l; i++) {
-      if (i < monthStaringWeekDay || i >= limit) {
-        dateElements[i].innerHTML = SPACE;
+    for (i = 0, l = dateElements.length; i < l; i++) {
+      if (i < monthStaringWeekDay) {
+        // show days of previous month
+        dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+        dateElements[i].className += SP + classNames.disabledDate;
+      } else if (i >= limit) {
+        // show days of next month
+        if (i % 7 === 0) {
+          // If there is a week change in next month, break. No need to show extra row of dates
+          // of next month
+          break;
+        } else {
+          // show days of next month
+          dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+          dateElements[i].className += SP + classNames.disabledDate;
+        }
       } else {
         j = i - monthStaringWeekDay + 1;
         dateElements[i].innerHTML = j;
@@ -149,6 +200,12 @@ const UNDEFINED = undefined,
         }
         dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
       }
+    }
+
+    // If there is an excess of list items, remove them
+    for (j = 41; j >= i; j--) {
+      dateList.removeChild(dateList.children[j]);
+      dateElements.pop();
     }
     // // if the selected date is on this month, heighlight it
     setSelectedDate(calendar);
@@ -230,15 +287,6 @@ const UNDEFINED = undefined,
         appendTo: headerMonthLi
       }),
 
-      headerYearLi = graphic.headerYearLi = createElement('li', {
-        appendTo: headerUl,
-        className: classNames.year
-      }),
-
-      headerYearUl = graphic.headerYearUl = createElement('ul', {
-        appendTo: headerYearLi
-      }),
-
       calendarSubHeader = graphic.calendarSubHeader = createElement('div', {
         appendTo: container,
         className: classNames.subHeader
@@ -258,7 +306,8 @@ const UNDEFINED = undefined,
       });
 
     let element,
-      i;
+      i,
+      weekend;
 
     // set the container style
     setStyle(container, calendar.style);
@@ -267,7 +316,6 @@ const UNDEFINED = undefined,
     setStyle(weekDays, ulPadZeroStyle);
     setStyle(days, ulPadZeroStyle);
     setStyle(headerMonthUl, ulPadZeroStyle);
-    setStyle(headerYearUl, ulPadZeroStyle);
 
     graphic.prevMonth = createElement('li', {
       appendTo: headerMonthUl,
@@ -316,55 +364,25 @@ const UNDEFINED = undefined,
       }
     });
 
-    graphic.prevYear = createElement('li', {
-      appendTo: headerYearUl,
-      className: classNames.nav + SP + classNames.navPrev + SP + classNames.navYear,
-      innerHTML: '&#10094;',
-      events: {
-        click () {
-          calendar.configure({
-            active: {
-              year: (calendar.info.active && calendar.info.active.year) - 1,
-              month: (calendar.info.active && calendar.info.active.month)
-            }
-          });
-        }
-      }
-    });
-    graphic.yearStr = createElement('li', {
-      appendTo: headerYearUl,
-      className: classNames.yearName
-    });
-    graphic.nextYear = createElement('li', {
-      appendTo: headerYearUl,
-      className: classNames.nav + SP + classNames.navNext + SP + classNames.navYear,
-      innerHTML: '&#10095;',
-      events: {
-        click () {
-          calendar.configure({
-            active: {
-              year: (calendar.info.active && calendar.info.active.year) + 1,
-              month: (calendar.info.active && calendar.info.active.month)
-            }
-          });
-        }
-      }
-    });
-
-    for (i = 0; i < 7; i++) {
+    // Create the days of week list items
+    for (i = 1; i < 8; i++) {
+      weekend = SP + (i > 5 ? classNames.weekend : BLANK);
       // create week elements
       element = createElement('li', {
         appendTo: weekDays,
-        innerHTML: weekLabel[i],
-        className: classNames.days + SP + classNames.indexedDays + i
+        innerHTML: weekLabel[i % 7],
+        className: classNames.days + SP + classNames.indexedDays + (i % 7) + weekend
       });
       dayElements.push(element);
     }
+
+    // Create the days of month list items
     for (let i = 0; i < 42; i++) {
+      weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK);
       // create date elements
       element = createElement('li', {
         appendTo: days,
-        className: classNames.dateLI
+        className: classNames.dateLI + weekend
       });
       element = createElement('span', {
         appendTo: element,
@@ -438,7 +456,7 @@ class Calendar {
       },
       weekLabel: [...weekLabel],
       monthLabel: [...monthLabel],
-      weekStartingDay: 0,
+      weekStartingDay: 1,
       posX: 0,
       posY: 0,
       height: minHeight,
