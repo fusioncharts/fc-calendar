@@ -101,7 +101,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Verdana,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  -moz-box-shadow:    0px 1px 3px 0px #d8d8d8;\n  -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8;\n  box-shadow:         0px 1px 3px 0px #d8d8d8;\n  padding-bottom: 0;\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    color: #353535;\n    padding: 8px 0;\n    font-weight: bold;\n    font-size: 12px;\n    overflow: hidden;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  //font-weight: bold;\n  color: #666;\n  padding: 8px 0 15px;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #676767;\n  border-bottom: 2px  solid #c32a2a;\n\n}\n/* Header Classes */\n.fc-cal-month-header {\n  display: block;\n  width: 55%;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  width: 35%;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-year {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  padding: 0 10px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  //border: 1px solid #000;\n}\n\n\n/* Body classes */\n\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0 8px;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  line-height: 2.3;\n  display: block;\n  margin: 0 auto;\n  border: 2px solid transparent;\n  width: 30px;\n  height: 30px;\n  border-radius: 50%;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #000;\n  background-color: #dcdcdc;\n  border: 2px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #c32a2a;\n  border: 2px solid #c32a2a;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  background-color: #f3f3f3;\n  border: 2px solid #f3f3f3;\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 2px solid #2d72de;\n}\n", ""]);
+exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Verdana,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  -moz-box-shadow:    0px 1px 3px 0px #d8d8d8;\n  -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8;\n  box-shadow:         0px 1px 3px 0px #d8d8d8;\n  padding-bottom: 0;\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    color: #ffffff;\n    padding: 8px 0;\n    font-size: 12px;\n    overflow: hidden;\n    background: #5D62B5;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  color: #666;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #676767;\n  border: 0px;\n}\n/* Header Classes */\n.fc-cal-month-header {\n  display: block;\n  width: 98%;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  width: 35%;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-year {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  padding: 0 10px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  line-height: 2.3;\n}\n\n.fc-cal-weekend {\n  background-color: #dfe0f5;\n}\n\n/* Body classes */\n\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0 8px;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  line-height: 2.3;\n  display: block;\n  margin: 0 auto;\n  border: 2px solid transparent;\n  width: 30px;\n  height: 30px;\n  border-radius: 10%;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #000;\n  background-color: #dcdcdc;\n  border: 2px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #5D62B5;\n  border: 2px solid #5D62B5;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 2px solid #2d72de;\n}\n", ""]);
 
 // exports
 
@@ -461,7 +461,8 @@ daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
   disabledDate: 'fc-cal-date-disabled',
   enabledDate: 'fc-cal-date-enabled',
   highlightedDate: 'fc-cal-date-highlight',
-  dayCol: 'fc-cal-day-col'
+  dayCol: 'fc-cal-day-col',
+  weekend: 'fc-cal-weekend'
 },
     ulPadZeroStyle = {
   padding: '0',
@@ -507,9 +508,9 @@ setStyle = function setStyle(element, style) {
   }
 },
     remoVeClassName = function remoVeClassName(className, element) {
-  var classNames = element && element.className;
-  if (classNames && className) {
-    element.className = classNames.replace(new RegExp('(?:^|\\s*)' + className.trim() + '(?:\\s*|$)'), ' ');
+  var classNameList = element && element.className;
+  if (classNameList && className) {
+    element.className = classNameList.replace(new RegExp('(?:^|\\s*)' + className.trim() + '(?:\\s*|$)'), ' ');
   }
 },
     removeClassInChilds = function removeClassInChilds(parent, className) {
@@ -558,7 +559,6 @@ displayMonth = function displayMonth(calendar) {
       monthStaringWeekDay = info.startingPos = monthStaringDay - weekStartingDay + (weekStartingDay <= monthStaringDay ? 0 : 7),
       totalDays = daysInMonth[month - 1] + (checkLeapYear(year) && month === 2 ? 1 : 0),
       limit = totalDays + monthStaringWeekDay,
-      l = dateElements.length,
       startActive = validateActiveStart({ day: 1, month: month, year: year }, rangeStart),
       endActive = validateActiveEnd({ day: totalDays, month: month, year: year }, rangeEnd),
       startInactiveLimit = startActive ? 0 : rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays,
@@ -566,9 +566,14 @@ displayMonth = function displayMonth(calendar) {
 
   var i = void 0,
       j = void 0,
+      l = void 0,
       highlightInfo = void 0,
-      highLightClass = void 0;
+      highLightClass = void 0,
+      dateList = void 0,
+      weekend = void 0,
+      element = void 0;
 
+  dateList = graphic.calendarBody.children[0];
   // remove previously applied Classes
   removeClassInChilds(container, classNames.enabledDate);
   removeClassInChilds(container, classNames.selectedDate);
@@ -593,13 +598,65 @@ displayMonth = function displayMonth(calendar) {
     removeClassInChilds(container, highLightClass);
   }
 
+  // If not enough list items are present, create them
+  if (dateList.childElementCount < 42) {
+    while (dateList.childElementCount < 42) {
+      i = dateList.childElementCount;
+      weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK);
+      // create date elements
+      element = createElement('li', {
+        appendTo: dateList,
+        className: classNames.dateLI + weekend
+      });
+      element = createElement('span', {
+        appendTo: element,
+        className: classNames.date + SP + classNames.dayCol + DASH + i % 7,
+        innerHTML: SPACE,
+        events: {
+          click: function click() {
+            var info = calendar.info,
+                events = calendar.events,
+                selectedDate = info.selectedDate,
+                active = info.active,
+                tempDate = {
+              day: i - info.startingPos + 1,
+              month: active.month,
+              year: active.year
+            };
+
+            if (validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
+              selectedDate.day = tempDate.day;
+              selectedDate.month = tempDate.month;
+              selectedDate.year = tempDate.year;
+              setSelectedDate(calendar);
+              events.onDateChange && events.onDateChange(selectedDate);
+            }
+          }
+        }
+      });
+      dateElements.push(element);
+    }
+  }
+
   // month and year changed
-  monthStr.innerHTML = info.monthLabel[month - 1];
-  yearStr.innerHTML = year;
+  monthStr.innerHTML = info.monthLabel[month - 1] + SP + year;
   // print dates
-  for (i = 0; i < l; i++) {
-    if (i < monthStaringWeekDay || i >= limit) {
-      dateElements[i].innerHTML = SPACE;
+  for (i = 0, l = dateElements.length; i < l; i++) {
+    if (i < monthStaringWeekDay) {
+      // show days of previous month
+      dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+      dateElements[i].className += SP + classNames.disabledDate;
+    } else if (i >= limit) {
+      // show days of next month
+      if (i % 7 === 0) {
+        // If there is a week change in next month, break. No need to show extra row of dates
+        // of next month
+        break;
+      } else {
+        // show days of next month
+        dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+        dateElements[i].className += SP + classNames.disabledDate;
+      }
     } else {
       j = i - monthStaringWeekDay + 1;
       dateElements[i].innerHTML = j;
@@ -611,6 +668,12 @@ displayMonth = function displayMonth(calendar) {
       }
       dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? highLightClass : BLANK);
     }
+  }
+
+  // If there is an excess of list items, remove them
+  for (j = 41; j >= i; j--) {
+    dateList.removeChild(dateList.children[j]);
+    dateElements.pop();
   }
   // // if the selected date is on this month, heighlight it
   setSelectedDate(calendar);
@@ -696,13 +759,6 @@ init = function init(calendar) {
       headerMonthUl = graphic.headerMonthUl = createElement('ul', {
     appendTo: headerMonthLi
   }),
-      headerYearLi = graphic.headerYearLi = createElement('li', {
-    appendTo: headerUl,
-    className: classNames.year
-  }),
-      headerYearUl = graphic.headerYearUl = createElement('ul', {
-    appendTo: headerYearLi
-  }),
       calendarSubHeader = graphic.calendarSubHeader = createElement('div', {
     appendTo: container,
     className: classNames.subHeader
@@ -720,7 +776,8 @@ init = function init(calendar) {
 
 
   var element = void 0,
-      i = void 0;
+      i = void 0,
+      weekend = void 0;
 
   // set the container style
   setStyle(container, calendar.style);
@@ -729,7 +786,6 @@ init = function init(calendar) {
   setStyle(weekDays, ulPadZeroStyle);
   setStyle(days, ulPadZeroStyle);
   setStyle(headerMonthUl, ulPadZeroStyle);
-  setStyle(headerYearUl, ulPadZeroStyle);
 
   graphic.prevMonth = createElement('li', {
     appendTo: headerMonthUl,
@@ -778,60 +834,29 @@ init = function init(calendar) {
     }
   });
 
-  // graphic.prevYear = createElement('li', {
-  //   appendTo: headerYearUl,
-  //   className: classNames.nav + SP + classNames.navPrev + SP + classNames.navYear,
-  //   innerHTML: '&#10094;',
-  //   events: {
-  //     click () {
-  //       calendar.configure({
-  //         active: {
-  //           year: (calendar.info.active && calendar.info.active.year) - 1,
-  //           month: (calendar.info.active && calendar.info.active.month)
-  //         }
-  //       });
-  //     }
-  //   }
-  // });
-  // graphic.yearStr = createElement('li', {
-  //   appendTo: headerYearUl,
-  //   className: classNames.yearName
-  // });
-  // graphic.nextYear = createElement('li', {
-  //   appendTo: headerYearUl,
-  //   className: classNames.nav + SP + classNames.navNext + SP + classNames.navYear,
-  //   innerHTML: '&#10095;',
-  //   events: {
-  //     click () {
-  //       calendar.configure({
-  //         active: {
-  //           year: (calendar.info.active && calendar.info.active.year) + 1,
-  //           month: (calendar.info.active && calendar.info.active.month)
-  //         }
-  //       });
-  //     }
-  //   }
-  // });
-
-  for (i = 1; i <= 8; i++) {
+  // Create the days of week list items
+  for (i = 1; i < 8; i++) {
+    weekend = SP + (i > 5 ? classNames.weekend : BLANK);
     // create week elements
     element = createElement('li', {
       appendTo: weekDays,
       innerHTML: weekLabel[i % 7],
-      className: classNames.days + SP + classNames.indexedDays + i % 7
+      className: classNames.days + SP + classNames.indexedDays + i % 7 + weekend
     });
     dayElements.push(element);
   }
 
-  var _loop = function _loop(_i) {
+  // Create the days of month list items
+  for (i = 0; i < 42; i++) {
+    weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK);
     // create date elements
     element = createElement('li', {
       appendTo: days,
-      className: classNames.dateLI
+      className: classNames.dateLI + weekend
     });
     element = createElement('span', {
       appendTo: element,
-      className: classNames.date + SP + classNames.dayCol + DASH + _i % 7,
+      className: classNames.date + SP + classNames.dayCol + DASH + i % 7,
       innerHTML: SPACE,
       events: {
         click: function click() {
@@ -840,7 +865,7 @@ init = function init(calendar) {
               selectedDate = info.selectedDate,
               active = info.active,
               tempDate = {
-            day: _i - info.startingPos + 1,
+            day: i - info.startingPos + 1,
             month: active.month,
             year: active.year
           };
@@ -856,10 +881,6 @@ init = function init(calendar) {
       }
     });
     dateElements.push(element);
-  };
-
-  for (var _i = 0; _i < 42; _i++) {
-    _loop(_i);
   }
 },
 
@@ -918,7 +939,7 @@ var Calendar = function () {
       },
       weekLabel: [].concat(weekLabel),
       monthLabel: [].concat(monthLabel),
-      weekStartingDay: 0,
+      weekStartingDay: 1,
       posX: 0,
       posY: 0,
       height: minHeight,

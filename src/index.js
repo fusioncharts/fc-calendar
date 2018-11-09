@@ -70,9 +70,9 @@ const UNDEFINED = undefined,
     }
   },
   remoVeClassName = (className, element) => {
-    let classNames = element && element.className;
-    if (classNames && className) {
-      element.className = classNames.replace(new RegExp('(?:^|\\s*)' + className.trim() + '(?:\\s*|$)'), ' ');
+    let classNameList = element && element.className;
+    if (classNameList && className) {
+      element.className = classNameList.replace(new RegExp('(?:^|\\s*)' + className.trim() + '(?:\\s*|$)'), ' ');
     }
   },
   removeClassInChilds = (parent, className) => {
@@ -377,7 +377,7 @@ const UNDEFINED = undefined,
     }
 
     // Create the days of month list items
-    for (let i = 0; i < 42; i++) {
+    for (i = 0; i < 42; i++) {
       weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK);
       // create date elements
       element = createElement('li', {
