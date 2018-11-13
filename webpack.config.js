@@ -5,6 +5,7 @@ module.exports = {
   output: {
     filename: 'fc-calendar.js',
     path: path.resolve(__dirname, "dist"),
+    libraryTarget: 'umd',
     publicPath: '/dist/'
   },
   module: {

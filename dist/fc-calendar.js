@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -101,7 +111,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Verdana,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  -moz-box-shadow:    0px 1px 3px 0px #d8d8d8;\n  -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8;\n  box-shadow:         0px 1px 3px 0px #d8d8d8;\n  padding-bottom: 0;\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    color: #ffffff;\n    padding: 8px 0;\n    font-size: 12px;\n    overflow: hidden;\n    background: #5D62B5;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  color: #666;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #676767;\n  border: 0px;\n}\n/* Header Classes */\n.fc-cal-month-header {\n  display: block;\n  width: 98%;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  width: 35%;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-year {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  padding: 0 10px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  line-height: 2.3;\n}\n\n.fc-cal-weekend {\n  background-color: #dfe0f5;\n}\n\n/* Body classes */\n\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0 8px;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  line-height: 2.3;\n  display: block;\n  margin: 0 auto;\n  border: 2px solid transparent;\n  width: 30px;\n  height: 30px;\n  border-radius: 10%;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #000;\n  background-color: #dcdcdc;\n  border: 2px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #5D62B5;\n  border: 2px solid #5D62B5;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 2px solid #2d72de;\n}\n", ""]);
+exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Verdana,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  width: 200px !important;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  /* -moz-box-shadow:    0px 1px 3px 0px #d8d8d8; */\n  /* -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8; */\n  /* box-shadow:         0px 1px 3px 0px #d8d8d8; */\n  padding-bottom: 0;\n  margin: 0px 0px 0px 0px;\n  float: left;\n  /* position: static !important; */\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    color: #ffffff;\n    padding: 8px 0;\n    font-size: 12px;\n    overflow: hidden;\n    background: #5648D4;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  color: #666;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #676767;\n  border: 0px;\n}\n/* Header Classes */\n.fc-cal-month-header {\n  display: block;\n  width: 98%;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  width: 35%;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-year {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  padding: 0 10px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  line-height: 2.3;\n}\n\n.fc-cal-weekend {\n  background-color: #F7F6FF;\n}\n\n/* Body classes */\n\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0 2px;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  line-height: 1.8;\n  display: block;\n  margin: 0 auto;\n  border: 2px solid transparent;\n  width: 23px;\n  height: 23px;\n  border-radius: 10%;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #000;\n  background-color: #dcdcdc;\n  border: 2px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #5648D4;\n  border: 2px solid #5648D4;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 2px solid #2d72de;\n}\n", ""]);
 
 // exports
 
@@ -602,15 +612,8 @@ const UNDEFINED = undefined,
         dateElements[i].className += SP + classNames.disabledDate;
       } else if (i >= limit) {
         // show days of next month
-        if (i % 7 === 0) {
-          // If there is a week change in next month, break. No need to show extra row of dates
-          // of next month
-          break;
-        } else {
-          // show days of next month
-          dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
-          dateElements[i].className += SP + classNames.disabledDate;
-        }
+        dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+        dateElements[i].className += SP + classNames.disabledDate;
       } else {
         j = i - monthStaringWeekDay + 1;
         dateElements[i].innerHTML = j;
@@ -624,12 +627,7 @@ const UNDEFINED = undefined,
       }
     }
 
-    // If there is an excess of list items, remove them
-    for (j = 41; j >= i; j--) {
-      dateList.removeChild(dateList.children[j]);
-      dateElements.pop();
-    }
-    // // if the selected date is on this month, heighlight it
+    // if the selected date is on this month, heighlight it
     setSelectedDate(calendar);
   },
 
@@ -799,7 +797,7 @@ const UNDEFINED = undefined,
     }
 
     // Create the days of month list items
-    for (i = 0; i < 42; i++) {
+    for (let i = 0; i < 42; i++) {
       weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK);
       // create date elements
       element = createElement('li', {
@@ -847,7 +845,7 @@ const UNDEFINED = undefined,
 
 // calendar constructor
 class Calendar {
-  constructor (config) {
+  constructor (config = {}) {
     const calendar = this,
       today = new Date(),
       currentDate = {
@@ -856,7 +854,7 @@ class Calendar {
         year: today.getFullYear()
       };
     calendar.graphic = {
-      parentElement: document.body,
+      parentElement: config.container || document.body,
       dateElements: [],
       dayElements: []
     };
@@ -911,6 +909,8 @@ class Calendar {
     if (config.container && (parentElement = document.getElementById(config.container))) {
       graphic.parentElement = parentElement;
       parentElement.appendChild(graphic.container);
+    } else if (config.container instanceof Element) {
+      graphic.parentElement = config.container;
     }
     // set User applied styles
     if (config.style && config.style.position) {
@@ -1056,11 +1056,12 @@ class Calendar {
   }
 }
 // attache to the window if availabel
-if (window) {
-  window.FusionCalendar = Calendar;
-}
+// if (window) {
+//   window.FusionCalendar = Calendar;
+// }
 /* harmony default export */ exports["default"] = Calendar;
 
 
 /***/ }
 /******/ ]);
+});

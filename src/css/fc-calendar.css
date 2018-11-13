@@ -9,15 +9,19 @@
 	user-select: none; /* Non-prefixed version, currently
 	                      not supported by any browser */
   font-size:11px;
+  width: 200px !important;
   text-align: center;
   vertical-align: top;
   overflow: hidden;
   background-color: #fff;
   border: 1px solid #d6d6d6;
-  -moz-box-shadow:    0px 1px 3px 0px #d8d8d8;
-  -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8;
-  box-shadow:         0px 1px 3px 0px #d8d8d8;
+  /* -moz-box-shadow:    0px 1px 3px 0px #d8d8d8; */
+  /* -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8; */
+  /* box-shadow:         0px 1px 3px 0px #d8d8d8; */
   padding-bottom: 0;
+  margin: 0px 0px 0px 0px;
+  float: left;
+  /* position: static !important; */
 }
 .fc-cal-header {
     box-sizing:border-box;
@@ -25,7 +29,7 @@
     padding: 8px 0;
     font-size: 12px;
     overflow: hidden;
-    background: #5D62B5;
+    background: #5648D4;
 }
 .fc-cal-sub-header {
   font-size:11px;
@@ -83,7 +87,7 @@
 }
 
 .fc-cal-weekend {
-  background-color: #dfe0f5;
+  background-color: #F7F6FF;
 }
 
 /* Body classes */
@@ -99,19 +103,19 @@
   list-style-type: none;
   width: 14.28571%;
   height: auto;
-  padding: 2px 0 8px;
+  padding: 2px 0 2px;
   margin: 0;
 }
 
 .fc-cal-date {
   box-sizing: border-box;
   text-align: center;
-  line-height: 2.3;
+  line-height: 1.8;
   display: block;
   margin: 0 auto;
   border: 2px solid transparent;
-  width: 30px;
-  height: 30px;
+  width: 23px;
+  height: 23px;
   border-radius: 10%;
 }
 .fc-cal-date-enabled{
@@ -124,8 +128,8 @@
 }
 .fc-cal-date-selected,
 .fc-cal-date-selected:hover {
-  background-color: #5D62B5;
-  border: 2px solid #5D62B5;
+  background-color: #5648D4;
+  border: 2px solid #5648D4;
   color: #fff;
 }
 

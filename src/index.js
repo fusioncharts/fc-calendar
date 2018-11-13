@@ -180,15 +180,8 @@ const UNDEFINED = undefined,
         dateElements[i].className += SP + classNames.disabledDate;
       } else if (i >= limit) {
         // show days of next month
-        if (i % 7 === 0) {
-          // If there is a week change in next month, break. No need to show extra row of dates
-          // of next month
-          break;
-        } else {
-          // show days of next month
-          dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
-          dateElements[i].className += SP + classNames.disabledDate;
-        }
+        dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+        dateElements[i].className += SP + classNames.disabledDate;
       } else {
         j = i - monthStaringWeekDay + 1;
         dateElements[i].innerHTML = j;
@@ -202,12 +195,7 @@ const UNDEFINED = undefined,
       }
     }
 
-    // If there is an excess of list items, remove them
-    for (j = 41; j >= i; j--) {
-      dateList.removeChild(dateList.children[j]);
-      dateElements.pop();
-    }
-    // // if the selected date is on this month, heighlight it
+    // if the selected date is on this month, heighlight it
     setSelectedDate(calendar);
   },
 
@@ -377,7 +365,7 @@ const UNDEFINED = undefined,
     }
 
     // Create the days of month list items
-    for (i = 0; i < 42; i++) {
+    for (let i = 0; i < 42; i++) {
       weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK);
       // create date elements
       element = createElement('li', {
@@ -425,7 +413,7 @@ const UNDEFINED = undefined,
 
 // calendar constructor
 class Calendar {
-  constructor (config) {
+  constructor (config = {}) {
     const calendar = this,
       today = new Date(),
       currentDate = {
@@ -434,7 +422,7 @@ class Calendar {
         year: today.getFullYear()
       };
     calendar.graphic = {
-      parentElement: document.body,
+      parentElement: config.container || document.body,
       dateElements: [],
       dayElements: []
     };
@@ -489,6 +477,8 @@ class Calendar {
     if (config.container && (parentElement = document.getElementById(config.container))) {
       graphic.parentElement = parentElement;
       parentElement.appendChild(graphic.container);
+    } else if (config.container instanceof Element) {
+      graphic.parentElement = config.container;
     }
     // set User applied styles
     if (config.style && config.style.position) {
@@ -634,7 +624,7 @@ class Calendar {
   }
 }
 // attache to the window if availabel
-if (window) {
-  window.FusionCalendar = Calendar;
-}
+// if (window) {
+//   window.FusionCalendar = Calendar;
+// }
 export default Calendar;
