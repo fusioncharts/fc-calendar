@@ -111,7 +111,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Verdana,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  width: 200px !important;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  /* -moz-box-shadow:    0px 1px 3px 0px #d8d8d8; */\n  /* -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8; */\n  /* box-shadow:         0px 1px 3px 0px #d8d8d8; */\n  padding-bottom: 0;\n  margin: 0px 0px 0px 0px;\n  float: left;\n  /* position: static !important; */\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    color: #ffffff;\n    padding: 8px 0;\n    font-size: 12px;\n    overflow: hidden;\n    background: #5648D4;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  color: #666;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #676767;\n  border: 0px;\n}\n/* Header Classes */\n.fc-cal-month-header {\n  display: block;\n  width: 98%;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  width: 35%;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-year {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  padding: 0 10px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  line-height: 2.3;\n}\n\n.fc-cal-weekend {\n  background-color: #F7F6FF;\n}\n\n/* Body classes */\n\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0 2px;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  line-height: 1.8;\n  display: block;\n  margin: 0 auto;\n  border: 2px solid transparent;\n  width: 23px;\n  height: 23px;\n  border-radius: 10%;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #000;\n  background-color: #dcdcdc;\n  border: 2px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #5648D4;\n  border: 2px solid #5648D4;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 2px solid #2d72de;\n}\n", ""]);
+exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Source sans pro,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  width: 163px !important;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  /* -moz-box-shadow:    0px 1px 3px 0px #d8d8d8; */\n  /* -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8; */\n  /* box-shadow:         0px 1px 3px 0px #d8d8d8; */\n  padding-bottom: 0;\n  margin: 0px 0px 0px 0px;\n  float: left;\n  /* position: static !important; */\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    /* color: #ffffff; */\n    height: 26px;\n    line-height: 10px;\n    padding: 8px 0;\n    font-size: 12px;\n    overflow: hidden;\n    background: #5648D4;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  color: #666;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #5F5F5F;\n  border: 0px;\n}\n/* Header Classes */\n.fc-cal-month-header {\n  display: block;\n  width: 99%;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  width: 35%;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  font-weight: bold;\n  color: #F3F3F3;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-year {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  color: #F3F3F3;\n  padding: 0 10px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  line-height: 2.3;\n}\n\n.fc-cal-weekend {\n  background-color: #F7F6FF;\n}\n\n/* Body classes */\n\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0 2px;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  /* line-height: 1.8; */\n  display: block;\n  margin: 0 auto;\n  border: 2px solid transparent;\n  width: 19px;\n  height: 19px;\n  border-radius: 10%;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #5F5F5F;\n  background-color: #dcdcdc;\n  border: 2px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #5648D4;\n  border: 2px solid #5648D4;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 2px solid #2d72de;\n}\n", ""]);
 
 // exports
 
@@ -537,7 +537,7 @@ const UNDEFINED = undefined,
       endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
       startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
       endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
-    let i, j, l, highlightInfo, highLightClass, dateList, weekend, element;
+    let i, j, l, cur, highlightInfo, highLightClass, dateList, weekend, element;
 
     dateList = graphic.calendarBody.children[0];
     // remove previously applied Classes
@@ -610,19 +610,26 @@ const UNDEFINED = undefined,
         // show days of previous month
         dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
         dateElements[i].className += SP + classNames.disabledDate;
+        dateElements[i].eventAttached && dateElements[i].removeEventListener('click', dateElements[i]._clickHandler);
+        dateElements[i].eventAttached = false;
       } else if (i >= limit) {
         // show days of next month
-        dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+        cur = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+        dateElements[i].innerHTML = (cur < 10 ? '0' + cur : cur);
         dateElements[i].className += SP + classNames.disabledDate;
+        dateElements[i].eventAttached && dateElements[i].removeEventListener('click', dateElements[i]._clickHandler);
+        dateElements[i].eventAttached = false;
       } else {
         j = i - monthStaringWeekDay + 1;
-        dateElements[i].innerHTML = j;
+        dateElements[i].innerHTML = (j < 10 ? '0' + j : j);
         highlightInfo = highlightMonth && highlightMonth[j];
         if (highlightInfo) {
           highLightClass = SP + classNames.highlightedDate;
           highlightInfo !== true && (highLightClass += SP + highlightInfo);
           highlightClasses.push(highLightClass);
         }
+        !dateElements[i].eventAttached && dateElements[i].addEventListener('click', dateElements[i]._clickHandler);
+        dateElements[i].eventAttached = true;
         dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
@@ -665,6 +672,10 @@ const UNDEFINED = undefined,
     if (events) {
       for (let event in events) {
         element.addEventListener(event, events[event]);
+        if (event === 'click') {
+          element['_' + event + 'Handler'] = events[event];
+          element.eventAttached = true;
+        }
       }
     }
     // append to it's parent

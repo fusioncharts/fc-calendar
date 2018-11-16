@@ -105,7 +105,7 @@ const UNDEFINED = undefined,
       endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
       startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
       endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
-    let i, j, l, highlightInfo, highLightClass, dateList, weekend, element;
+    let i, j, l, cur, highlightInfo, highLightClass, dateList, weekend, element;
 
     dateList = graphic.calendarBody.children[0];
     // remove previously applied Classes
@@ -178,19 +178,26 @@ const UNDEFINED = undefined,
         // show days of previous month
         dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
         dateElements[i].className += SP + classNames.disabledDate;
+        dateElements[i].eventAttached && dateElements[i].removeEventListener('click', dateElements[i]._clickHandler);
+        dateElements[i].eventAttached = false;
       } else if (i >= limit) {
         // show days of next month
-        dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+        cur = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+        dateElements[i].innerHTML = (cur < 10 ? '0' + cur : cur);
         dateElements[i].className += SP + classNames.disabledDate;
+        dateElements[i].eventAttached && dateElements[i].removeEventListener('click', dateElements[i]._clickHandler);
+        dateElements[i].eventAttached = false;
       } else {
         j = i - monthStaringWeekDay + 1;
-        dateElements[i].innerHTML = j;
+        dateElements[i].innerHTML = (j < 10 ? '0' + j : j);
         highlightInfo = highlightMonth && highlightMonth[j];
         if (highlightInfo) {
           highLightClass = SP + classNames.highlightedDate;
           highlightInfo !== true && (highLightClass += SP + highlightInfo);
           highlightClasses.push(highLightClass);
         }
+        !dateElements[i].eventAttached && dateElements[i].addEventListener('click', dateElements[i]._clickHandler);
+        dateElements[i].eventAttached = true;
         dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
@@ -233,6 +240,10 @@ const UNDEFINED = undefined,
     if (events) {
       for (let event in events) {
         element.addEventListener(event, events[event]);
+        if (event === 'click') {
+          element['_' + event + 'Handler'] = events[event];
+          element.eventAttached = true;
+        }
       }
     }
     // append to it's parent
