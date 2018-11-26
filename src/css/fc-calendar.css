@@ -80,6 +80,7 @@
 }
 .fc-cal-nav-inactive {
   cursor:default;
+  color: #5648D4
 }
 
 /* Sub-header Classes */

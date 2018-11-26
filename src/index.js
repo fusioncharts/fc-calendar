@@ -69,7 +69,7 @@ const UNDEFINED = undefined,
       }
     }
   },
-  remoVeClassName = (className, element) => {
+  removeClassName = (className, element) => {
     let classNameList = element && element.className;
     if (classNameList && className) {
       element.className = classNameList.replace(new RegExp('(?:^|\\s*)' + className.trim() + '(?:\\s*|$)'), ' ');
@@ -83,7 +83,7 @@ const UNDEFINED = undefined,
         className = classArr[j];
         children = parent.getElementsByClassName(className);
         for (i = children.length - 1; i >= 0; i--) {
-          remoVeClassName(className, children[i]);
+          removeClassName(className, children[i]);
         }
       }
     }
@@ -105,7 +105,15 @@ const UNDEFINED = undefined,
       endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
       startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
       endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
-    let i, j, l, cur, highlightInfo, highLightClass, dateList, weekend, element;
+    let i, j, l,
+      cur,
+      highlightInfo,
+      highLightClass,
+      dateList,
+      weekend,
+      element,
+      disablePrevMonthLi = rangeStart && rangeStart.year === active.year && rangeStart.month === active.month,
+      disableNextMonthLi = rangeEnd && rangeEnd.year === active.year && rangeEnd.month === active.month;
 
     dateList = graphic.calendarBody.children[0];
     // remove previously applied Classes
@@ -115,15 +123,16 @@ const UNDEFINED = undefined,
     removeClassInChilds(container, classNames.navInactive);
 
     // make navigators inactive
-    if (!showInactiveMonths) {
-      if (!startActive) {
-        prevMonth.className += SP + classNames.navInactive;
-        prevYear.className += SP + classNames.navInactive;
-      }
-      if (!endActive) {
-        nextMonth.className += SP + classNames.navInactive;
-        nextYear.className += SP + classNames.navInactive;
-      }
+    if (disableNextMonthLi) {
+      nextMonth.className += SP + classNames.navInactive;
+    } else {
+      removeClassName(classNames.navInactive, nextMonth);
+    }
+
+    if (disablePrevMonthLi) {
+      prevMonth.className += SP + classNames.navInactive;
+    } else {
+      removeClassName(classNames.navInactive, prevMonth);
     }
 
     // remobve all highlight classes
@@ -322,18 +331,36 @@ const UNDEFINED = undefined,
       innerHTML: '&#10094;',
       events: {
         click () {
-          let nextMonth = (calendar.info.active && calendar.info.active.month) - 1,
-            year = calendar.info.active && calendar.info.active.year;
+          let info = calendar.info,
+            graphic = calendar.graphic,
+            nextMonth = (info.active && info.active.month) - 1,
+            year = info.active && info.active.year,
+            rangeStart = info.rangeStart;
+
           if (nextMonth < 1) {
             nextMonth = 12;
             year--;
           }
-          calendar.configure({
-            active: {
-              month: nextMonth,
-              year: year
-            }
-          });
+
+          if (!rangeStart || year > rangeStart.year) {
+            removeClassName(classNames.navInactive, graphic.prevMonth);
+            removeClassName(classNames.navInactive, graphic.nextMonth);
+            calendar.configure({
+              active: {
+                month: nextMonth,
+                year: year
+              }
+            });
+          } else if ((year === rangeStart.year && nextMonth >= rangeStart.month)) {
+            removeClassName(classNames.navInactive, graphic.nextMonth);
+            (nextMonth === rangeStart.month) && (graphic.prevMonth.className += SP + classNames.navInactive);
+            calendar.configure({
+              active: {
+                month: nextMonth,
+                year: year
+              }
+            });
+          }
         }
       }
     });
@@ -347,18 +374,36 @@ const UNDEFINED = undefined,
       innerHTML: '&#10095;',
       events: {
         click () {
-          let nextMonth = (calendar.info.active && calendar.info.active.month) + 1,
-            year = calendar.info.active && calendar.info.active.year;
+          let info = calendar.info,
+            graphic = calendar.graphic,
+            nextMonth = (info.active && info.active.month) + 1,
+            year = info.active && info.active.year,
+            rangeEnd = info.rangeEnd;
+
           if (nextMonth > 12) {
             nextMonth = 1;
             year++;
           }
-          calendar.configure({
-            active: {
-              month: nextMonth,
-              year: year
-            }
-          });
+
+          if (!rangeEnd || year < rangeEnd.year) {
+            removeClassName(classNames.navInactive, graphic.prevMonth);
+            removeClassName(classNames.navInactive, graphic.nextMonth);
+            calendar.configure({
+              active: {
+                month: nextMonth,
+                year: year
+              }
+            });
+          } else if ((year === rangeEnd.year && nextMonth <= rangeEnd.month)) {
+            (nextMonth === rangeEnd.month) && (graphic.nextMonth.className += SP + classNames.navInactive);
+            removeClassName(classNames.navInactive, graphic.prevMonth);
+            calendar.configure({
+              active: {
+                month: nextMonth,
+                year: year
+              }
+            });
+          }
         }
       }
     });
@@ -465,7 +510,7 @@ class Calendar {
       highlightClasses: []
     };
     // create the elements for first time only
-    init(calendar);
+    init(calendar, config);
     // configure Calendar with initial config
     calendar.configure(config, true);
   }

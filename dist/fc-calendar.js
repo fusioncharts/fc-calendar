@@ -111,7 +111,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Source sans pro,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  width: 163px !important;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  /* -moz-box-shadow:    0px 1px 3px 0px #d8d8d8; */\n  /* -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8; */\n  /* box-shadow:         0px 1px 3px 0px #d8d8d8; */\n  padding-bottom: 0;\n  margin: 0px 0px 0px 0px;\n  float: left;\n  /* position: static !important; */\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    /* color: #ffffff; */\n    height: 26px;\n    line-height: 10px;\n    padding: 8px 0;\n    font-size: 12px;\n    overflow: hidden;\n    background: #5648D4;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  color: #666;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #5F5F5F;\n  border: 0px;\n}\n/* Header Classes */\n.fc-cal-month-header {\n  display: block;\n  width: 99%;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  width: 35%;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  font-weight: bold;\n  color: #F3F3F3;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-year {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  color: #F3F3F3;\n  padding: 0 10px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  line-height: 2.3;\n}\n\n.fc-cal-weekend {\n  background-color: #F7F6FF;\n}\n\n/* Body classes */\n\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0 2px;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  /* line-height: 1.8; */\n  display: block;\n  margin: 0 auto;\n  border: 2px solid transparent;\n  width: 19px;\n  height: 19px;\n  border-radius: 10%;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #5F5F5F;\n  background-color: #dcdcdc;\n  border: 2px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #5648D4;\n  border: 2px solid #5648D4;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 2px solid #2d72de;\n}\n", ""]);
+exports.push([module.i, ".fc-cal-container { /* Why need to define this explicitely */\n\tbox-sizing:border-box;\n\tfont-family: Source sans pro,sans-serif;\n\t-webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n\t-khtml-user-select: none; /* Konqueror */\n\t-moz-user-select: none; /* Firefox */\n\t-ms-user-select: none; /* Internet Explorer/Edge */\n\tuser-select: none; /* Non-prefixed version, currently\n\t                      not supported by any browser */\n  font-size:11px;\n  width: 163px !important;\n  text-align: center;\n  vertical-align: top;\n  overflow: hidden;\n  background-color: #fff;\n  border: 1px solid #d6d6d6;\n  /* -moz-box-shadow:    0px 1px 3px 0px #d8d8d8; */\n  /* -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8; */\n  /* box-shadow:         0px 1px 3px 0px #d8d8d8; */\n  padding-bottom: 0;\n  margin: 0px 0px 0px 0px;\n  float: left;\n  /* position: static !important; */\n}\n.fc-cal-header {\n    box-sizing:border-box;\n    /* color: #ffffff; */\n    height: 26px;\n    line-height: 10px;\n    padding: 8px 0;\n    font-size: 12px;\n    overflow: hidden;\n    background: #5648D4;\n}\n.fc-cal-sub-header {\n  font-size:11px;\n  text-transform: uppercase;\n  color: #666;\n  overflow: hidden;\n}\n.fc-cal-body {\n  color: #5F5F5F;\n  border: 0px;\n}\n/* Header Classes */\n.fc-cal-month-header {\n  display: block;\n  width: 99%;\n  float: left;\n}\n.fc-cal-year-header {\n  display: block;\n  width: 35%;\n  float: right;\n}\n.fc-cal-month {\n  display: inline-block;\n  font-weight: bold;\n  color: #F3F3F3;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-year {\n  display: inline-block;\n  padding-right: 5px;\n  padding-left: 5px;\n}\n.fc-cal-nav {\n  display: inline-block;\n  cursor:pointer;\n  color: #F3F3F3;\n  padding: 0 10px;\n}\n.fc-cal-nav-next {\n  float: right;\n}\n.fc-cal-nav-prev {\n  float: left;\n}\n.fc-cal-nav-inactive {\n  cursor:default;\n  color: #5648D4\n}\n\n/* Sub-header Classes */\n.fc-cal-day {\n  box-sizing: border-box;\n  display: block;\n  float: left;\n  width: 14.28571%;\n  line-height: 2.3;\n}\n\n.fc-cal-weekend {\n  background-color: #F7F6FF;\n}\n\n/* Body classes */\n\n.fc-cal-body ul {\n  display: table;\n  border-collapse: collapse;\n}\n\n.fc-cal-date-li {\n  box-sizing: border-box;\n  float: left;\n  list-style-type: none;\n  width: 14.28571%;\n  height: auto;\n  padding: 2px 0 2px;\n  margin: 0;\n}\n\n.fc-cal-date {\n  box-sizing: border-box;\n  text-align: center;\n  /* line-height: 1.8; */\n  display: block;\n  margin: 0 auto;\n  border: 2px solid transparent;\n  width: 19px;\n  height: 19px;\n  border-radius: 10%;\n}\n.fc-cal-date-enabled{\n  cursor: pointer;\n}\n.fc-cal-date-enabled:hover {\n  color: #5F5F5F;\n  background-color: #dcdcdc;\n  border: 2px solid #dcdcdc;\n}\n.fc-cal-date-selected,\n.fc-cal-date-selected:hover {\n  background-color: #5648D4;\n  border: 2px solid #5648D4;\n  color: #fff;\n}\n\n.fc-cal-date-disabled {\n  color: #cacaca;\n}\n\n.fc-cal-date-highlight {\n  border: 2px solid #2d72de;\n}\n", ""]);
 
 // exports
 
@@ -501,7 +501,7 @@ const UNDEFINED = undefined,
       }
     }
   },
-  remoVeClassName = (className, element) => {
+  removeClassName = (className, element) => {
     let classNameList = element && element.className;
     if (classNameList && className) {
       element.className = classNameList.replace(new RegExp('(?:^|\\s*)' + className.trim() + '(?:\\s*|$)'), ' ');
@@ -515,7 +515,7 @@ const UNDEFINED = undefined,
         className = classArr[j];
         children = parent.getElementsByClassName(className);
         for (i = children.length - 1; i >= 0; i--) {
-          remoVeClassName(className, children[i]);
+          removeClassName(className, children[i]);
         }
       }
     }
@@ -537,7 +537,15 @@ const UNDEFINED = undefined,
       endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
       startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
       endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
-    let i, j, l, cur, highlightInfo, highLightClass, dateList, weekend, element;
+    let i, j, l,
+      cur,
+      highlightInfo,
+      highLightClass,
+      dateList,
+      weekend,
+      element,
+      disablePrevMonthLi = rangeStart && rangeStart.year === active.year && rangeStart.month === active.month,
+      disableNextMonthLi = rangeEnd && rangeEnd.year === active.year && rangeEnd.month === active.month;
 
     dateList = graphic.calendarBody.children[0];
     // remove previously applied Classes
@@ -547,15 +555,16 @@ const UNDEFINED = undefined,
     removeClassInChilds(container, classNames.navInactive);
 
     // make navigators inactive
-    if (!showInactiveMonths) {
-      if (!startActive) {
-        prevMonth.className += SP + classNames.navInactive;
-        prevYear.className += SP + classNames.navInactive;
-      }
-      if (!endActive) {
-        nextMonth.className += SP + classNames.navInactive;
-        nextYear.className += SP + classNames.navInactive;
-      }
+    if (disableNextMonthLi) {
+      nextMonth.className += SP + classNames.navInactive;
+    } else {
+      removeClassName(classNames.navInactive, nextMonth);
+    }
+
+    if (disablePrevMonthLi) {
+      prevMonth.className += SP + classNames.navInactive;
+    } else {
+      removeClassName(classNames.navInactive, prevMonth);
     }
 
     // remobve all highlight classes
@@ -754,18 +763,36 @@ const UNDEFINED = undefined,
       innerHTML: '&#10094;',
       events: {
         click () {
-          let nextMonth = (calendar.info.active && calendar.info.active.month) - 1,
-            year = calendar.info.active && calendar.info.active.year;
+          let info = calendar.info,
+            graphic = calendar.graphic,
+            nextMonth = (info.active && info.active.month) - 1,
+            year = info.active && info.active.year,
+            rangeStart = info.rangeStart;
+
           if (nextMonth < 1) {
             nextMonth = 12;
             year--;
           }
-          calendar.configure({
-            active: {
-              month: nextMonth,
-              year: year
-            }
-          });
+
+          if (!rangeStart || year > rangeStart.year) {
+            removeClassName(classNames.navInactive, graphic.prevMonth);
+            removeClassName(classNames.navInactive, graphic.nextMonth);
+            calendar.configure({
+              active: {
+                month: nextMonth,
+                year: year
+              }
+            });
+          } else if ((year === rangeStart.year && nextMonth >= rangeStart.month)) {
+            removeClassName(classNames.navInactive, graphic.nextMonth);
+            (nextMonth === rangeStart.month) && (graphic.prevMonth.className += SP + classNames.navInactive);
+            calendar.configure({
+              active: {
+                month: nextMonth,
+                year: year
+              }
+            });
+          }
         }
       }
     });
@@ -779,18 +806,36 @@ const UNDEFINED = undefined,
       innerHTML: '&#10095;',
       events: {
         click () {
-          let nextMonth = (calendar.info.active && calendar.info.active.month) + 1,
-            year = calendar.info.active && calendar.info.active.year;
+          let info = calendar.info,
+            graphic = calendar.graphic,
+            nextMonth = (info.active && info.active.month) + 1,
+            year = info.active && info.active.year,
+            rangeEnd = info.rangeEnd;
+
           if (nextMonth > 12) {
             nextMonth = 1;
             year++;
           }
-          calendar.configure({
-            active: {
-              month: nextMonth,
-              year: year
-            }
-          });
+
+          if (!rangeEnd || year < rangeEnd.year) {
+            removeClassName(classNames.navInactive, graphic.prevMonth);
+            removeClassName(classNames.navInactive, graphic.nextMonth);
+            calendar.configure({
+              active: {
+                month: nextMonth,
+                year: year
+              }
+            });
+          } else if ((year === rangeEnd.year && nextMonth <= rangeEnd.month)) {
+            (nextMonth === rangeEnd.month) && (graphic.nextMonth.className += SP + classNames.navInactive);
+            removeClassName(classNames.navInactive, graphic.prevMonth);
+            calendar.configure({
+              active: {
+                month: nextMonth,
+                year: year
+              }
+            });
+          }
         }
       }
     });
@@ -897,7 +942,7 @@ class Calendar {
       highlightClasses: []
     };
     // create the elements for first time only
-    init(calendar);
+    init(calendar, config);
     // configure Calendar with initial config
     calendar.configure(config, true);
   }
