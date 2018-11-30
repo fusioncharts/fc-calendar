@@ -1,148 +1,165 @@
 .fc-cal-container { /* Why need to define this explicitely */
-	box-sizing:border-box;
-	font-family: Source sans pro,sans-serif;
-	-webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Chrome/Safari/Opera */
-	-khtml-user-select: none; /* Konqueror */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none; /* Non-prefixed version, currently
+	box-sizing:border-box !important;
+	font-family: Source sans pro,sans-serif !important;
+	-webkit-touch-callout: none !important; /* iOS Safari */
+  -webkit-user-select: none !important; /* Chrome/Safari/Opera */
+	-khtml-user-select: none !important; /* Konqueror */
+	-moz-user-select: none !important; /* Firefox */
+	-ms-user-select: none !important; /* Internet Explorer/Edge */
+	user-select: none !important; /* Non-prefixed version, currently
 	                      not supported by any browser */
-  font-size:11px;
+  font-size:11px !important;
   width: 163px !important;
-  text-align: center;
-  vertical-align: top;
-  overflow: hidden;
-  background-color: #fff;
-  border: 1px solid #d6d6d6;
+  text-align: center !important;
+  vertical-align: top !important;
+  overflow: hidden !important;
+  background-color: #fff !important;
+  border: 1px solid #d6d6d6 !important;
   /* -moz-box-shadow:    0px 1px 3px 0px #d8d8d8; */
   /* -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8; */
   /* box-shadow:         0px 1px 3px 0px #d8d8d8; */
-  padding-bottom: 0;
-  margin: 0px 0px 0px 0px;
+  padding-bottom: 0 !important;
+  margin: 0px 0px 0px 0px !important;
   float: left;
   /* position: static !important; */
 }
 .fc-cal-header {
-    box-sizing:border-box;
+    box-sizing:border-box !important;
     /* color: #ffffff; */
-    height: 26px;
-    line-height: 10px;
-    padding: 8px 0;
-    font-size: 12px;
-    overflow: hidden;
-    background: #5648D4;
+    height: 26px !important;
+    line-height: 10px !important;
+    padding: 8px 0 !important;
+    font-size: 12px !important;
+    overflow: hidden !important;
+    background: #5648D4 !important;
 }
 .fc-cal-sub-header {
-  font-size:11px;
-  text-transform: uppercase;
-  color: #666;
-  overflow: hidden;
+  font-size:11px !important;
+  text-transform: uppercase !important;
+  color: #666 !important;
+  overflow: hidden !important;
 }
 .fc-cal-body {
-  color: #5F5F5F;
-  border: 0px;
+  color: #5F5F5F !important;
+  border: 0px !important;
 }
 /* Header Classes */
 .fc-cal-month-header {
-  display: block;
-  width: 99%;
-  float: left;
+  display: block !important;
+  width: 99% !important;
+  float: left !important;
+  background-color: #5648D4 !important;
 }
 .fc-cal-year-header {
-  display: block;
-  width: 35%;
-  float: right;
+  display: block !important;
+  width: 35% !important;
+  float: right !important;
 }
 .fc-cal-month {
-  display: inline-block;
-  font-weight: bold;
-  color: #F3F3F3;
-  padding-right: 5px;
-  padding-left: 5px;
+  display: inline-block !important;
+  font-weight: bold !important;
+  color: #F3F3F3 !important;
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+  background-color: #5648D4 !important;
 }
 .fc-cal-year {
-  display: inline-block;
-  padding-right: 5px;
-  padding-left: 5px;
+  display: inline-block !important;
+  padding-right: 5px !important;
+  padding-left: 5px !important;
 }
 .fc-cal-nav {
-  display: inline-block;
-  cursor:pointer;
-  color: #F3F3F3;
-  padding: 0 10px;
+  display: inline-block !important;
+  cursor:pointer !important;
+  color: #F3F3F3 !important;
+  padding: 0 10px !important;
+  background-color: #5648D4 !important;
 }
 .fc-cal-nav-next {
-  float: right;
+  float: right!important;
 }
 .fc-cal-nav-prev {
-  float: left;
+  float: left!important;
 }
 .fc-cal-nav-inactive {
-  cursor:default;
-  color: #5648D4
+  cursor:default!important;
+  color: #5648D4!important;
 }
 
 /* Sub-header Classes */
 .fc-cal-day {
-  box-sizing: border-box;
-  display: block;
-  float: left;
-  width: 14.28571%;
-  line-height: 2.3;
+  box-sizing: border-box!important;
+  display: block!important;
+  float: left!important;
+  width: 14.28571% !important;
+  line-height: 2.3 !important;
+  background-color: #fff !important;
 }
 
-.fc-cal-weekend {
-  background-color: #F7F6FF;
-}
 
 /* Body classes */
 
 .fc-cal-body ul {
-  display: table;
-  border-collapse: collapse;
+  display: table!important;
+  border-collapse: collapse!important;
 }
 
 .fc-cal-date-li {
-  box-sizing: border-box;
-  float: left;
-  list-style-type: none;
-  width: 14.28571%;
-  height: auto;
-  padding: 2px 0 2px;
-  margin: 0;
+  box-sizing: border-box!important;
+  float: left!important;
+  list-style-type: none!important;
+  width: 14.28571%!important;
+  height: auto!important;
+  padding: 2px 0 2px !important;
+  margin: 0 !important;
+  background-color: #fff !important;
 }
-
+.fc-cal-weekend {
+  background-color: #F7F6FF!important;
+}
 .fc-cal-date {
-  box-sizing: border-box;
-  text-align: center;
+  box-sizing: border-box!important;
+  text-align: center!important;
   /* line-height: 1.8; */
-  display: block;
-  margin: 0 auto;
-  border: 2px solid transparent;
-  width: 19px;
-  height: 19px;
-  border-radius: 10%;
+  display: block!important;
+  margin: 0 auto!important;
+  border: 2px solid transparent!important;
+  width: 19px!important;
+  height: 19px!important;
+  border-radius: 10%!important;
 }
 .fc-cal-date-enabled{
-  cursor: pointer;
+  cursor: pointer!important;
 }
 .fc-cal-date-enabled:hover {
-  color: #5F5F5F;
-  background-color: #dcdcdc;
-  border: 2px solid #dcdcdc;
+  color: #5F5F5F!important;
+  background-color: #dcdcdc!important;
+  border: 2px solid #dcdcdc!important;
 }
 .fc-cal-date-selected,
 .fc-cal-date-selected:hover {
-  background-color: #5648D4;
-  border: 2px solid #5648D4;
-  color: #fff;
+  background-color: #5648D4!important;
+  border: 2px solid #5648D4!important;
+  color: #fff!important;
 }
 
 .fc-cal-date-disabled {
-  color: #cacaca;
+  color: #cacaca!important;
 }
 
 .fc-cal-date-highlight {
-  border: 2px solid #2d72de;
+  border: 2px solid #2d72de!important;
+}
+
+.fc-cal-header li:before,li::after{
+  display: none !important;
+}
+.fc-cal-sub-header li:before,li::after{
+  display: none !important;
+}
+.fc-cal-body li:before,li::after{
+  display: none !important;
+}
+.fc-cal-month-header ul, .fc-cal-sub-header ul, .fc-cal-body ul{
+  background-color: #5648D4 !important;
 }
