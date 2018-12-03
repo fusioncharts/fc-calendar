@@ -160,6 +160,6 @@
 .fc-cal-body li:before,li::after{
   display: none !important;
 }
-.fc-cal-month-header ul, .fc-cal-sub-header ul, .fc-cal-body ul{
+.fc-cal-month-header ul{
   background-color: #5648D4 !important;
 }
