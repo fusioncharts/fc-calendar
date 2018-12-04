@@ -1,6 +1,6 @@
 .fc-cal-container { /* Why need to define this explicitely */
 	box-sizing:border-box !important;
-	font-family: Source sans pro,sans-serif !important;
+  font-family: Source sans pro,sans-serif !important;
 	-webkit-touch-callout: none !important; /* iOS Safari */
   -webkit-user-select: none !important; /* Chrome/Safari/Opera */
 	-khtml-user-select: none !important; /* Konqueror */
@@ -12,7 +12,6 @@
   width: 163px !important;
   text-align: center !important;
   vertical-align: top !important;
-  overflow: hidden !important;
   background-color: #fff !important;
   border: 1px solid #d6d6d6 !important;
   /* -moz-box-shadow:    0px 1px 3px 0px #d8d8d8; */
@@ -21,14 +20,14 @@
   padding-bottom: 0 !important;
   margin: 0px 0px 0px 0px !important;
   float: left;
+
   /* position: static !important; */
 }
-.fc-cal-header {
+.fc-cal-header{
     box-sizing:border-box !important;
     /* color: #ffffff; */
     height: 26px !important;
-    line-height: 10px !important;
-    padding: 8px 0 !important;
+    line-height: 20px !important;
     font-size: 12px !important;
     overflow: hidden !important;
     background: #5648D4 !important;
@@ -46,9 +45,10 @@
 /* Header Classes */
 .fc-cal-month-header {
   display: block !important;
-  width: 99% !important;
+  width: 100% !important;
   float: left !important;
   background-color: #5648D4 !important;
+  padding: 2px !important;
 }
 .fc-cal-year-header {
   display: block !important;
@@ -62,6 +62,7 @@
   padding-right: 5px !important;
   padding-left: 5px !important;
   background-color: #5648D4 !important;
+  font-size: 13px !important;
 }
 .fc-cal-year {
   display: inline-block !important;
@@ -162,4 +163,9 @@
 }
 .fc-cal-month-header ul{
   background-color: #5648D4 !important;
+}
+
+.fc-cal-sub-header .fc-cal-day{
+  padding: 0 !important;
+  margin: 0 !important;
 }
