@@ -922,7 +922,7 @@ class Calendar {
       // height: minHeight + PX,
       overflow: 'hidden'
     };
-    calendar.id = getuid();
+    calendar.id = config.id || getuid();
     calendar.events = {};
     calendar.info = {
       selectedDate: currentDate,
@@ -1109,6 +1109,15 @@ class Calendar {
     if (this.events && this.events[eventName]) {
       delete this.events[eventName];
     }
+  }
+
+  // dispose the dom elements
+  dispose () {
+    let graphic = this.graphic,
+      parentElement = graphic.parentElement,
+      container = graphic.container;
+
+    parentElement.removeChild(container);
   }
 }
 // attache to the window if availabel
