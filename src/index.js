@@ -26,12 +26,46 @@ const UNDEFINED = undefined,
     body: 'fc-cal-body',
     date: 'fc-cal-date',
     dateLI: 'fc-cal-date-li',
-    selectedDate: 'fc-cal-date-selected',
-    disabledDate: 'fc-cal-date-disabled',
-    enabledDate: 'fc-cal-date-enabled',
-    highlightedDate: 'fc-cal-date-highlight',
+    selectedDate: 'fc-cal-date-selected-default',
+    disabledDate: 'fc-cal-date-disabled-default',
+    enabledDate: 'fc-cal-date-enabled-default',
+    highlightedDate: 'fc-cal-date-highlight-default',
+    selectedDateCustom: 'fc-cal-date-selected',
+    enabledDateCustom: 'fc-cal-date-enabled',
+    disabledDateCustom: 'fc-cal-date-disabled',
+    highlightedDateCustom: 'fc-cal-date-highlight',
     dayCol: 'fc-cal-day-col',
     weekend: 'fc-cal-weekend'
+  },
+  inlineStyle = {
+    container: 'all:unset; box-sizing: border-box !important; -webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; vertical-align: top !important; padding-bottom: 0 !important; margin: 0px 0px 0px 0px !important; float: left;' +
+      'font-family: Source sans pro, sans-seriff !important; font-size: 11px !important; max-width: 163px !important; background-color: #fff !important; border: 1px solid #d6d6d6 !important;',
+    header: 'box-sizing: border-box !important; overflow: hidden !important; height: 26px !important; line-height: 2.4 !important' +
+      'font-size: 12px !important; background: #5648D4 !important;',
+    month: 'display: block !important; width: 100% !important; float: left !important; padding: 4px !important;' +
+      'font-weight: bold !important; color: #F3F3F3 !important; font-size: 13px !important;',
+    year: 'display: block !important; width: 35% !important; float: right !important;',
+    monthName: 'display: inline-block !important;',
+    yearName: 'display: inline-block !important; padding-right: 5px !important; padding-left: 5px !important;',
+    nav: 'display: inline-block !important; cursor: pointer !important; padding 0 10px !important;',
+    navPrev: 'float: left !important;',
+    navNext: 'float: right !important;',
+    navInactive: 'cursor: default !important;',
+    navMonth: '',
+    navYear: '',
+    subHeader: 'text-transform: uppercase !important; overflow: hidden !important; color: #666 !important;',
+    days: 'box-sizing: border-box !important; display: block !important; float: left !important; width: 14.28571% !important; line-height: 2.3 !important;',
+    indexedDays: '',
+    body: '',
+    date: 'box-sizing: border-box !important; text-align: center !important; display: block !important; margin: 0 auto !important;' +
+      'border: 0px solid transparent !important; width: 14.2857% !important; padding: 0px !important;',
+    dateLI: 'box-sizing: border-box !important; float: left !important; list-style-type: none !important; width: 14.28571% !important; height: auto!important;',
+    selectedDate: '',
+    disabledDate: '',
+    enabledDate: 'cursor: pointer !important;',
+    highlightedDate: '',
+    dayCol: '',
+    weekend: ''
   },
   ulPadZeroStyle = {
     padding: '0',
@@ -93,7 +127,7 @@ const UNDEFINED = undefined,
   displayMonth = calendar => {
     const {info, graphic} = calendar,
       {active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, showInactiveMonths} = info,
-      {monthStr, yearStr, dateElements, container, prevMonth, nextMonth, prevYear, nextYear} = graphic,
+      {monthStr, yearStr, dateElements, dateLiElements, container, prevMonth, nextMonth, prevYear, nextYear} = graphic,
       {month, year} = active,
       highlightMonth = highlight && highlight[year] && highlight[year][month],
       startingOfMonth = new Date(`${month}/1/${year}`),
@@ -120,6 +154,9 @@ const UNDEFINED = undefined,
     removeClassInChilds(container, classNames.enabledDate);
     removeClassInChilds(container, classNames.selectedDate);
     removeClassInChilds(container, classNames.disabledDate);
+    removeClassInChilds(container, classNames.enabledDateCustom);
+    removeClassInChilds(container, classNames.selectedDateCustom);
+    removeClassInChilds(container, classNames.disabledDateCustom);
     removeClassInChilds(container, classNames.navInactive);
 
     // make navigators inactive
@@ -149,12 +186,7 @@ const UNDEFINED = undefined,
         // create date elements
         element = createElement('li', {
           appendTo: dateList,
-          className: classNames.dateLI + weekend
-        });
-        element = createElement('span', {
-          appendTo: element,
-          className: classNames.date + SP + classNames.dayCol + DASH + (i % 7),
-          innerHTML: SPACE,
+          className: classNames.dateLI + weekend,
           events: {
             click: () => {
               const {info, events} = calendar,
@@ -175,6 +207,12 @@ const UNDEFINED = undefined,
             }
           }
         });
+        dateLiElements.push(element);
+        element = createElement('span', {
+          appendTo: element,
+          className: classNames.date + SP + classNames.dayCol + DASH + (i % 7),
+          innerHTML: SPACE
+        });
         dateElements.push(element);
       }
     }
@@ -186,16 +224,18 @@ const UNDEFINED = undefined,
       if (i < monthStaringWeekDay) {
         // show days of previous month
         dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
-        dateElements[i].className += SP + classNames.disabledDate;
-        dateElements[i].eventAttached && dateElements[i].removeEventListener('click', dateElements[i]._clickHandler);
-        dateElements[i].eventAttached = false;
+        dateLiElements[i].className += SP + classNames.disabledDate;
+        dateElements[i].className += SP + classNames.disabledDateCustom;
+        dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);
+        dateLiElements[i].eventAttached = false;
       } else if (i >= limit) {
         // show days of next month
         cur = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
         dateElements[i].innerHTML = (cur < 10 ? '0' + cur : cur);
-        dateElements[i].className += SP + classNames.disabledDate;
-        dateElements[i].eventAttached && dateElements[i].removeEventListener('click', dateElements[i]._clickHandler);
-        dateElements[i].eventAttached = false;
+        dateLiElements[i].className += SP + classNames.disabledDate;
+        dateElements[i].className += SP + classNames.disabledDateCustom;
+        dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);
+        dateLiElements[i].eventAttached = false;
       } else {
         j = i - monthStaringWeekDay + 1;
         dateElements[i].innerHTML = (j < 10 ? '0' + j : j);
@@ -205,9 +245,10 @@ const UNDEFINED = undefined,
           highlightInfo !== true && (highLightClass += SP + highlightInfo);
           highlightClasses.push(highLightClass);
         }
-        !dateElements[i].eventAttached && dateElements[i].addEventListener('click', dateElements[i]._clickHandler);
-        dateElements[i].eventAttached = true;
-        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
+        !dateLiElements[i].eventAttached && dateLiElements[i].addEventListener('click', dateLiElements[i]._clickHandler);
+        dateLiElements[i].eventAttached = true;
+        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDateCustom : classNames.enabledDateCustom) + (highlightInfo ? (highLightClass) : BLANK);
+        dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disabledDate : classNames.enabledDate) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
 
@@ -227,21 +268,24 @@ const UNDEFINED = undefined,
   },
   setSelectedDate = calendar => {
     const {selectedDate, active, startingPos} = calendar.info,
-      {dateElements, container} = calendar.graphic;
+      {container, dateLiElements, dateElements} = calendar.graphic;
     // if the selected date is on this month, heighlight it
     if (selectedDate.month === active.month && selectedDate.year === active.year) {
       // remove the class form the old element
       removeClassInChilds(container, classNames.selectedDate);
-      dateElements[(selectedDate.day + startingPos - 1)].className += SP + classNames.selectedDate;
+      dateLiElements[(selectedDate.day + startingPos - 1)].className += SP + classNames.selectedDate;
+      dateElements[(selectedDate.day + startingPos - 1)].className += SP + classNames.selectedDateCustom;
     }
   },
 
   // function to create dom elements
   createElement = (type, options) => {
-    const {appendTo, className, id, innerHTML, events} = options,
+    const {appendTo, className, inline, id, innerHTML, events} = options,
       element = document.createElement(type);
     // set the class
     className && (element.className = className);
+    // set inline style of the element
+    element.style = inline;
     // set the attributes
     id && (element.id = id);
     // add the innerHTML
@@ -264,19 +308,21 @@ const UNDEFINED = undefined,
   init = calendar => {
     const graphic = calendar.graphic,
       weekLabel = calendar.info.weekLabel,
-      {dateElements, dayElements} = graphic,
+      {dateElements, dayElements, dateLiElements} = graphic,
 
       // create the cntainer
       container = graphic.container = createElement('div', {
         appendTo: graphic.parentElement,
-        className: classNames.container,
+        inline: inlineStyle.container,
+        // className: classNames.container,
         id: calendar.id
       }),
 
       // create the header div
       calendarHeader = graphic.calendarHeader = createElement('div', {
         appendTo: container,
-        className: classNames.header
+        inline: inlineStyle.header
+        // className: classNames.header
       }),
 
       // Create the header UL
@@ -287,6 +333,7 @@ const UNDEFINED = undefined,
       // create the LI for month -header
       headerMonthLi = graphic.headerMonthLi = createElement('li', {
         appendTo: headerUl,
+        inline: inlineStyle.month,
         className: classNames.month
       }),
 
@@ -297,7 +344,8 @@ const UNDEFINED = undefined,
 
       calendarSubHeader = graphic.calendarSubHeader = createElement('div', {
         appendTo: container,
-        className: classNames.subHeader
+        // className: classNames.subHeader,
+        inline: inlineStyle.subHeader
       }),
 
       weekDays = graphic.weekDays = createElement('ul', {
@@ -366,7 +414,8 @@ const UNDEFINED = undefined,
     });
     graphic.monthStr = createElement('li', {
       appendTo: headerMonthUl,
-      className: classNames.monthName
+      inline: inlineStyle.monthName
+      // className: classNames.monthName
     });
     graphic.nextMonth = createElement('li', {
       appendTo: headerMonthUl,
@@ -414,7 +463,14 @@ const UNDEFINED = undefined,
       // create week elements
       element = createElement('li', {
         appendTo: weekDays,
+        inline: inlineStyle.days
+        // innerHTML: weekLabel[i % 7],
+        // className: classNames.days + SP + classNames.indexedDays + (i % 7) + weekend
+      });
+      element = createElement('span', {
+        appendTo: element,
         innerHTML: weekLabel[i % 7],
+        inline: 'display: block !important;',
         className: classNames.days + SP + classNames.indexedDays + (i % 7) + weekend
       });
       dayElements.push(element);
@@ -426,11 +482,14 @@ const UNDEFINED = undefined,
       // create date elements
       element = createElement('li', {
         appendTo: days,
+        inline: inlineStyle.date,
         className: classNames.dateLI + weekend
       });
+      dateLiElements.push(element);
       element = createElement('span', {
         appendTo: element,
         className: classNames.date + SP + classNames.dayCol + DASH + (i % 7),
+        inline: 'display: block !important; padding: 4px 0px !important;',
         innerHTML: SPACE,
         events: {
           click: () => {
@@ -480,6 +539,7 @@ class Calendar {
     calendar.graphic = {
       parentElement: config.container || document.body,
       dateElements: [],
+      dateLiElements: [],
       dayElements: []
     };
     calendar.style = {

@@ -2,7 +2,7 @@
   all:unset;
 }
 
-.fc-cal-container { /* Why need to define this explicitely */
+._fc-cal-container { /* Why need to define this explicitely */
   all:unset;
   box-sizing:border-box !important;
   font-family: Source sans pro,sans-serif !important;
@@ -28,7 +28,7 @@
 
   /* position: static !important; */
 }
-.fc-cal-header{
+._fc-cal-header{
     box-sizing:border-box !important;
     /* color: #ffffff; */
     height: 26px !important;
@@ -50,7 +50,7 @@
   border: 0px !important;
 }
 /* Header Classes */
-.fc-cal-month-header {
+._fc-cal-month-header {
   display: block !important;
   width: 100% !important;
   float: left !important;
@@ -98,7 +98,7 @@
 }
 
 /* Sub-header Classes */
-.fc-cal-day {
+._fc-cal-day {
   box-sizing: border-box!important;
   display: block!important;
   float: left!important;
@@ -106,7 +106,6 @@
   line-height: 2.3 !important;
   background-color: #fff !important;
 }
-
 
 /* Body classes */
 
@@ -128,7 +127,7 @@
 .fc-cal-weekend {
   background-color: #F7F6FF!important;
 }
-.fc-cal-date {
+._fc-cal-date {
   box-sizing: border-box!important;
   text-align: center!important;
   /* line-height: 1.8; */
@@ -139,30 +138,30 @@
   height: 19px!important;
   border-radius: 10%!important;
 }
-.fc-cal-date-enabled{
+.fc-cal-date-enabled-default{
   cursor: pointer!important;
 }
-.fc-cal-date-enabled:hover {
+.fc-cal-date-enabled-default:hover {
   color: #5F5F5F!important;
   -webkit-text-fill-color:#5F5F5F !important;
   background-color: #dcdcdc!important;
-  border: 2px solid #dcdcdc!important;
+  /* border: 2px solid #dcdcdc!important; */
 }
-.fc-cal-date-selected,
-.fc-cal-date-selected:hover {
+.fc-cal-date-selected-default,
+.fc-cal-date-selected-default:hover {
   background-color: #5648D4!important;
-  border: 2px solid #5648D4!important;
+  /* border: 2px solid #5648D4!important; */
   color: #F3F3F3!important;
   -webkit-text-fill-color:#F3F3F3 !important;
 }
 
-.fc-cal-date-disabled {
+.fc-cal-date-disabled-default {
   color: #cacaca!important;
   -webkit-text-fill-color:#cacaca !important;
 }
 
-.fc-cal-date-highlight {
-  border: 2px solid #2d72de!important;
+.fc-cal-date-highlight-default {
+  /* border: 2px solid #2d72de!important; */
 }
 
 .fc-cal-header li:before,li::after{
