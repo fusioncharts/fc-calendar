@@ -149,6 +149,10 @@ const UNDEFINED = undefined,
       disablePrevMonthLi = rangeStart && rangeStart.year === active.year && rangeStart.month === active.month,
       disableNextMonthLi = rangeEnd && rangeEnd.year === active.year && rangeEnd.month === active.month;
 
+    info.curMonthInfo = {
+      start: monthStaringDay,
+      end: limit
+    };
     dateList = graphic.calendarBody.children[0];
     // remove previously applied Classes
     removeClassInChilds(container, classNames.enableddatedefault);
@@ -197,7 +201,9 @@ const UNDEFINED = undefined,
                   month: active.month,
                   year: active.year
                 };
-              if (validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
+              if (tempDate.day >= 1 &&
+                tempDate.day <= (info.curMonthInfo.end - info.startingPos) &&
+                validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
                 selectedDate.day = tempDate.day;
                 selectedDate.month = tempDate.month;
                 selectedDate.year = tempDate.year;
@@ -527,7 +533,9 @@ const UNDEFINED = undefined,
                 month: active.month,
                 year: active.year
               };
-            if (validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
+            if (tempDate.day >= 1 &&
+              tempDate.day <= (info.curMonthInfo.end - info.startingPos) &&
+              validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
               selectedDate.day = tempDate.day;
               selectedDate.month = tempDate.month;
               selectedDate.year = tempDate.year;

@@ -111,7 +111,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, ".fc-cal-date-li {\n  box-sizing: border-box!important;\n  float: left!important;\n  list-style-type: none!important;\n  width: 14.28571%!important;\n  height: auto!important;\n  padding: 2px 0 2px !important;\n  margin: 0 !important;\n  background-color: #fff !important;\n}\n.fc-cal-weekend {\n  background-color: #F7F6FF!important;\n}\n.fc-cal-date-enabled-default{\n  cursor: pointer!important;\n}\n.fc-cal-date-enabled-default:hover {\n  color: #5F5F5F!important;\n  background-color: #dcdcdc!important;\n}\n.fc-cal-date-selected-default,\n.fc-cal-date-selected-default:hover {\n  background-color: #5648D4!important;\n  color: #F3F3F3!important;\n}\n\n.fc-cal-date-disabled-default {\n  color: #cacaca!important;\n  -webkit-text-fill-color:#cacaca !important;\n}\n", ""]);
+exports.push([module.i, ".fc-cal-date-li {\n  box-sizing: border-box!important;\n  float: left!important;\n  list-style-type: none!important;\n  width: 14.28571%!important;\n  height: auto!important;\n  padding: 2px 0 2px !important;\n  margin: 0 !important;\n  background-color: #fff !important;\n}\n.fc-cal-nav-inactive {\n  opacity: 0;\n  cursor: default !important;\n}\n.fc-cal-weekend {\n  background-color: #F7F6FF!important;\n}\n.fc-cal-date-enabled-default{\n  cursor: pointer!important;\n}\n.fc-cal-date-enabled-default:hover {\n  color: #5F5F5F!important;\n  background-color: #dcdcdc!important;\n}\n.fc-cal-date-selected-default,\n.fc-cal-date-selected-default:hover {\n  background-color: #5648D4!important;\n  color: #F3F3F3!important;\n}\n\n.fc-cal-date-disabled-default {\n  color: #cacaca!important;\n  -webkit-text-fill-color:#cacaca !important;\n}\n", ""]);
 
 // exports
 
@@ -581,6 +581,10 @@ const UNDEFINED = undefined,
       disablePrevMonthLi = rangeStart && rangeStart.year === active.year && rangeStart.month === active.month,
       disableNextMonthLi = rangeEnd && rangeEnd.year === active.year && rangeEnd.month === active.month;
 
+    info.curMonthInfo = {
+      start: monthStaringDay,
+      end: limit
+    };
     dateList = graphic.calendarBody.children[0];
     // remove previously applied Classes
     removeClassInChilds(container, classNames.enableddatedefault);
@@ -629,7 +633,9 @@ const UNDEFINED = undefined,
                   month: active.month,
                   year: active.year
                 };
-              if (validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
+              if (tempDate.day >= 1 &&
+                tempDate.day <= (info.curMonthInfo.end - info.startingPos) &&
+                validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
                 selectedDate.day = tempDate.day;
                 selectedDate.month = tempDate.month;
                 selectedDate.year = tempDate.year;
@@ -959,7 +965,9 @@ const UNDEFINED = undefined,
                 month: active.month,
                 year: active.year
               };
-            if (validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
+            if (tempDate.day >= 1 &&
+              tempDate.day <= (info.curMonthInfo.end - info.startingPos) &&
+              validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {
               selectedDate.day = tempDate.day;
               selectedDate.month = tempDate.month;
               selectedDate.year = tempDate.year;

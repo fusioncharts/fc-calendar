@@ -8,6 +8,10 @@
   margin: 0 !important;
   background-color: #fff !important;
 }
+.fc-cal-nav-inactive {
+  opacity: 0;
+  cursor: default !important;
+}
 .fc-cal-weekend {
   background-color: #F7F6FF!important;
 }
