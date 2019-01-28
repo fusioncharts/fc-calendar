@@ -28,10 +28,10 @@ const UNDEFINED = undefined,
     dateLI: 'fc-cal-date-li',
     selecteddatedefault: 'fc-cal-date-selected-default',
     disableddatedefault: 'fc-cal-date-disabled-default',
-    enableddatedefault: 'fc-cal-date-enabled-default',
+    normaldatedefault: 'fc-cal-date-normal-default',
     highlighteddatedefault: 'fc-cal-date-highlight-default',
     selecteddate: 'fc-cal-date-selected',
-    enableddate: 'fc-cal-date-enabled',
+    normaldate: 'fc-cal-date-normal',
     disableddate: 'fc-cal-date-disabled',
     highlighteddate: 'fc-cal-date-highlight',
     daycol: 'fc-cal-day-col',
@@ -60,9 +60,9 @@ const UNDEFINED = undefined,
     date: 'box-sizing: border-box !important; text-align: center !important; display: block !important; margin: 0 auto !important;' +
       'border: 0px solid transparent !important; width: 14.2857% !important; padding: 0px !important;',
     dateLI: 'box-sizing: border-box !important; float: left !important; list-style-type: none !important; width: 14.28571% !important; height: auto!important;',
-    selectedDate: '',
-    disabledDate: '',
-    enabledDate: 'cursor: pointer !important;',
+    selecteddate: '',
+    disableddate: '',
+    normaldate: 'cursor: pointer !important;',
     highlightedDate: '',
     daycol: '',
     weekend: ''
@@ -155,10 +155,10 @@ const UNDEFINED = undefined,
     };
     dateList = graphic.calendarBody.children[0];
     // remove previously applied Classes
-    removeClassInChilds(container, classNames.enableddatedefault);
+    removeClassInChilds(container, classNames.normaldatedefault);
     removeClassInChilds(container, classNames.selecteddatedefault);
     removeClassInChilds(container, classNames.disableddatedefault);
-    removeClassInChilds(container, classNames.enableddate);
+    removeClassInChilds(container, classNames.normaldate);
     removeClassInChilds(container, classNames.selecteddate);
     removeClassInChilds(container, classNames.disableddate);
     removeClassInChilds(container, classNames.navinactive);
@@ -253,8 +253,8 @@ const UNDEFINED = undefined,
         }
         !dateLiElements[i].eventAttached && dateLiElements[i].addEventListener('click', dateLiElements[i]._clickHandler);
         dateLiElements[i].eventAttached = true;
-        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.enableddate) + (highlightInfo ? (highLightClass) : BLANK);
-        dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddatedefault : classNames.enableddatedefault) + (highlightInfo ? (highLightClass) : BLANK);
+        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.normaldate) + (highlightInfo ? (highLightClass) : BLANK);
+        dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddatedefault : classNames.normaldatedefault) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
 
@@ -774,6 +774,14 @@ class Calendar {
     }
   }
 
+  getDimension () {
+    let graphic = this.graphic;
+
+    return {
+      width: graphic.container.offsetWidth,
+      height: graphic.container.offsetHeight
+    };
+  }
   // dispose the dom elements
   dispose () {
     let graphic = this.graphic,

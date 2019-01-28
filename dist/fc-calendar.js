@@ -111,7 +111,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, ".fc-cal-date-li {\n  box-sizing: border-box!important;\n  float: left!important;\n  list-style-type: none!important;\n  width: 14.28571%!important;\n  height: auto!important;\n  padding: 2px 0 2px !important;\n  margin: 0 !important;\n  background-color: #fff !important;\n}\n.fc-cal-nav-inactive {\n  opacity: 0;\n  cursor: default !important;\n}\n.fc-cal-weekend {\n  background-color: #F7F6FF!important;\n}\n.fc-cal-date-enabled-default{\n  cursor: pointer!important;\n}\n.fc-cal-date-enabled-default:hover {\n  color: #5F5F5F!important;\n  background-color: #dcdcdc!important;\n}\n.fc-cal-date-selected-default,\n.fc-cal-date-selected-default:hover {\n  background-color: #5648D4!important;\n  color: #F3F3F3!important;\n}\n\n.fc-cal-date-disabled-default {\n  color: #cacaca!important;\n  -webkit-text-fill-color:#cacaca !important;\n}\n", ""]);
+exports.push([module.i, ".fc-cal-date-li {\n  box-sizing: border-box!important;\n  float: left!important;\n  list-style-type: none!important;\n  width: 14.28571%!important;\n  height: auto!important;\n  padding: 2px 0 2px !important;\n  margin: 0 !important;\n  background-color: #fff !important;\n}\n.fc-cal-nav-inactive {\n  opacity: 0;\n  cursor: default !important;\n}\n.fc-cal-weekend {\n  background-color: #F7F6FF!important;\n}\n.fc-cal-date-normal-default{\n  cursor: pointer!important;\n}\n.fc-cal-date-normal-default:hover {\n  color: #5F5F5F!important;\n  background-color: #dcdcdc!important;\n}\n.fc-cal-date-selected-default,\n.fc-cal-date-selected-default:hover {\n  background-color: #5648D4!important;\n  color: #F3F3F3!important;\n}\n\n.fc-cal-date-disabled-default {\n  color: #cacaca!important;\n  -webkit-text-fill-color:#cacaca !important;\n}\n", ""]);
 
 // exports
 
@@ -460,10 +460,10 @@ const UNDEFINED = undefined,
     dateLI: 'fc-cal-date-li',
     selecteddatedefault: 'fc-cal-date-selected-default',
     disableddatedefault: 'fc-cal-date-disabled-default',
-    enableddatedefault: 'fc-cal-date-enabled-default',
+    normaldatedefault: 'fc-cal-date-normal-default',
     highlighteddatedefault: 'fc-cal-date-highlight-default',
     selecteddate: 'fc-cal-date-selected',
-    enableddate: 'fc-cal-date-enabled',
+    normaldate: 'fc-cal-date-normal',
     disableddate: 'fc-cal-date-disabled',
     highlighteddate: 'fc-cal-date-highlight',
     daycol: 'fc-cal-day-col',
@@ -492,9 +492,9 @@ const UNDEFINED = undefined,
     date: 'box-sizing: border-box !important; text-align: center !important; display: block !important; margin: 0 auto !important;' +
       'border: 0px solid transparent !important; width: 14.2857% !important; padding: 0px !important;',
     dateLI: 'box-sizing: border-box !important; float: left !important; list-style-type: none !important; width: 14.28571% !important; height: auto!important;',
-    selectedDate: '',
-    disabledDate: '',
-    enabledDate: 'cursor: pointer !important;',
+    selecteddate: '',
+    disableddate: '',
+    normaldate: 'cursor: pointer !important;',
     highlightedDate: '',
     daycol: '',
     weekend: ''
@@ -587,10 +587,10 @@ const UNDEFINED = undefined,
     };
     dateList = graphic.calendarBody.children[0];
     // remove previously applied Classes
-    removeClassInChilds(container, classNames.enableddatedefault);
+    removeClassInChilds(container, classNames.normaldatedefault);
     removeClassInChilds(container, classNames.selecteddatedefault);
     removeClassInChilds(container, classNames.disableddatedefault);
-    removeClassInChilds(container, classNames.enableddate);
+    removeClassInChilds(container, classNames.normaldate);
     removeClassInChilds(container, classNames.selecteddate);
     removeClassInChilds(container, classNames.disableddate);
     removeClassInChilds(container, classNames.navinactive);
@@ -685,8 +685,8 @@ const UNDEFINED = undefined,
         }
         !dateLiElements[i].eventAttached && dateLiElements[i].addEventListener('click', dateLiElements[i]._clickHandler);
         dateLiElements[i].eventAttached = true;
-        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.enableddate) + (highlightInfo ? (highLightClass) : BLANK);
-        dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddatedefault : classNames.enableddatedefault) + (highlightInfo ? (highLightClass) : BLANK);
+        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.normaldate) + (highlightInfo ? (highLightClass) : BLANK);
+        dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddatedefault : classNames.normaldatedefault) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
 
@@ -1206,6 +1206,14 @@ class Calendar {
     }
   }
 
+  getDimension () {
+    let graphic = this.graphic;
+
+    return {
+      width: graphic.container.offsetWidth,
+      height: graphic.container.offsetHeight
+    };
+  }
   // dispose the dom elements
   dispose () {
     let graphic = this.graphic,

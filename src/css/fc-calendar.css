@@ -15,10 +15,10 @@
 .fc-cal-weekend {
   background-color: #F7F6FF!important;
 }
-.fc-cal-date-enabled-default{
+.fc-cal-date-normal-default{
   cursor: pointer!important;
 }
-.fc-cal-date-enabled-default:hover {
+.fc-cal-date-normal-default:hover {
   color: #5F5F5F!important;
   background-color: #dcdcdc!important;
 }
