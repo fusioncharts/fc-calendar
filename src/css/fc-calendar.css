@@ -1,119 +1,3 @@
-.fc-cal-container div,.fc-cal-container input,.fc-cal-container ul, .fc-cal-container ul>li{
-  all:unset;
-}
-
-._fc-cal-container { /* Why need to define this explicitely */
-  all:unset;
-  box-sizing:border-box !important;
-  font-family: Source sans pro,sans-serif !important;
-	-webkit-touch-callout: none !important; /* iOS Safari */
-  -webkit-user-select: none !important; /* Chrome/Safari/Opera */
-	-khtml-user-select: none !important; /* Konqueror */
-	-moz-user-select: none !important; /* Firefox */
-	-ms-user-select: none !important; /* Internet Explorer/Edge */
-	user-select: none !important; /* Non-prefixed version, currently
-	                      not supported by any browser */
-  font-size:11px !important;
-  width: 163px !important;
-  text-align: center !important;
-  vertical-align: top !important;
-  background-color: #fff !important;
-  border: 1px solid #d6d6d6 !important;
-  /* -moz-box-shadow:    0px 1px 3px 0px #d8d8d8; */
-  /* -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8; */
-  /* box-shadow:         0px 1px 3px 0px #d8d8d8; */
-  padding-bottom: 0 !important;
-  margin: 0px 0px 0px 0px !important;
-  float: left;
-
-  /* position: static !important; */
-}
-._fc-cal-header{
-    box-sizing:border-box !important;
-    /* color: #ffffff; */
-    height: 26px !important;
-    line-height: 22px !important;
-    font-size: 12px !important;
-    overflow: hidden !important;
-    background: #5648D4 !important;
-}
-.fc-cal-sub-header {
-  font-size:11px !important;
-  text-transform: uppercase !important;
-  color: #666 !important;
-  -webkit-text-fill-color:#666 !important;
-  overflow: hidden !important;
-}
-.fc-cal-body {
-  color: #5F5F5F !important;
-  -webkit-text-fill-color:#5F5F5F !important;
-  border: 0px !important;
-}
-/* Header Classes */
-._fc-cal-month-header {
-  display: block !important;
-  width: 100% !important;
-  float: left !important;
-  background-color: #5648D4 !important;
-  padding: 2px !important;
-}
-.fc-cal-year-header {
-  display: block !important;
-  width: 35% !important;
-  float: right !important;
-}
-.fc-cal-month {
-  display: inline-block !important;
-  font-weight: bold !important;
-  color: #F3F3F3 !important;
-  -webkit-text-fill-color:#F3F3F3 !important;
-  /* padding-right: 5px !important;
-  padding-left: 5px !important; Commenting out the padding as causing issue in safari for long month name eg. september*/
-  background-color: #5648D4 !important;
-  font-size: 13px !important;
-}
-.fc-cal-year {
-  display: inline-block !important;
-  padding-right: 5px !important;
-  padding-left: 5px !important;
-}
-.fc-cal-nav {
-  display: inline-block !important;
-  cursor:pointer !important;
-  color: #F3F3F3 !important;
-  -webkit-text-fill-color:#F3F3F3 !important;
-  padding: 0 10px !important;
-  background-color: #5648D4 !important;
-}
-.fc-cal-nav-next {
-  float: right!important;
-}
-.fc-cal-nav-prev {
-  float: left!important;
-}
-.fc-cal-nav-inactive {
-  cursor:default!important;
-  color: #5648D4!important;
-  -webkit-text-fill-color:#5648D4!important;
-}
-
-/* Sub-header Classes */
-._fc-cal-day {
-  box-sizing: border-box!important;
-  display: block!important;
-  float: left!important;
-  width: 14.28571% !important;
-  line-height: 2.3 !important;
-  background-color: #fff !important;
-}
-
-/* Body classes */
-
-.fc-cal-body ul {
-  display: table!important;
-  border-collapse: collapse!important;
-}
-
 .fc-cal-date-li {
   box-sizing: border-box!important;
   float: left!important;
@@ -127,57 +11,20 @@
 .fc-cal-weekend {
   background-color: #F7F6FF!important;
 }
-._fc-cal-date {
-  box-sizing: border-box!important;
-  text-align: center!important;
-  /* line-height: 1.8; */
-  display: block!important;
-  margin: 0 auto!important;
-  border: 2px solid transparent!important;
-  width: 19px!important;
-  height: 19px!important;
-  border-radius: 10%!important;
-}
 .fc-cal-date-enabled-default{
   cursor: pointer!important;
 }
 .fc-cal-date-enabled-default:hover {
   color: #5F5F5F!important;
-  -webkit-text-fill-color:#5F5F5F !important;
   background-color: #dcdcdc!important;
-  /* border: 2px solid #dcdcdc!important; */
 }
 .fc-cal-date-selected-default,
 .fc-cal-date-selected-default:hover {
   background-color: #5648D4!important;
-  /* border: 2px solid #5648D4!important; */
   color: #F3F3F3!important;
-  -webkit-text-fill-color:#F3F3F3 !important;
 }
 
 .fc-cal-date-disabled-default {
   color: #cacaca!important;
   -webkit-text-fill-color:#cacaca !important;
-}
-
-.fc-cal-date-highlight-default {
-  /* border: 2px solid #2d72de!important; */
-}
-
-.fc-cal-header li:before,li::after{
-  display: none !important;
-}
-.fc-cal-sub-header li:before,li::after{
-  display: none !important;
-}
-.fc-cal-body li:before,li::after{
-  display: none !important;
-}
-.fc-cal-month-header ul{
-  background-color: #5648D4 !important;
-}
-
-.fc-cal-sub-header .fc-cal-day{
-  padding: 0 !important;
-  margin: 0 !important;
 }
