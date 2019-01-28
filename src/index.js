@@ -39,7 +39,7 @@ const UNDEFINED = undefined,
   },
   inlineStyle = {
     container: 'box-sizing: border-box !important; -webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; vertical-align: top !important; padding-bottom: 0 !important; margin: 0px 0px 0px 0px !important; float: left;' +
-      'font-family: Source sans pro, sans-seriff !important; font-size: 11px !important; max-width: 163px !important; background-color: #fff !important;',
+      'font-family: Source sans pro, sans-seriff !important; font-size: 11px !important; max-width: 163px !important; background-color: #fff !important; border: 1px solid #a5a4a4',
     header: 'box-sizing: border-box !important; overflow: hidden !important; height: 26px !important; line-height: 2.4 !important' +
       'font-size: 12px !important; background: #5648D4 !important;',
     month: 'display: block !important; width: 100% !important; float: left !important; padding: 4px !important;' +
@@ -56,7 +56,7 @@ const UNDEFINED = undefined,
     subheader: 'text-transform: uppercase !important; overflow: hidden !important; color: #666 !important;',
     days: 'box-sizing: border-box !important; display: block !important; float: left !important; width: 14.28571% !important; line-height: 2.3 !important;',
     indexedDays: '',
-    body: 'display: table !important; border-collapse: collapse !important; padding-left: 1px !important;',
+    body: 'display: table !important; border-collapse: collapse !important; padding-left: 2px !important;',
     date: 'box-sizing: border-box !important; text-align: center !important; display: block !important; margin: 0 auto !important;' +
       'border: 0px solid transparent !important; width: 14.2857% !important; padding: 0px !important;',
     dateLI: 'box-sizing: border-box !important; float: left !important; list-style-type: none !important; width: 14.28571% !important; height: auto!important;',
