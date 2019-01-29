@@ -35,28 +35,29 @@ const UNDEFINED = undefined,
     disableddate: 'fc-cal-date-disabled',
     highlighteddate: 'fc-cal-date-highlight',
     daycol: 'fc-cal-day-col',
+    weekenddefault: 'fc-cal-weekend-default',
     weekend: 'fc-cal-weekend'
   },
   inlineStyle = {
     container: 'box-sizing: border-box !important; -webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; vertical-align: top !important; padding-bottom: 0 !important; margin: 0px 0px 0px 0px !important; float: left;' +
       'font-family: Source sans pro, sans-seriff !important; font-size: 11px !important; max-width: 163px !important; background-color: #fff !important; border: 1px solid #a5a4a4;',
     header: 'box-sizing: border-box !important; overflow: hidden !important; height: 26px !important; line-height: 2.4 !important' +
-      'font-size: 12px !important; background: #5648D4 !important;',
-    month: 'display: block !important; width: 100% !important; float: left !important; padding: 4px !important;' +
+      'font-size: 12px !important; background-color: #5648D4 !important;',
+    month: 'display: block !important; width: 100% !important; float: left !important; height: 100% !important;' +
       'font-weight: bold !important; color: #F3F3F3 !important; font-size: 13px !important;',
     year: 'display: block !important; width: 35% !important; float: right !important;',
-    monthname: 'display: inline-block !important;',
+    monthname: 'display: inline-block !important; padding: 4px !important;',
     yearname: 'display: inline-block !important; padding-right: 5px !important; padding-left: 5px !important;',
-    nav: 'display: inline-block !important; cursor: pointer !important; color: #F3F3F3 !important; background-color: #5648D4 !important;',
-    navprev: 'float: left !important; padding-left: 4px !important;',
-    navnext: 'float: right !important; padding-right: 12px !important;',
+    nav: 'display: inline-block !important; cursor: pointer !important; padding: 4px;',
+    navprev: 'float: left !important; padding-left: 8px !important;',
+    navnext: 'float: right !important; padding-right: 8px !important;',
     navinactive: 'cursor: default !important;',
     navmonth: '',
     navyear: '',
     subheader: 'text-transform: uppercase !important; overflow: hidden !important; color: #666 !important;',
     days: 'box-sizing: border-box !important; display: block !important; float: left !important; width: 14.28571% !important; line-height: 2.3 !important;',
-    indexedDays: '',
-    body: 'display: table !important; border-collapse: collapse !important; padding-left: 2px !important;  padding-left: 2px !important;',
+    indexeddays: '',
+    body: 'width: 100% !important;',
     date: 'box-sizing: border-box !important; text-align: center !important; display: block !important; margin: 0 auto !important;' +
       'border: 0px solid transparent !important; width: 14.2857% !important; padding: 0px !important;',
     dateLI: 'box-sizing: border-box !important; float: left !important; list-style-type: none !important; width: 14.28571% !important; height: auto!important;',
@@ -65,6 +66,7 @@ const UNDEFINED = undefined,
     normaldate: 'cursor: pointer !important;',
     highlightedDate: '',
     daycol: '',
+    weekenddefault: 'background-color: #F7F6FF!important;',
     weekend: ''
   },
   ulPadZeroStyle = {
@@ -144,6 +146,7 @@ const UNDEFINED = undefined,
       highlightInfo,
       highLightClass,
       dateList,
+      weekenddefault,
       weekend,
       element,
       disablePrevMonthLi = rangeStart && rangeStart.year === active.year && rangeStart.month === active.month,
@@ -186,11 +189,13 @@ const UNDEFINED = undefined,
     if (dateList.childElementCount < 42) {
       while (dateList.childElementCount < 42) {
         i = dateList.childElementCount;
+        weekenddefault = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekenddefault : BLANK);
         weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK);
+
         // create date elements
         element = createElement('li', {
           appendTo: dateList,
-          className: weekend,
+          className: weekenddefault,
           events: {
             click: () => {
               const {info, events} = calendar,
@@ -216,7 +221,7 @@ const UNDEFINED = undefined,
         dateLiElements.push(element);
         element = createElement('span', {
           appendTo: element,
-          className: classNames.date + SP + classNames.daycol + DASH + (i % 7),
+          className: classNames.date + SP + classNames.daycol + DASH + (i % 7) + weekend,
           innerHTML: SPACE
         });
         dateElements.push(element);
@@ -293,7 +298,7 @@ const UNDEFINED = undefined,
     // set the class
     className && (element.className = className);
     // set inline style of the element
-    element.setAttribute('style', inline);
+    inline && element.setAttribute('style', inline);
     // set the attributes
     id && (element.id = id);
     // add the innerHTML
@@ -318,7 +323,7 @@ const UNDEFINED = undefined,
       weekLabel = calendar.info.weekLabel,
       {dateElements, dayElements, dateLiElements} = graphic,
 
-      classNames = calendar.classNames = Object.assign({}, defaultClassNames, config.customCssClass),
+      classNames = calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass),
       // create the cntainer
       container = graphic.container = createElement('div', {
         appendTo: graphic.parentElement,
@@ -337,7 +342,8 @@ const UNDEFINED = undefined,
       // Create the header UL
       headerUl = graphic.headerUl = createElement('ul', {
         appendTo: calendarHeader,
-        className: classNames.header
+        className: classNames.header,
+        inline: 'height: 100% !important;'
       }),
 
       // create the LI for month -header
@@ -349,7 +355,8 @@ const UNDEFINED = undefined,
       // Create the UL for month
       headerMonthUl = graphic.headerMonthUl = createElement('ul', {
         appendTo: headerMonthLi,
-        className: classNames.month
+        className: classNames.month,
+        inline: 'height: 100% !important;'
       }),
 
       calendarSubHeader = graphic.calendarSubHeader = createElement('div', {
@@ -376,7 +383,8 @@ const UNDEFINED = undefined,
 
     let element,
       i,
-      weekend;
+      weekend,
+      weekenddefault;
 
     // set the container style
     setStyle(container, calendar.style);
@@ -492,35 +500,36 @@ const UNDEFINED = undefined,
     // Create the days of week list items
     for (i = 1; i < 8; i++) {
       weekend = SP + (i > 5 ? classNames.weekend : BLANK);
+      weekenddefault = SP + (i > 5 ? classNames.weekenddefault : BLANK);
       // create week elements
       element = createElement('li', {
         appendTo: weekDays,
-        inline: inlineStyle.days
-        // innerHTML: weekLabel[i % 7],
-        // className: classNames.days + SP + classNames.indexedDays + (i % 7) + weekend
+        inline: inlineStyle.days,
+        className: weekenddefault
       });
       element = createElement('span', {
         appendTo: element,
         innerHTML: weekLabel[i % 7],
         inline: 'display: block !important;',
-        className: classNames.days + SP + classNames.indexedDays + (i % 7) + weekend
+        className: classNames.days + SP + classNames.indexeddays + (i % 7) + weekend
       });
       dayElements.push(element);
     }
 
     // Create the days of month list items
     for (let i = 0; i < 42; i++) {
+      weekenddefault = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekenddefault : BLANK);
       weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK);
       // create date elements
       element = createElement('li', {
         appendTo: days,
         inline: inlineStyle.date,
-        className: classNames.dateLI + weekend
+        className: classNames.dateLI + weekenddefault
       });
       dateLiElements.push(element);
       element = createElement('span', {
         appendTo: element,
-        className: classNames.date + SP + classNames.daycol + DASH + (i % 7),
+        className: classNames.date + SP + classNames.daycol + DASH + (i % 7) + weekend,
         inline: 'display: block !important; padding: 4px 0px !important;',
         innerHTML: SPACE,
         events: {
@@ -570,6 +579,7 @@ class Calendar {
         month: (today.getMonth() + 1),
         year: today.getFullYear()
       };
+    calendar._customCssClass = {};
     calendar.graphic = {
       parentElement: config.container || document.body,
       dateElements: [],
@@ -603,6 +613,9 @@ class Calendar {
       hAlignment: 'left',
       highlightClasses: []
     };
+    if (config.customCssClass) {
+      calendar._customCssClass = config.customCssClass;
+    }
     // create the elements for first time only
     init(calendar, config);
     // configure Calendar with initial config
@@ -623,7 +636,10 @@ class Calendar {
       return;
     }
 
-    calendar.classNames = Object.assign({}, defaultClassNames, config.customCssClass);
+    if (config.customCssClass) {
+      calendar._customCssClass = config.customCssClass;
+    }
+    calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass);
     // set container
     if (config.container && (parentElement = document.getElementById(config.container))) {
       graphic.parentElement = parentElement;
