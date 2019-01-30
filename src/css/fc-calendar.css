@@ -12,7 +12,7 @@
   opacity: 0;
   cursor: default !important;
 }
-.fc-cal-weekend {
+.fc-cal-weekend-default {
   background-color: #F7F6FF!important;
 }
 .fc-cal-date-normal-default{
