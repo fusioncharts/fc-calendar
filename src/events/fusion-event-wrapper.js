@@ -1,33 +1,31 @@
-import EventHandler from './event-wrapper';
 import Mapper from './mapper';
 import isAllDefined from './is-all-defined';
 
-let getDerivedInfo = function (type, callback) {
+let getDerivedInfo = function (dom, type, callback) {
   return {
-    type,
-    callback
+    [type]: callback
   };
 };
 
 class FusionEvenetHandler {
   constructor () {
     this.mapper = new Mapper();
-    this.eHandler = new EventHandler();
   }
-
   on (dom, type, callback, options = {}) {
     let mapper = this.mapper,
       derivedInfo,
-      key = [dom, type, callback];
+      key,
+      keyset = [dom, type, callback];
 
     // all the paramters are necessary
-    if (isAllDefined(key)) {
-      if (!(derivedInfo = mapper.getValue(key))) {
-        derivedInfo = getDerivedInfo(type, callback);
-        if (this.eHandler.on(dom, derivedInfo.type, derivedInfo.callback)) {
-          mapper.setValue(key, derivedInfo);
-          return true;
+    if (isAllDefined(keyset)) {
+      if (!(derivedInfo = mapper.getValue(keyset))) {
+        derivedInfo = getDerivedInfo(dom, type, callback);
+        mapper.setValue(keyset, derivedInfo);
+        for (key in derivedInfo) {
+          dom.addEventListener(key, derivedInfo[key]);
         }
+        return true;
       }
     }
     return false;
@@ -36,15 +34,17 @@ class FusionEvenetHandler {
   off (dom, type, callback) {
     let mapper = this.mapper,
       derivedInfo,
-      key = [dom, type, callback];
+      key,
+      keyset = [dom, type, callback];
 
     // all the paramters are necessary
-    if (isAllDefined(key)) {
-      if ((derivedInfo = mapper.getValue(key))) {
-        if (this.eHandler.off(dom, derivedInfo.type, derivedInfo.callback)) {
-          mapper.clear(key);
-          return true;
+    if (isAllDefined(keyset)) {
+      if ((derivedInfo = mapper.getValue(keyset))) {
+        for (key in derivedInfo) {
+          dom.removeEventListener(key, derivedInfo[key]);
         }
+        mapper.clear(keyset);
+        return true;
       }
     }
     return false;
