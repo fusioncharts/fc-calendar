@@ -1,7 +1,24 @@
 import Mapper from './mapper.js';
 import isAllDefined from './is-all-defined.js';
 
-let navigator = window.navigator,
+let lastHoveredInfo = {
+    elementInfo: []
+  },
+  safePointerEventMapping = {
+    mouseover: 'pointerover',
+    mousedown: 'pointerdown',
+    mousemove: 'pointermove',
+    mouseup: 'pointerup',
+    mouseout: 'pointerout'
+  },
+  safeMouseEventMapping = {
+    mouseover: 'touchstart',
+    mousedown: 'touchstart',
+    mouseup: 'touchend',
+    mousemove: 'touchmove',
+    mouseout: 'touchend' // to handle mouseout event
+  },
+  navigator = window.navigator,
   supportsTouch = 'ontouchstart' in document ||
   navigator.maxTouchPoints || navigator.msMaxTouchPoints,
   supportsPointer = 'onpointerover' in document,
@@ -108,21 +125,86 @@ let navigator = window.navigator,
       dom._clickHandlerHelper = undefined;
     }
   },
-  getDerivedInfo = function (dom, type, callback) {
+  getDerivedInfo = function (dom, type, callback, context = dom) {
     switch (type) {
       case 'fc-click':
         return fcClick(dom, callback);
     }
+    var actualtype,
+                // an event is termed as safe if it is preceeded by fc
+      isSafe = type.match(/fc-/),
+      fn = callback;
+         // Setting the original event on which operations has to be done
+    isSafe && (type = type.replace(/fc-/, ''));
+
+         /**
+          * Here we are implementing safe mouse events. All browsers for which pointer events are supported, we are using
+          * pointer events for touch. For rest (non-hybrid ios device) we are using touch events.
+          */
+    if (isSafe) {
+      if (supportsTouch) {
+        actualtype = type;
+        type = (supportsPointer ? safePointerEventMapping[type] : safeMouseEventMapping[type]) ||
+                     type;
+
+                 // Mouse out event's handler is fired when the next element on the page is hovered.
+        if (actualtype === 'mouseout') {
+          fn = function (e) {
+                         // No action done if multi touch triggered in touch device supporting pointer
+            if (!(supportsPointer && supportsTouch && !e.isPrimary)) {
+              lastHoveredInfo.elementInfo.push({
+                el: context,
+                callback
+              });
+              lastHoveredInfo.srcElement = e.srcElement || e.target;
+            }
+          };
+          type = supportsPointer ? 'pointerover' : 'touchstart';
+        }
+      }
+    }
+
+    if (fn === callback) {
+      fn = function (e) {
+          // No action done if multi touch triggered in touch device supporting pointer
+        !(supportsPointer && supportsTouch && !e.isPrimary) && callback.call(context, e);
+      };
+    }
+
     return {
-      [type]: callback
+      [type]: fn
     };
   },
-  removeHelperHandlers = function (dom, type, callback) {
+  removeHelperHandlers = function (dom, type) {
     switch (type) {
       case 'fc-click':
-        return fcunclick(dom, type, callback);
+        return fcunclick(dom);
     }
   };
+
+  /** External function to fire mouseOut for various elements for touch supported devices
+         * TouchStart/Pointer Over event is attached in the capturing phase on the document so that
+         * when ever any dom is tapped, this callback gets executed 1st and mouseout of the last event is
+         * fired.
+        */
+if (supportsTouch) {
+  document.addEventListener(supportsPointer ? 'pointerover' : 'touchstart', function (e) {
+    if (lastHoveredInfo.srcElement && lastHoveredInfo.srcElement !== (e.srcElement ||
+                e.target)) {
+      var elementInfo = lastHoveredInfo.elementInfo,
+        ii = elementInfo.length,
+        elems,
+        i;
+      for (i = 0; i < ii; i++) {
+        elems = elementInfo[i];
+        elems.callback.call(elems.el, e);
+      }
+    }
+    lastHoveredInfo = {
+      elementInfo: []
+    };
+  }, true);
+}
 
 class FusionEvenetHandler {
   constructor () {
@@ -161,7 +243,7 @@ class FusionEvenetHandler {
     // all the paramters are necessary
     if (isAllDefined(keyset)) {
       if ((derivedInfo = mapper.getValue(keyset))) {
-        removeHelperHandlers(dom, type, callback);
+        removeHelperHandlers(dom, type);
         for (key in derivedInfo) {
           if (dom.removeEventListener) {
             dom.removeEventListener(key, derivedInfo[key]);
