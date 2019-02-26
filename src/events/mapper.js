@@ -23,8 +23,17 @@ class Mapper {
     let info = this.map,
       len = arr.length;
     arr.forEach((param, i) => {
-      info = info.has(param) ? info.get(param)
-       : i === len - 1 ? info.set(param, value) : info.set(param, new Map()).get(param);
+      if (info.has(param)) {
+        info = info.get(param);
+      } else {
+        if (i === len - 1) {
+          info.set(param, value);
+        } else {
+          let map = new Map();
+          info.set(param, map);
+          info = map;
+        }
+      }
     });
   }
   getValue (arr = []) {
