@@ -106,7 +106,10 @@ let lastHoveredInfo = {
     }
 
     return {
-      [eventType]: fn
+      attach: true,
+      events: {
+        [eventType]: fn
+      }
     };
   },
   fcunclick = function (dom) {
@@ -124,11 +127,112 @@ let lastHoveredInfo = {
       }
       dom._clickHandlerHelper = undefined;
     }
+    return true;
+  },
+  drag = function (dom, callback, occur) {
+    let events,
+      arr;
+    if (!dom._attachedDragDummy) {
+      dom._attachedDragDummy = true;
+
+      let dummyBodyDragMove = function (e) {
+          // console.log(e);
+        },
+        dummyBodyDragEnd = function (e) {
+          // console.log(e);
+        },
+        dummyElDragStart = function (e) {
+          dom._dragStartEvent = e;
+        },
+        dummyElDragMove = function (e) {
+          if (dom._dragStartEvent) {
+            let calArr = dom._startHandler,
+              len = calArr && calArr.length,
+              bodyEvents,
+              key;
+
+            while (len--) {
+              calArr.pop().call(dom, dom._dragStartEvent);
+            }
+            if (dom._moveHandler && (len = dom._moveHandler.length)) {
+              e.stopPropagation();
+              while (len--) {
+                dom._moveHandler.pop().call(dom, e);
+              }
+              if (!dom._attachedDragBodyDummy) {
+                dom._attachedDragBodyDummy = true;
+                if (supportsPointer) {
+                  bodyEvents = {
+                    pointerup: dummyBodyDragEnd,
+                    pointermove: dummyBodyDragMove
+                  };
+                } else if (supportsTouch) {
+                  bodyEvents = {
+                    touchend: dummyBodyDragEnd,
+                    touchmove: dummyBodyDragMove
+                  };
+                } else {
+                  bodyEvents = {
+                    mouseup: dummyBodyDragEnd,
+                    mousemove: dummyBodyDragMove
+                  };
+                }
+                for (key in bodyEvents) {
+                  if (dom.addEventListener) {
+                    document.addEventListener(key, bodyEvents[key]);
+                  } else {
+                    document.attachEvent('on' + key, bodyEvents[key]);
+                  }
+                }
+              }
+            }
+          }
+        };
+
+      if (supportsPointer) {
+        events = {
+          pointerdown: dummyElDragStart,
+          pointermove: dummyElDragMove
+        };
+      } else if (supportsTouch) {
+        events = {
+          touchstart: dummyElDragStart,
+          touchmove: dummyElDragMove
+        };
+      } else {
+        events = {
+          mousedown: dummyElDragStart,
+          mousemove: dummyElDragMove
+        };
+      }
+    }
+
+    if (occur === 'start') {
+      arr = dom._startHandler || (dom._startHandler = []);
+    }
+    if (occur === 'move') {
+      arr = dom._moveHandler || (dom._moveHandler = []);
+    }
+    if (occur === 'end') {
+      arr = dom._endHandler || (dom._endHandler = []);
+    }
+    arr.push(callback);
+
+    return {
+      attach: !!events,
+      events
+    };
   },
   getDerivedInfo = function (dom, type, callback, context = dom) {
     switch (type) {
       case 'fc-click':
         return fcClick(dom, callback);
+      case 'fc-dragstart':
+        return drag(dom, callback, 'start');
+      case 'fc-dragmove':
+        return drag(dom, callback, 'move');
+      case 'fc-dragend':
+        return drag(dom, callback, 'end');
     }
     var actualtype,
                 // an event is termed as safe if it is preceeded by fc
@@ -172,7 +276,10 @@ let lastHoveredInfo = {
     }
 
     return {
-      [type]: fn
+      attach: true,
+      events: {
+        [type]: fn
+      }
     };
   },
   removeHelperHandlers = function (dom, type) {
@@ -180,6 +287,7 @@ let lastHoveredInfo = {
       case 'fc-click':
         return fcunclick(dom);
     }
+    return true;
   };
 
   /** External function to fire mouseOut for various elements for touch supported devices
@@ -220,12 +328,15 @@ class FusionEvenetHandler {
     if (isAllDefined(keyset)) {
       if (!(derivedInfo = mapper.getValue(keyset))) {
         derivedInfo = getDerivedInfo(dom, type, callback);
-        mapper.setValue(keyset, derivedInfo);
-        for (key in derivedInfo) {
-          if (dom.addEventListener) {
-            dom.addEventListener(key, derivedInfo[key]);
-          } else {
-            dom.attachEvent('on' + key, derivedInfo[key]);
+        let events = derivedInfo.events;
+        mapper.setValue(keyset, events);
+        if (derivedInfo.attach) {
+          for (key in events) {
+            if (dom.addEventListener) {
+              dom.addEventListener(key, events[key]);
+            } else {
+              dom.attachEvent('on' + key, events[key]);
+            }
           }
         }
         return true;
@@ -243,12 +354,13 @@ class FusionEvenetHandler {
     // all the paramters are necessary
     if (isAllDefined(keyset)) {
       if ((derivedInfo = mapper.getValue(keyset))) {
-        removeHelperHandlers(dom, type);
-        for (key in derivedInfo) {
-          if (dom.removeEventListener) {
-            dom.removeEventListener(key, derivedInfo[key]);
-          } else {
-            dom.detachEvent('on' + key, derivedInfo[key]);
+        if (removeHelperHandlers(dom, type)) {
+          for (key in derivedInfo) {
+            if (dom.removeEventListener) {
+              dom.removeEventListener(key, derivedInfo[key]);
+            } else {
+              dom.detachEvent('on' + key, derivedInfo[key]);
+            }
           }
         }
         mapper.clear(keyset);
