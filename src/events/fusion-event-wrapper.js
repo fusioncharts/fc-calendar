@@ -136,10 +136,39 @@ let lastHoveredInfo = {
       dom._attachedDragDummy = true;
 
       let dummyBodyDragMove = function (e) {
-          // console.log(e);
+          e.preventDefault();
+          if (dom._dragStartEvent) {
+            dom._dragMoveEvent = true;
+            let len,
+              i;
+            if (dom._moveHandler && (len = dom._moveHandler.length)) {
+              for (i = 0; i < len; ++i) {
+                dom._moveHandler[i].call(dom, e);
+              }
+            }
+          }
         },
         dummyBodyDragEnd = function (e) {
-          // console.log(e);
+          if (dom._dragMoveEvent) {
+            let len,
+              key,
+              i,
+              bodyEvents = dom._attachedBodyEvents;
+            dom._attachedBodyEvents = undefined;
+            dom._dragMoveEvent = undefined;
+            dom._dragStartEvent = undefined;
+            len = dom._endHandler ? dom._endHandler.length : 0;
+            for (i = 0; i < len; ++i) {
+              dom._endHandler[i].call(dom, e);
+            }
+            for (key in bodyEvents) {
+              if (dom.addEventListener) {
+                document.addEventListener(key, bodyEvents[key]);
+              } else {
+                document.attachEvent('on' + key, bodyEvents[key]);
+              }
+            }
+          }
         },
         dummyElDragStart = function (e) {
           dom._dragStartEvent = e;
@@ -149,42 +178,49 @@ let lastHoveredInfo = {
             let calArr = dom._startHandler,
               len = calArr && calArr.length,
               bodyEvents,
+              i,
               key;
-
-            while (len--) {
-              calArr.pop().call(dom, dom._dragStartEvent);
+            if (!dom._dragMoveEvent) {
+              for (i = 0; i < len; ++i) {
+                calArr[i].call(dom, dom._dragStartEvent);
+              }
             }
-            if (dom._moveHandler && (len = dom._moveHandler.length)) {
-              e.stopPropagation();
-              while (len--) {
-                dom._moveHandler.pop().call(dom, e);
+
+            dom._dragMoveEvent = true;
+
+            e.stopPropagation();
+            e.preventDefault();
+            len = dom._moveHandler ? dom._moveHandler.length : 0;
+
+            for (i = 0; i < len; ++i) {
+              dom._moveHandler[i].call(dom, e);
+            }
+
+            if (!dom._attachedBodyEvents) {
+              if (supportsPointer) {
+                bodyEvents = {
+                  pointerup: dummyBodyDragEnd,
+                  pointermove: dummyBodyDragMove
+                };
+              } else if (supportsTouch) {
+                bodyEvents = {
+                  touchend: dummyBodyDragEnd,
+                  touchmove: dummyBodyDragMove
+                };
+              } else {
+                bodyEvents = {
+                  mouseup: dummyBodyDragEnd,
+                  mousemove: dummyBodyDragMove
+                };
               }
-              if (!dom._attachedDragBodyDummy) {
-                dom._attachedDragBodyDummy = true;
-                if (supportsPointer) {
-                  bodyEvents = {
-                    pointerup: dummyBodyDragEnd,
-                    pointermove: dummyBodyDragMove
-                  };
-                } else if (supportsTouch) {
-                  bodyEvents = {
-                    touchend: dummyBodyDragEnd,
-                    touchmove: dummyBodyDragMove
-                  };
+              for (key in bodyEvents) {
+                if (dom.addEventListener) {
+                  document.addEventListener(key, bodyEvents[key]);
                 } else {
-                  bodyEvents = {
-                    mouseup: dummyBodyDragEnd,
-                    mousemove: dummyBodyDragMove
-                  };
-                }
-                for (key in bodyEvents) {
-                  if (dom.addEventListener) {
-                    document.addEventListener(key, bodyEvents[key]);
-                  } else {
-                    document.attachEvent('on' + key, bodyEvents[key]);
-                  }
+                  document.attachEvent('on' + key, bodyEvents[key]);
                 }
               }
+              dom._attachedBodyEvents = bodyEvents;
             }
           }
         };
