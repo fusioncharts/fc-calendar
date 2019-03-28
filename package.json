@@ -1,6 +1,6 @@
 {
   "name": "fc-calendar",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "index.js",
   "repository": {
     "url": "git@github.com:fusioncharts/fc-calendar.git",
@@ -8,9 +8,6 @@
   },
   "author": "Ayan Pal <ayanonly1@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "webpack": "v2.2.0-rc.2"
-  },
   "scripts": {
     "init-setup": "NODE_ENV=development npm install && npm run start-hot-server",
     "start-hot-server": "webpack-dev-server --progress --colors --port 8181 && open http://localhost:8181/webpack-dev-server/test/",
@@ -35,6 +32,7 @@
     "eslint-plugin-standard": "^2.0.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "style-loader": "^0.13.1",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^3.1.14",
+    "webpack": "v2.2.0-rc.2"
   }
 }

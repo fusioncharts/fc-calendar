@@ -13,7 +13,9 @@
     "define": true
   },
   "rules": {
-    "one-var": ["error"],
+    "one-var": ["off"],
+    "no-loop-func": ["off"],
+    "no-shadow": ["off"],
     "semi": ["error", "always"],
     "no-unused-vars": ["warn"],
     "no-debugger": ["warn"]

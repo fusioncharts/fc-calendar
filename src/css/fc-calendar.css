@@ -1,140 +1,33 @@
-.fc-cal-container { /* Why need to define this explicitely */
-	box-sizing:border-box;
-	font-family: Verdana,sans-serif;
-	-webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Chrome/Safari/Opera */
-	-khtml-user-select: none; /* Konqueror */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none; /* Non-prefixed version, currently
-	                      not supported by any browser */
-  font-size:11px;
-  text-align: center;
-  vertical-align: top;
-  overflow: hidden;
-  background-color: #fff;
-  border: 1px solid #d6d6d6;
-  -moz-box-shadow:    0px 1px 3px 0px #d8d8d8;
-  -webkit-box-shadow: 0px 1px 3px 0px #d8d8d8;
-  box-shadow:         0px 1px 3px 0px #d8d8d8;
-  padding-bottom: 0;
-}
-.fc-cal-header {
-    box-sizing:border-box;
-    color: #353535;
-    padding: 8px 0;
-    font-weight: bold;
-    font-size: 12px;
-    overflow: hidden;
-}
-.fc-cal-sub-header {
-  font-size:11px;
-  text-transform: uppercase;
-  //font-weight: bold;
-  color: #666;
-  padding: 8px 0 15px;
-  overflow: hidden;
-}
-.fc-cal-body {
-  color: #676767;
-  border-bottom: 2px  solid #c32a2a;
-
-}
-/* Header Classes */
-.fc-cal-month-header {
-  display: block;
-  width: 55%;
-  float: left;
-}
-.fc-cal-year-header {
-  display: block;
-  width: 35%;
-  float: right;
-}
-.fc-cal-month {
-  display: inline-block;
-  padding-right: 5px;
-  padding-left: 5px;
-}
-.fc-cal-year {
-  display: inline-block;
-  padding-right: 5px;
-  padding-left: 5px;
-}
-.fc-cal-nav {
-  display: inline-block;
-  cursor:pointer;
-  padding: 0 10px;
-}
-.fc-cal-nav-next {
-  float: right;
-}
-.fc-cal-nav-prev {
-  float: left;
+.fc-cal-date-li {
+  box-sizing: border-box!important;
+  float: left!important;
+  list-style-type: none!important;
+  width: 14.28571%!important;
+  height: auto!important;
+  padding: 2px 0 2px !important;
+  margin: 0 !important;
+  background-color: #fff !important;
 }
 .fc-cal-nav-inactive {
-  cursor:default;
+  opacity: 0;
+  cursor: default !important;
+}
+.fc-cal-weekend-default {
+  background-color: #F7F6FF!important;
+}
+.fc-cal-date-normal-default{
+  cursor: pointer!important;
+}
+.fc-cal-date-normal-default:hover {
+  color: #5F5F5F!important;
+  background-color: #dcdcdc!important;
+}
+.fc-cal-date-selected-default,
+.fc-cal-date-selected-default:hover {
+  background-color: #5648D4!important;
+  color: #F3F3F3!important;
 }
 
-/* Sub-header Classes */
-.fc-cal-day {
-  box-sizing: border-box;
-  display: block;
-  float: left;
-  width: 14.28571%;
-  //border: 1px solid #000;
-}
-
-
-/* Body classes */
-
-.fc-cal-body ul {
-  display: table;
-  border-collapse: collapse;
-}
-
-.fc-cal-date-li {
-  box-sizing: border-box;
-  float: left;
-  list-style-type: none;
-  width: 14.28571%;
-  height: auto;
-  padding: 2px 0 8px;
-  margin: 0;
-}
-
-.fc-cal-date {
-  box-sizing: border-box;
-  text-align: center;
-  line-height: 2.3;
-  display: block;
-  margin: 0 auto;
-  border: 2px solid transparent;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-.fc-cal-date-enabled{
-  cursor: pointer;
-}
-.fc-cal-date-enabled:hover {
-  color: #000;
-  background-color: #dcdcdc;
-  border: 2px solid #dcdcdc;
-}
-.fc-cal-date-selected,
-.fc-cal-date-selected:hover {
-  background-color: #c32a2a;
-  border: 2px solid #c32a2a;
-  color: #fff;
-}
-
-.fc-cal-date-disabled {
-  background-color: #f3f3f3;
-  border: 2px solid #f3f3f3;
-  color: #cacaca;
-}
-
-.fc-cal-date-highlight {
-  border: 2px solid #2d72de;
+.fc-cal-date-disabled-default {
+  color: #cacaca!important;
 }
