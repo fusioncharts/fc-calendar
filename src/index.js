@@ -40,7 +40,7 @@ const UNDEFINED = undefined,
   },
   inlineStyle = {
     container: 'box-sizing: border-box !important; -webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; vertical-align: top !important; padding-bottom: 0 !important; margin: 0px 0px 0px 0px !important; float: left;' +
-      'font-family: Source sans pro, sans-seriff !important; font-size: 11px !important; max-width: 163px !important; background-color: #fff !important; border: 1px solid #a5a4a4;',
+      'font-size: 11px !important; max-width: 163px !important; background-color: #fff !important; border: 1px solid #a5a4a4;',
     header: 'box-sizing: border-box !important; overflow: hidden !important; height: 26px !important; line-height: 2.4 !important' +
       'font-size: 12px !important; background-color: #5648D4 !important;',
     month: 'display: block !important; width: 100% !important; float: left !important; height: 100% !important;' +
@@ -322,12 +322,13 @@ const UNDEFINED = undefined,
     const graphic = calendar.graphic,
       weekLabel = calendar.info.weekLabel,
       {dateElements, dayElements, dateLiElements} = graphic,
+      fontFamily = (config['font-family'] && ` font-family: ${config['font-family']};`) || '',
 
       classNames = calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass),
       // create the cntainer
       container = graphic.container = createElement('div', {
         appendTo: graphic.parentElement,
-        inline: inlineStyle.container,
+        inline: inlineStyle.container + fontFamily,
         className: classNames.container,
         id: calendar.id
       }),
