@@ -6,19 +6,21 @@ if (!process.env.NODE_ENV) {
 const env = process.env.NODE_ENV;
 
 if (env === 'production') {
+  baseConfig.mode = 'production';
   baseConfig.output.filename = 'fc-calendar-es5.min.js';
   baseConfig.module.rules[0].use.unshift({
     loader: 'babel-loader',
     query: {
-      presets: ['latest', 'babili']
+      presets: ['@babel/preset-env']
     }
   });
 } else if (env === 'development') {
+  baseConfig.mode = 'development';
   baseConfig.output.filename = 'fc-calendar-es5.js';
   baseConfig.module.rules[0].use.unshift({
     loader: 'babel-loader',
     query: {
-      presets: ['latest']
+      presets: ['@babel/preset-env']
     }
   });
 };

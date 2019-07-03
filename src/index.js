@@ -127,18 +127,18 @@ const UNDEFINED = undefined,
   // this function will update the calendar
   // without re-drawing the elements
   displayMonth = calendar => {
-    const {info, graphic, classNames} = calendar,
-      {active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, showInactiveMonths} = info,
-      {monthStr, yearStr, dateElements, dateLiElements, container, prevMonth, prevMonthPointer, nextMonth, nextMonthPointer, prevYear, nextYear} = graphic,
-      {month, year} = active,
+    const { info, graphic, classNames } = calendar,
+      { active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, showInactiveMonths } = info,
+      { monthStr, yearStr, dateElements, dateLiElements, container, prevMonth, prevMonthPointer, nextMonth, nextMonthPointer, prevYear, nextYear } = graphic,
+      { month, year } = active,
       highlightMonth = highlight && highlight[year] && highlight[year][month],
       startingOfMonth = new Date(`${month}/1/${year}`),
       monthStaringDay = startingOfMonth.getDay(),
       monthStaringWeekDay = info.startingPos = (monthStaringDay - weekStartingDay) + (weekStartingDay <= monthStaringDay ? 0 : 7),
       totalDays = daysInMonth[month - 1] + (checkLeapYear(year) && month === 2 ? 1 : 0),
       limit = totalDays + monthStaringWeekDay,
-      startActive = validateActiveStart({day: 1, month, year}, rangeStart),
-      endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
+      startActive = validateActiveStart({ day: 1, month, year }, rangeStart),
+      endActive = validateActiveEnd({ day: totalDays, month, year }, rangeEnd),
       startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
       endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
     let i, j, l,
@@ -198,7 +198,7 @@ const UNDEFINED = undefined,
           className: weekenddefault,
           events: {
             click: () => {
-              const {info, events} = calendar,
+              const { info, events } = calendar,
                 selectedDate = info.selectedDate,
                 active = info.active,
                 tempDate = {
@@ -278,9 +278,9 @@ const UNDEFINED = undefined,
     }
   },
   setSelectedDate = calendar => {
-    const {classNames} = calendar,
-      {selectedDate, active, startingPos} = calendar.info,
-      {container, dateLiElements, dateElements} = calendar.graphic;
+    const { classNames } = calendar,
+      { selectedDate, active, startingPos } = calendar.info,
+      { container, dateLiElements, dateElements } = calendar.graphic;
     // if the selected date is on this month, heighlight it
     if (selectedDate.month === active.month && selectedDate.year === active.year) {
       // remove the class form the old element
@@ -293,7 +293,7 @@ const UNDEFINED = undefined,
 
   // function to create dom elements
   createElement = (type, options) => {
-    const {appendTo, className, inline, id, innerHTML, events} = options,
+    const { appendTo, className, inline, id, innerHTML, events } = options,
       element = document.createElement(type);
     // set the class
     className && (element.className = className);
@@ -321,7 +321,7 @@ const UNDEFINED = undefined,
   init = (calendar, config) => {
     const graphic = calendar.graphic,
       weekLabel = calendar.info.weekLabel,
-      {dateElements, dayElements, dateLiElements} = graphic,
+      { dateElements, dayElements, dateLiElements } = graphic,
       fontFamily = (config['font-family'] && ` font-family: ${config['font-family']};`) || '',
 
       classNames = calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass),
@@ -535,7 +535,7 @@ const UNDEFINED = undefined,
         innerHTML: SPACE,
         events: {
           click: () => {
-            const {info, events} = calendar,
+            const { info, events } = calendar,
               selectedDate = info.selectedDate,
               active = info.active,
               tempDate = {
@@ -561,12 +561,12 @@ const UNDEFINED = undefined,
 
   // validate active date
   validateActiveStart = (date, start) => {
-    const {day, month, year} = date;
+    const { day, month, year } = date;
     return !(start && (start.year > year || (start.year === year && (start.month > month || (start.month === month && start.day > day)))));
   },
   // validate active date
   validateActiveEnd = (date, end) => {
-    const {day, month, year} = date;
+    const { day, month, year } = date;
     return !(end && (end.year < year || (end.year === year && (end.month < month || (end.month === month && end.day < day)))));
   };
 
@@ -625,7 +625,7 @@ class Calendar {
   // configure calendar
   configure (config, doRepaint) {
     const calendar = this,
-      {graphic, events, info, style} = calendar,
+      { graphic, events, info, style } = calendar,
       // displayDisabledMonth = info.displayDisabledMonth,
       userEvents = config && config.events;
 

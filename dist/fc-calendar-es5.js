@@ -7,7 +7,7 @@
 		var a = factory();
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function() {
+})(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -16,9 +16,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -43,18 +43,35 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -72,442 +89,80 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/******/ ({
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+/***/ "./node_modules/css-loader/dist/cjs.js!./src/css/fc-calendar.css":
+/*!***********************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./src/css/fc-calendar.css ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-// load the styles
-var content = __webpack_require__(1);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(3)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./fc-calendar.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./fc-calendar.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
+eval("exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\")(false);\n// Module\nexports.push([module.i, \".fc-cal-date-li {\\n  box-sizing: border-box!important;\\n  float: left!important;\\n  list-style-type: none!important;\\n  width: 14.28571%!important;\\n  height: auto!important;\\n  padding: 2px 0 2px !important;\\n  margin: 0 !important;\\n  background-color: #fff !important;\\n}\\n.fc-cal-nav-inactive {\\n  opacity: 0;\\n  cursor: default !important;\\n}\\n.fc-cal-weekend-default {\\n  background-color: #F7F6FF!important;\\n}\\n.fc-cal-date-normal-default{\\n  cursor: pointer!important;\\n}\\n.fc-cal-date-normal-default:hover {\\n  color: #5F5F5F!important;\\n  background-color: #dcdcdc!important;\\n}\\n.fc-cal-date-selected-default,\\n.fc-cal-date-selected-default:hover {\\n  background-color: #5648D4!important;\\n  color: #F3F3F3!important;\\n}\\n\\n.fc-cal-date-disabled-default {\\n  color: #cacaca!important;\\n}\\n\", \"\"]);\n\n\n//# sourceURL=webpack:///./src/css/fc-calendar.css?./node_modules/css-loader/dist/cjs.js");
 
-/***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
 
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, ".fc-cal-date-li {\n  box-sizing: border-box!important;\n  float: left!important;\n  list-style-type: none!important;\n  width: 14.28571%!important;\n  height: auto!important;\n  padding: 2px 0 2px !important;\n  margin: 0 !important;\n  background-color: #fff !important;\n}\n.fc-cal-nav-inactive {\n  opacity: 0;\n  cursor: default !important;\n}\n.fc-cal-weekend-default {\n  background-color: #F7F6FF!important;\n}\n.fc-cal-date-normal-default{\n  cursor: pointer!important;\n}\n.fc-cal-date-normal-default:hover {\n  color: #5F5F5F!important;\n  background-color: #dcdcdc!important;\n}\n.fc-cal-date-selected-default,\n.fc-cal-date-selected-default:hover {\n  background-color: #5648D4!important;\n  color: #F3F3F3!important;\n}\n\n.fc-cal-date-disabled-default {\n  color: #cacaca!important;\n}\n", ""]);
-
-// exports
-
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function createLinkElement(options) {
-	var linkElement = document.createElement("link");
-	linkElement.rel = "stylesheet";
-	insertStyleElement(options, linkElement);
-	return linkElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else if(obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function") {
-		styleElement = createLinkElement(options);
-		update = updateLink.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-			if(styleElement.href)
-				URL.revokeObjectURL(styleElement.href);
-		};
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		styleElement.setAttribute("media", media)
-	}
-
-	if(styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink(linkElement, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	if(sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = linkElement.href;
-
-	linkElement.href = URL.createObjectURL(blob);
-
-	if(oldSrc)
-		URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}__webpack_require__(0);var idNo=0;var UNDEFINED=undefined,// basic calendar configaration
-daysInMonth=[31,28,31,30,31,30,31,31,30,31,30,31],weekLabel=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],monthLabel=['January','February','March','April','May','June','July','August','September','October','November','December'],defaultClassNames={container:'fc-cal-container',header:'fc-cal-header',month:'fc-cal-month-header',year:'fc-cal-year-header',monthname:'fc-cal-month',yearname:'fc-cal-year',nav:'fc-cal-nav',navprev:'fc-cal-nav-prev',navnext:'fc-cal-nav-next',navinactive:'fc-cal-nav-inactive',navmonth:'fc-cal-nav-month',navyear:'fc-cal-nav-year',subheader:'fc-cal-sub-header',days:'fc-cal-day',indexeddays:'fc-cal-day-',// Index will be added at the end
-body:'fc-cal-body',date:'fc-cal-date',dateLI:'fc-cal-date-li',selecteddatedefault:'fc-cal-date-selected-default',disableddatedefault:'fc-cal-date-disabled-default',normaldatedefault:'fc-cal-date-normal-default',highlighteddatedefault:'fc-cal-date-highlight-default',selecteddate:'fc-cal-date-selected',normaldate:'fc-cal-date-normal',disableddate:'fc-cal-date-disabled',highlighteddate:'fc-cal-date-highlight',daycol:'fc-cal-day-col',weekenddefault:'fc-cal-weekend-default',weekend:'fc-cal-weekend'},inlineStyle={container:'box-sizing: border-box !important; -webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; vertical-align: top !important; padding-bottom: 0 !important; margin: 0px 0px 0px 0px !important; float: left;'+'font-size: 11px !important; max-width: 163px !important; background-color: #fff !important; border: 1px solid #a5a4a4;',header:'box-sizing: border-box !important; overflow: hidden !important; height: 26px !important; line-height: 2.4 !important'+'font-size: 12px !important; background-color: #5648D4 !important;',month:'display: block !important; width: 100% !important; float: left !important; height: 100% !important;'+'font-weight: bold !important; color: #F3F3F3 !important; font-size: 13px !important;',year:'display: block !important; width: 35% !important; float: right !important;',monthname:'display: inline-block !important; padding: 4px !important;',yearname:'display: inline-block !important; padding-right: 5px !important; padding-left: 5px !important;',nav:'display: inline-block !important; cursor: pointer !important; padding: 4px;',navprev:'float: left !important; padding-left: 8px !important;',navnext:'float: right !important; padding-right: 8px !important;',navinactive:'cursor: default !important;',navmonth:'',navyear:'',subheader:'text-transform: uppercase !important; overflow: hidden !important; color: #666 !important;',days:'box-sizing: border-box !important; display: block !important; float: left !important; width: 14.28571% !important; line-height: 2.3 !important;',indexeddays:'',body:'width: 100% !important;',date:'box-sizing: border-box !important; text-align: center !important; display: block !important; margin: 0 auto !important;'+'border: 0px solid transparent !important; width: 14.2857% !important; padding: 0px !important;',dateLI:'box-sizing: border-box !important; float: left !important; list-style-type: none !important; width: 14.28571% !important; height: auto!important;',selecteddate:'',disableddate:'',normaldate:'cursor: pointer !important;',highlightedDate:'',daycol:'',weekenddefault:'background-color: #F7F6FF!important;',weekend:''},ulPadZeroStyle={padding:'0',margin:0},minHeight=300,minWidth=300,PX='px',SP=' ',BLANK='',SPACE='&nbsp;',DASH='-',SLASH='/',vAlignMultiplier={top:0,middle:-0.5,bottom:-1},hAlignMultiplier={left:0,center:-0.5,right:-1},// get id for container
-getuid=function getuid(){return'fc_calendar-'+idNo++},// check if the year is leap year or not
-checkLeapYear=function checkLeapYear(year){return year%4===0&&year%100!==0||year%400===0},// apply custom style to the container
-setStyle=function setStyle(element,style){if(style&&element&&element.style){for(var key in style){if(style.hasOwnProperty(key)){element.style[key]=style[key]}}}},removeClassName=function removeClassName(className,element){var classNameList=element&&element.className;if(classNameList&&className){element.className=classNameList.replace(new RegExp('(?:^|\\s*)'+className.trim()+'(?:\\s*|$)'),' ')}},removeClassInChilds=function removeClassInChilds(parent,className){var children=void 0,i=void 0,j=void 0,l=void 0,classArr=void 0;if(parent&&parent.getElementsByClassName){classArr=className.trim().split(SP);for(j=0,l=classArr.length;j<l;j+=1){className=classArr[j];children=parent.getElementsByClassName(className);for(i=children.length-1;i>=0;i--){removeClassName(className,children[i])}}}},// this function will update the calendar
-// without re-drawing the elements
-displayMonth=function displayMonth(calendar){var info=calendar.info,graphic=calendar.graphic,classNames=calendar.classNames,active=info.active,rangeStart=info.rangeStart,rangeEnd=info.rangeEnd,weekStartingDay=info.weekStartingDay,highlight=info.highlight,highlightClasses=info.highlightClasses,showInactiveMonths=info.showInactiveMonths,monthStr=graphic.monthStr,yearStr=graphic.yearStr,dateElements=graphic.dateElements,dateLiElements=graphic.dateLiElements,container=graphic.container,prevMonth=graphic.prevMonth,prevMonthPointer=graphic.prevMonthPointer,nextMonth=graphic.nextMonth,nextMonthPointer=graphic.nextMonthPointer,prevYear=graphic.prevYear,nextYear=graphic.nextYear,month=active.month,year=active.year,highlightMonth=highlight&&highlight[year]&&highlight[year][month],startingOfMonth=new Date(month+'/1/'+year),monthStaringDay=startingOfMonth.getDay(),monthStaringWeekDay=info.startingPos=monthStaringDay-weekStartingDay+(weekStartingDay<=monthStaringDay?0:7),totalDays=daysInMonth[month-1]+(checkLeapYear(year)&&month===2?1:0),limit=totalDays+monthStaringWeekDay,startActive=validateActiveStart({day:1,month:month,year:year},rangeStart),endActive=validateActiveEnd({day:totalDays,month:month,year:year},rangeEnd),startInactiveLimit=startActive?0:rangeStart.month===month&&rangeStart.year===year?rangeStart.day-1:totalDays,endInactiveLimit=endActive?totalDays+1:rangeEnd.month===month&&rangeEnd.year===year?rangeEnd.day+1:1;var i=void 0,j=void 0,l=void 0,cur=void 0,highlightInfo=void 0,highLightClass=void 0,dateList=void 0,weekenddefault=void 0,weekend=void 0,element=void 0,disablePrevMonthLi=rangeStart&&rangeStart.year===active.year&&rangeStart.month===active.month,disableNextMonthLi=rangeEnd&&rangeEnd.year===active.year&&rangeEnd.month===active.month;info.curMonthInfo={start:monthStaringDay,end:limit};dateList=graphic.calendarBody.children[0];// remove previously applied Classes
-removeClassInChilds(container,classNames.normaldatedefault);removeClassInChilds(container,classNames.selecteddatedefault);removeClassInChilds(container,classNames.disableddatedefault);removeClassInChilds(container,classNames.normaldate);removeClassInChilds(container,classNames.selecteddate);removeClassInChilds(container,classNames.disableddate);removeClassInChilds(container,classNames.navinactive);// make navigators inactive
-if(disableNextMonthLi){nextMonthPointer.className+=SP+classNames.navinactive}else{removeClassName(classNames.navinactive,nextMonth)}if(disablePrevMonthLi){prevMonthPointer.className+=SP+classNames.navinactive}else{removeClassName(classNames.navinactive,prevMonth)}// remobve all highlight classes
-while(highlightClasses.length){highLightClass=highlightClasses.pop();removeClassInChilds(container,highLightClass)}// If not enough list items are present, create them
-if(dateList.childElementCount<42){while(dateList.childElementCount<42){i=dateList.childElementCount;weekenddefault=SP+(i%7===5||i%7===6?classNames.weekenddefault:BLANK);weekend=SP+(i%7===5||i%7===6?classNames.weekend:BLANK);// create date elements
-element=createElement('li',{appendTo:dateList,className:weekenddefault,events:{click:function click(){var info=calendar.info,events=calendar.events,selectedDate=info.selectedDate,active=info.active,tempDate={day:i-info.startingPos+1,month:active.month,year:active.year};if(tempDate.day>=1&&tempDate.day<=info.curMonthInfo.end-info.startingPos&&validateActiveStart(tempDate,info.rangeStart)&&validateActiveEnd(tempDate,info.rangeEnd)){selectedDate.day=tempDate.day;selectedDate.month=tempDate.month;selectedDate.year=tempDate.year;setSelectedDate(calendar);events.onDateChange&&events.onDateChange(selectedDate)}}}});dateLiElements.push(element);element=createElement('span',{appendTo:element,className:classNames.date+SP+classNames.daycol+DASH+i%7+weekend,innerHTML:SPACE});dateElements.push(element)}}// month and year changed
-monthStr.innerHTML=info.monthLabel[month-1]+SP+year;// print dates
-for(i=0,l=dateElements.length;i<l;i++){if(i<monthStaringWeekDay){// show days of previous month
-dateElements[i].innerHTML=new Date(year,month-1,i-monthStaringWeekDay+1).getDate();dateLiElements[i].className+=SP+classNames.disableddatedefault;dateElements[i].className+=SP+classNames.disableddate;dateLiElements[i].eventAttached&&dateLiElements[i].removeEventListener('click',dateElements[i]._clickHandler);dateLiElements[i].eventAttached=false}else if(i>=limit){// show days of next month
-cur=new Date(year,month-1,i-monthStaringWeekDay+1).getDate();dateElements[i].innerHTML=cur<10?'0'+cur:cur;dateLiElements[i].className+=SP+classNames.disableddatedefault;dateElements[i].className+=SP+classNames.disableddate;dateLiElements[i].eventAttached&&dateLiElements[i].removeEventListener('click',dateElements[i]._clickHandler);dateLiElements[i].eventAttached=false}else{j=i-monthStaringWeekDay+1;dateElements[i].innerHTML=j<10?'0'+j:j;highlightInfo=highlightMonth&&highlightMonth[j];if(highlightInfo){highLightClass=SP+classNames.highlightedDate;highlightInfo!==true&&(highLightClass+=SP+highlightInfo);highlightClasses.push(highLightClass)}!dateLiElements[i].eventAttached&&dateLiElements[i].addEventListener('click',dateLiElements[i]._clickHandler);dateLiElements[i].eventAttached=true;dateElements[i].className+=SP+(j<=startInactiveLimit||j>=endInactiveLimit?classNames.disableddate:classNames.normaldate)+(highlightInfo?highLightClass:BLANK);dateLiElements[i].className+=SP+(j<=startInactiveLimit||j>=endInactiveLimit?classNames.disableddatedefault:classNames.normaldatedefault)+(highlightInfo?highLightClass:BLANK)}}// if the selected date is on this month, heighlight it
-setSelectedDate(calendar)},// this function update the day labels
-disPlayDays=function disPlayDays(calendar){var info=calendar.info,weekStartingDay=info.weekStartingDay,dayElements=calendar.graphic.dayElements;var j=void 0;for(j=0;j<7;j++){dayElements[j].innerHTML=info.weekLabel[(j+weekStartingDay)%7]}},setSelectedDate=function setSelectedDate(calendar){var classNames=calendar.classNames,_calendar$info=calendar.info,selectedDate=_calendar$info.selectedDate,active=_calendar$info.active,startingPos=_calendar$info.startingPos,_calendar$graphic=calendar.graphic,container=_calendar$graphic.container,dateLiElements=_calendar$graphic.dateLiElements,dateElements=_calendar$graphic.dateElements;// if the selected date is on this month, heighlight it
-if(selectedDate.month===active.month&&selectedDate.year===active.year){// remove the class form the old element
-removeClassInChilds(container,classNames.selecteddatedefault);removeClassInChilds(container,classNames.selecteddate);dateLiElements[selectedDate.day+startingPos-1].className+=SP+classNames.selecteddatedefault;dateElements[selectedDate.day+startingPos-1].className+=SP+classNames.selecteddate}},// function to create dom elements
-createElement=function createElement(type,options){var appendTo=options.appendTo,className=options.className,inline=options.inline,id=options.id,innerHTML=options.innerHTML,events=options.events,element=document.createElement(type);// set the class
-className&&(element.className=className);// set inline style of the element
-inline&&element.setAttribute('style',inline);// set the attributes
-id&&(element.id=id);// add the innerHTML
-innerHTML&&(element.innerHTML=innerHTML);if(events){for(var event in events){element.addEventListener(event,events[event]);if(event==='click'){element['_'+event+'Handler']=events[event];element.eventAttached=true}}}// append to it's parent
-appendTo&&appendTo.appendChild(element);return element},// initailise calendar for the first time
-init=function init(calendar,config){var graphic=calendar.graphic,weekLabel=calendar.info.weekLabel,dateElements=graphic.dateElements,dayElements=graphic.dayElements,dateLiElements=graphic.dateLiElements,fontFamily=config['font-family']&&' font-family: '+config['font-family']+';'||'',classNames=calendar.classNames=Object.assign({},defaultClassNames,calendar._customCssClass),container=graphic.container=createElement('div',{appendTo:graphic.parentElement,inline:inlineStyle.container+fontFamily,className:classNames.container,id:calendar.id}),calendarHeader=graphic.calendarHeader=createElement('div',{appendTo:container,inline:inlineStyle.header// className: classNames.header
-}),headerUl=graphic.headerUl=createElement('ul',{appendTo:calendarHeader,className:classNames.header,inline:'height: 100% !important;'}),headerMonthLi=graphic.headerMonthLi=createElement('li',{appendTo:headerUl,inline:inlineStyle.month}),headerMonthUl=graphic.headerMonthUl=createElement('ul',{appendTo:headerMonthLi,className:classNames.month,inline:'height: 100% !important;'}),calendarSubHeader=graphic.calendarSubHeader=createElement('div',{appendTo:container,// className: classNames.subHeader,
-inline:inlineStyle.subheader}),weekDays=graphic.weekDays=createElement('ul',{appendTo:calendarSubHeader,className:classNames.subheader}),calendarBody=graphic.calendarBody=createElement('div',{appendTo:container,inline:inlineStyle.body}),days=graphic.days=graphic.dayCell=createElement('ul',{appendTo:calendarBody,inline:'padding: 1px !important; margin: 0px !important;',className:classNames.body});var element=void 0,i=void 0,weekend=void 0,weekenddefault=void 0;// set the container style
-setStyle(container,calendar.style);// set the UL styles
-setStyle(headerUl,ulPadZeroStyle);setStyle(weekDays,ulPadZeroStyle);setStyle(days,ulPadZeroStyle);setStyle(headerMonthUl,ulPadZeroStyle);// li for previous month pointer
-graphic.prevMonth=createElement('li',{appendTo:headerMonthUl,inline:inlineStyle.nav+SP+inlineStyle.navprev+SP,events:{click:function click(){var info=calendar.info,graphic=calendar.graphic,nextMonth=(info.active&&info.active.month)-1,year=info.active&&info.active.year,rangeStart=info.rangeStart;if(nextMonth<1){nextMonth=12;year--}if(!rangeStart||year>rangeStart.year){removeClassName(classNames.navinactive,graphic.prevMonth);removeClassName(classNames.navinactive,graphic.nextMonth);calendar.configure({active:{month:nextMonth,year:year}})}else if(year===rangeStart.year&&nextMonth>=rangeStart.month){removeClassName(classNames.navinactive,graphic.nextMonth);nextMonth===rangeStart.month&&(graphic.prevMonth.className+=SP+classNames.navinactive);calendar.configure({active:{month:nextMonth,year:year}})}}}});// span containing the left arrow
-graphic.prevMonthPointer=createElement('span',{appendTo:graphic.prevMonth,className:classNames.navprev,innerHTML:'&#10094;'});// li for month name
-graphic.monthStrLi=createElement('li',{appendTo:headerMonthUl,inline:inlineStyle.monthname});// span containing the month name
-graphic.monthStr=createElement('span',{appendTo:graphic.monthStrLi,className:classNames.monthname});// li for next month pointer
-graphic.nextMonth=createElement('li',{appendTo:headerMonthUl,inline:inlineStyle.nav+SP+inlineStyle.navnext+SP,events:{click:function click(){var info=calendar.info,graphic=calendar.graphic,nextMonth=(info.active&&info.active.month)+1,year=info.active&&info.active.year,rangeEnd=info.rangeEnd;if(nextMonth>12){nextMonth=1;year++}if(!rangeEnd||year<rangeEnd.year){removeClassName(classNames.navinactive,graphic.prevMonth);removeClassName(classNames.navinactive,graphic.nextMonth);calendar.configure({active:{month:nextMonth,year:year}})}else if(year===rangeEnd.year&&nextMonth<=rangeEnd.month){nextMonth===rangeEnd.month&&(graphic.nextMonth.className+=SP+classNames.navinactive);removeClassName(classNames.navinactive,graphic.prevMonth);calendar.configure({active:{month:nextMonth,year:year}})}}}});// span containing the right arrow
-graphic.nextMonthPointer=createElement('span',{appendTo:graphic.nextMonth,className:classNames.navnext,innerHTML:'&#10095;'});// Create the days of week list items
-for(i=1;i<8;i++){weekend=SP+(i>5?classNames.weekend:BLANK);weekenddefault=SP+(i>5?classNames.weekenddefault:BLANK);// create week elements
-element=createElement('li',{appendTo:weekDays,inline:inlineStyle.days,className:weekenddefault});element=createElement('span',{appendTo:element,innerHTML:weekLabel[i%7],inline:'display: block !important;',className:classNames.days+SP+classNames.indexeddays+i%7+weekend});dayElements.push(element)}// Create the days of month list items
-var _loop=function _loop(_i){weekenddefault=SP+(_i%7===5||_i%7===6?classNames.weekenddefault:BLANK);weekend=SP+(_i%7===5||_i%7===6?classNames.weekend:BLANK);// create date elements
-element=createElement('li',{appendTo:days,inline:inlineStyle.date,className:classNames.dateLI+weekenddefault});dateLiElements.push(element);element=createElement('span',{appendTo:element,className:classNames.date+SP+classNames.daycol+DASH+_i%7+weekend,inline:'display: block !important; padding: 4px 0px !important;',innerHTML:SPACE,events:{click:function click(){var info=calendar.info,events=calendar.events,selectedDate=info.selectedDate,active=info.active,tempDate={day:_i-info.startingPos+1,month:active.month,year:active.year};if(tempDate.day>=1&&tempDate.day<=info.curMonthInfo.end-info.startingPos&&validateActiveStart(tempDate,info.rangeStart)&&validateActiveEnd(tempDate,info.rangeEnd)){selectedDate.day=tempDate.day;selectedDate.month=tempDate.month;selectedDate.year=tempDate.year;setSelectedDate(calendar);events.onDateChange&&events.onDateChange(selectedDate)}}}});dateElements.push(element)};for(var _i=0;_i<42;_i++){_loop(_i)}},// validate active date
-validateActiveStart=function validateActiveStart(date,start){var day=date.day,month=date.month,year=date.year;return!(start&&(start.year>year||start.year===year&&(start.month>month||start.month===month&&start.day>day)))},// validate active date
-validateActiveEnd=function validateActiveEnd(date,end){var day=date.day,month=date.month,year=date.year;return!(end&&(end.year<year||end.year===year&&(end.month<month||end.month===month&&end.day<day)))};// calendar constructor
-var Calendar=function(){function Calendar(){var config=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{};_classCallCheck(this,Calendar);var calendar=this,today=new Date,currentDate={day:today.getDate(),month:today.getMonth()+1,year:today.getFullYear()};calendar._customCssClass={};calendar.graphic={parentElement:config.container||document.body,dateElements:[],dateLiElements:[],dayElements:[]};calendar.style={position:'absolute',top:'0px',left:'0px',width:minWidth+PX,// height: minHeight + PX,
-overflow:'hidden'};calendar.id=config.id||getuid();calendar.events={};calendar.info={selectedDate:currentDate,active:{month:currentDate.month,year:currentDate.year},weekLabel:[].concat(weekLabel),monthLabel:[].concat(monthLabel),weekStartingDay:1,posX:0,posY:0,height:minHeight,width:minWidth,vAlignment:'top',hAlignment:'left',highlightClasses:[]};if(config.customCssClass){calendar._customCssClass=config.customCssClass}// create the elements for first time only
-init(calendar,config);// configure Calendar with initial config
-calendar.configure(config,true)}// configure calendar
-_createClass(Calendar,[{key:'configure',value:function configure(config,doRepaint){var calendar=this,graphic=calendar.graphic,events=calendar.events,info=calendar.info,style=calendar.style,userEvents=config&&config.events;var parentElement=void 0,temp=void 0,positioningChanged=false;if(!config){return}if(config.customCssClass){calendar._customCssClass=config.customCssClass}calendar.classNames=Object.assign({},defaultClassNames,calendar._customCssClass);// set container
-if(config.container&&(parentElement=document.getElementById(config.container))){graphic.parentElement=parentElement;parentElement.appendChild(graphic.container)}else if(config.container instanceof Element){graphic.parentElement=config.container}// set User applied styles
-if(config.style&&config.style.position){style.position=config.style.position;setStyle(graphic.container,style)}// applying visual positioning configuraions to the container
-if(!isNaN(temp=Number(config.posX))){info.posX=temp;positioningChanged=true}if(!isNaN(temp=Number(config.posY))){info.posY=temp;positioningChanged=true}// if (!isNaN(temp = Number(config.height)) && temp > minHeight) {
-//   info.height = temp;
-//   style.height = temp + PX;
-//   positioningChanged = true;
-// }
-if(!isNaN(temp=Number(config.width))&&temp>minWidth){info.width=temp;style.width=temp+PX;positioningChanged=true}if(config.vAlignment&&(temp=config.vAlignment.toLowerCase())&&vAlignMultiplier[temp]!==UNDEFINED){info.vAlignment=temp;positioningChanged=true}if(config.hAlignment&&(temp=config.hAlignment.toLowerCase())&&hAlignMultiplier[temp]!==UNDEFINED){info.hAlignment=temp;positioningChanged=true}// set events on date, month and year change
-if(userEvents){typeof userEvents.onDateChange==='function'&&(events.onDateChange=userEvents.onDateChange);typeof userEvents.onYearChange==='function'&&(events.onYearChange=userEvents.onYearChange);typeof userEvents.onMonthChange==='function'&&(events.onMonthChange=userEvents.onMonthChange)}if(config.highlight){info.highlight=config.highlight;doRepaint=true}else if(config.highlight===null){delete info.highlight;doRepaint=true}// set calendar date
-if((temp=config.selectedDate)&&!isNaN(Date.parse(temp.month+SLASH+temp.day+SLASH+temp.year))){info.selectedDate=config.selectedDate;// update the active month as well
-info.active.month=info.selectedDate.month;info.active.year=info.selectedDate.year;doRepaint=true}if(config.showInactiveMonths!==UNDEFINED){info.showInactiveMonths=!!config.showInactiveMonths}// set active month
-if(config.active){temp={month:config.active.month||info.active.month,year:config.active.year||info.active.year};if((info.active.month!==temp.month||info.active.year!==temp.year)&&(info.showInactiveMonths||validateActiveStart(temp,info.rangeStart)&&validateActiveEnd(temp,info.rangeEnd))){info.active.month=temp.month;info.active.year=temp.year;doRepaint=true}}// set month names
-if(config.monthLabel&&config.monthLabel.length===12){info.monthLabel=config.monthLabel;doRepaint=true}// set day names
-if(config.weekLabel&&config.weekLabel.length===7){info.weekLabel=config.weekLabel;disPlayDays(calendar)}// set Starting day of week
-if(config.weekStart!==UNDEFINED&&info.weekStartingDay!==config.weekStart){info.weekStartingDay=config.weekStart;disPlayDays(calendar)}// Set active range start
-if(config.rangeStart&&validateActiveStart(info.selectedDate,config.rangeStart)){info.rangeStart=config.rangeStart;doRepaint=true}else if(config.rangeStart===null){delete info.rangeStart;doRepaint=true}// Set active range end
-if(config.rangeEnd&&validateActiveEnd(info.selectedDate,config.rangeEnd)){info.rangeEnd=config.rangeEnd;doRepaint=true;// Check whether the old active date is valid or not
-}else if(config.rangeEnd===null){delete info.rangeEnd;doRepaint=true}// set calendar to the desired date
-doRepaint&&displayMonth(calendar);if(positioningChanged){style.left=info.posX+info.width*(hAlignMultiplier[info.hAlignment]||0)+PX;info.height=graphic.container&&graphic.container.offsetHeight||minHeight;style.top=info.posY+info.height*(vAlignMultiplier[info.vAlignment]||0)+PX;setStyle(graphic.container,style)}}// call show function show calendar
-},{key:'show',value:function show(){var calendar=this,container=calendar.graphic.container;container.style.visibility='visible';container.style.opacity='1'}// call hide function to hide calendar
-},{key:'hide',value:function hide(){var calendar=this,container=calendar.graphic.container;container.style.visibility='hidden';container.style.opacity='0'}// returns the current or selected date
-},{key:'getDate',value:function getDate(){return this.info.selectedDate}// add custom funcion on click
-},{key:'addEventListner',value:function addEventListner(eventName,handler){typeof handler==='function'&&this.events&&(this.events[eventName]=handler)}// remove custom funcion on click
-},{key:'removeEventListner',value:function removeEventListner(eventName){if(this.events&&this.events[eventName]){delete this.events[eventName]}}},{key:'getDimension',value:function getDimension(){var graphic=this.graphic;return{width:graphic.container.offsetWidth,height:graphic.container.offsetHeight}}// dispose the dom elements
-},{key:'dispose',value:function dispose(){var graphic=this.graphic,parentElement=graphic.parentElement,container=graphic.container;parentElement.removeChild(container)}}]);return Calendar}();// attache to the window if availabel
-// if (window) {
-//   window.FusionCalendar = Calendar;
-// }
-exports.default=Calendar;
+eval("\n\n/*\n  MIT License http://www.opensource.org/licenses/mit-license.php\n  Author Tobias Koppers @sokra\n*/\n// css base code, injected by the css-loader\n// eslint-disable-next-line func-names\nmodule.exports = function (useSourceMap) {\n  var list = []; // return the list of modules as css string\n\n  list.toString = function toString() {\n    return this.map(function (item) {\n      var content = cssWithMappingToString(item, useSourceMap);\n\n      if (item[2]) {\n        return \"@media \".concat(item[2], \"{\").concat(content, \"}\");\n      }\n\n      return content;\n    }).join('');\n  }; // import a list of modules into the list\n  // eslint-disable-next-line func-names\n\n\n  list.i = function (modules, mediaQuery) {\n    if (typeof modules === 'string') {\n      // eslint-disable-next-line no-param-reassign\n      modules = [[null, modules, '']];\n    }\n\n    var alreadyImportedModules = {};\n\n    for (var i = 0; i < this.length; i++) {\n      // eslint-disable-next-line prefer-destructuring\n      var id = this[i][0];\n\n      if (id != null) {\n        alreadyImportedModules[id] = true;\n      }\n    }\n\n    for (var _i = 0; _i < modules.length; _i++) {\n      var item = modules[_i]; // skip already imported module\n      // this implementation is not 100% perfect for weird media query combinations\n      // when a module is imported multiple times with different media queries.\n      // I hope this will never occur (Hey this way we have smaller bundles)\n\n      if (item[0] == null || !alreadyImportedModules[item[0]]) {\n        if (mediaQuery && !item[2]) {\n          item[2] = mediaQuery;\n        } else if (mediaQuery) {\n          item[2] = \"(\".concat(item[2], \") and (\").concat(mediaQuery, \")\");\n        }\n\n        list.push(item);\n      }\n    }\n  };\n\n  return list;\n};\n\nfunction cssWithMappingToString(item, useSourceMap) {\n  var content = item[1] || ''; // eslint-disable-next-line prefer-destructuring\n\n  var cssMapping = item[3];\n\n  if (!cssMapping) {\n    return content;\n  }\n\n  if (useSourceMap && typeof btoa === 'function') {\n    var sourceMapping = toComment(cssMapping);\n    var sourceURLs = cssMapping.sources.map(function (source) {\n      return \"/*# sourceURL=\".concat(cssMapping.sourceRoot).concat(source, \" */\");\n    });\n    return [content].concat(sourceURLs).concat([sourceMapping]).join('\\n');\n  }\n\n  return [content].join('\\n');\n} // Adapted from convert-source-map (MIT)\n\n\nfunction toComment(sourceMap) {\n  // eslint-disable-next-line no-undef\n  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));\n  var data = \"sourceMappingURL=data:application/json;charset=utf-8;base64,\".concat(base64);\n  return \"/*# \".concat(data, \" */\");\n}\n\n//# sourceURL=webpack:///./node_modules/css-loader/dist/runtime/api.js?");
 
-/***/ }
-/******/ ]);
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/addStyles.js":
+/*!****************************************************!*\
+  !*** ./node_modules/style-loader/lib/addStyles.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("/*\n\tMIT License http://www.opensource.org/licenses/mit-license.php\n\tAuthor Tobias Koppers @sokra\n*/\n\nvar stylesInDom = {};\n\nvar\tmemoize = function (fn) {\n\tvar memo;\n\n\treturn function () {\n\t\tif (typeof memo === \"undefined\") memo = fn.apply(this, arguments);\n\t\treturn memo;\n\t};\n};\n\nvar isOldIE = memoize(function () {\n\t// Test for IE <= 9 as proposed by Browserhacks\n\t// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805\n\t// Tests for existence of standard globals is to allow style-loader\n\t// to operate correctly into non-standard environments\n\t// @see https://github.com/webpack-contrib/style-loader/issues/177\n\treturn window && document && document.all && !window.atob;\n});\n\nvar getTarget = function (target, parent) {\n  if (parent){\n    return parent.querySelector(target);\n  }\n  return document.querySelector(target);\n};\n\nvar getElement = (function (fn) {\n\tvar memo = {};\n\n\treturn function(target, parent) {\n                // If passing function in options, then use it for resolve \"head\" element.\n                // Useful for Shadow Root style i.e\n                // {\n                //   insertInto: function () { return document.querySelector(\"#foo\").shadowRoot }\n                // }\n                if (typeof target === 'function') {\n                        return target();\n                }\n                if (typeof memo[target] === \"undefined\") {\n\t\t\tvar styleTarget = getTarget.call(this, target, parent);\n\t\t\t// Special case to return head of iframe instead of iframe itself\n\t\t\tif (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {\n\t\t\t\ttry {\n\t\t\t\t\t// This will throw an exception if access to iframe is blocked\n\t\t\t\t\t// due to cross-origin restrictions\n\t\t\t\t\tstyleTarget = styleTarget.contentDocument.head;\n\t\t\t\t} catch(e) {\n\t\t\t\t\tstyleTarget = null;\n\t\t\t\t}\n\t\t\t}\n\t\t\tmemo[target] = styleTarget;\n\t\t}\n\t\treturn memo[target]\n\t};\n})();\n\nvar singleton = null;\nvar\tsingletonCounter = 0;\nvar\tstylesInsertedAtTop = [];\n\nvar\tfixUrls = __webpack_require__(/*! ./urls */ \"./node_modules/style-loader/lib/urls.js\");\n\nmodule.exports = function(list, options) {\n\tif (typeof DEBUG !== \"undefined\" && DEBUG) {\n\t\tif (typeof document !== \"object\") throw new Error(\"The style-loader cannot be used in a non-browser environment\");\n\t}\n\n\toptions = options || {};\n\n\toptions.attrs = typeof options.attrs === \"object\" ? options.attrs : {};\n\n\t// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>\n\t// tags it will allow on a page\n\tif (!options.singleton && typeof options.singleton !== \"boolean\") options.singleton = isOldIE();\n\n\t// By default, add <style> tags to the <head> element\n        if (!options.insertInto) options.insertInto = \"head\";\n\n\t// By default, add <style> tags to the bottom of the target\n\tif (!options.insertAt) options.insertAt = \"bottom\";\n\n\tvar styles = listToStyles(list, options);\n\n\taddStylesToDom(styles, options);\n\n\treturn function update (newList) {\n\t\tvar mayRemove = [];\n\n\t\tfor (var i = 0; i < styles.length; i++) {\n\t\t\tvar item = styles[i];\n\t\t\tvar domStyle = stylesInDom[item.id];\n\n\t\t\tdomStyle.refs--;\n\t\t\tmayRemove.push(domStyle);\n\t\t}\n\n\t\tif(newList) {\n\t\t\tvar newStyles = listToStyles(newList, options);\n\t\t\taddStylesToDom(newStyles, options);\n\t\t}\n\n\t\tfor (var i = 0; i < mayRemove.length; i++) {\n\t\t\tvar domStyle = mayRemove[i];\n\n\t\t\tif(domStyle.refs === 0) {\n\t\t\t\tfor (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();\n\n\t\t\t\tdelete stylesInDom[domStyle.id];\n\t\t\t}\n\t\t}\n\t};\n};\n\nfunction addStylesToDom (styles, options) {\n\tfor (var i = 0; i < styles.length; i++) {\n\t\tvar item = styles[i];\n\t\tvar domStyle = stylesInDom[item.id];\n\n\t\tif(domStyle) {\n\t\t\tdomStyle.refs++;\n\n\t\t\tfor(var j = 0; j < domStyle.parts.length; j++) {\n\t\t\t\tdomStyle.parts[j](item.parts[j]);\n\t\t\t}\n\n\t\t\tfor(; j < item.parts.length; j++) {\n\t\t\t\tdomStyle.parts.push(addStyle(item.parts[j], options));\n\t\t\t}\n\t\t} else {\n\t\t\tvar parts = [];\n\n\t\t\tfor(var j = 0; j < item.parts.length; j++) {\n\t\t\t\tparts.push(addStyle(item.parts[j], options));\n\t\t\t}\n\n\t\t\tstylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};\n\t\t}\n\t}\n}\n\nfunction listToStyles (list, options) {\n\tvar styles = [];\n\tvar newStyles = {};\n\n\tfor (var i = 0; i < list.length; i++) {\n\t\tvar item = list[i];\n\t\tvar id = options.base ? item[0] + options.base : item[0];\n\t\tvar css = item[1];\n\t\tvar media = item[2];\n\t\tvar sourceMap = item[3];\n\t\tvar part = {css: css, media: media, sourceMap: sourceMap};\n\n\t\tif(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});\n\t\telse newStyles[id].parts.push(part);\n\t}\n\n\treturn styles;\n}\n\nfunction insertStyleElement (options, style) {\n\tvar target = getElement(options.insertInto)\n\n\tif (!target) {\n\t\tthrow new Error(\"Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.\");\n\t}\n\n\tvar lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];\n\n\tif (options.insertAt === \"top\") {\n\t\tif (!lastStyleElementInsertedAtTop) {\n\t\t\ttarget.insertBefore(style, target.firstChild);\n\t\t} else if (lastStyleElementInsertedAtTop.nextSibling) {\n\t\t\ttarget.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);\n\t\t} else {\n\t\t\ttarget.appendChild(style);\n\t\t}\n\t\tstylesInsertedAtTop.push(style);\n\t} else if (options.insertAt === \"bottom\") {\n\t\ttarget.appendChild(style);\n\t} else if (typeof options.insertAt === \"object\" && options.insertAt.before) {\n\t\tvar nextSibling = getElement(options.insertAt.before, target);\n\t\ttarget.insertBefore(style, nextSibling);\n\t} else {\n\t\tthrow new Error(\"[Style Loader]\\n\\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\\n Must be 'top', 'bottom', or Object.\\n (https://github.com/webpack-contrib/style-loader#insertat)\\n\");\n\t}\n}\n\nfunction removeStyleElement (style) {\n\tif (style.parentNode === null) return false;\n\tstyle.parentNode.removeChild(style);\n\n\tvar idx = stylesInsertedAtTop.indexOf(style);\n\tif(idx >= 0) {\n\t\tstylesInsertedAtTop.splice(idx, 1);\n\t}\n}\n\nfunction createStyleElement (options) {\n\tvar style = document.createElement(\"style\");\n\n\tif(options.attrs.type === undefined) {\n\t\toptions.attrs.type = \"text/css\";\n\t}\n\n\tif(options.attrs.nonce === undefined) {\n\t\tvar nonce = getNonce();\n\t\tif (nonce) {\n\t\t\toptions.attrs.nonce = nonce;\n\t\t}\n\t}\n\n\taddAttrs(style, options.attrs);\n\tinsertStyleElement(options, style);\n\n\treturn style;\n}\n\nfunction createLinkElement (options) {\n\tvar link = document.createElement(\"link\");\n\n\tif(options.attrs.type === undefined) {\n\t\toptions.attrs.type = \"text/css\";\n\t}\n\toptions.attrs.rel = \"stylesheet\";\n\n\taddAttrs(link, options.attrs);\n\tinsertStyleElement(options, link);\n\n\treturn link;\n}\n\nfunction addAttrs (el, attrs) {\n\tObject.keys(attrs).forEach(function (key) {\n\t\tel.setAttribute(key, attrs[key]);\n\t});\n}\n\nfunction getNonce() {\n\tif (false) {}\n\n\treturn __webpack_require__.nc;\n}\n\nfunction addStyle (obj, options) {\n\tvar style, update, remove, result;\n\n\t// If a transform function was defined, run it on the css\n\tif (options.transform && obj.css) {\n\t    result = typeof options.transform === 'function'\n\t\t ? options.transform(obj.css) \n\t\t : options.transform.default(obj.css);\n\n\t    if (result) {\n\t    \t// If transform returns a value, use that instead of the original css.\n\t    \t// This allows running runtime transformations on the css.\n\t    \tobj.css = result;\n\t    } else {\n\t    \t// If the transform function returns a falsy value, don't add this css.\n\t    \t// This allows conditional loading of css\n\t    \treturn function() {\n\t    \t\t// noop\n\t    \t};\n\t    }\n\t}\n\n\tif (options.singleton) {\n\t\tvar styleIndex = singletonCounter++;\n\n\t\tstyle = singleton || (singleton = createStyleElement(options));\n\n\t\tupdate = applyToSingletonTag.bind(null, style, styleIndex, false);\n\t\tremove = applyToSingletonTag.bind(null, style, styleIndex, true);\n\n\t} else if (\n\t\tobj.sourceMap &&\n\t\ttypeof URL === \"function\" &&\n\t\ttypeof URL.createObjectURL === \"function\" &&\n\t\ttypeof URL.revokeObjectURL === \"function\" &&\n\t\ttypeof Blob === \"function\" &&\n\t\ttypeof btoa === \"function\"\n\t) {\n\t\tstyle = createLinkElement(options);\n\t\tupdate = updateLink.bind(null, style, options);\n\t\tremove = function () {\n\t\t\tremoveStyleElement(style);\n\n\t\t\tif(style.href) URL.revokeObjectURL(style.href);\n\t\t};\n\t} else {\n\t\tstyle = createStyleElement(options);\n\t\tupdate = applyToTag.bind(null, style);\n\t\tremove = function () {\n\t\t\tremoveStyleElement(style);\n\t\t};\n\t}\n\n\tupdate(obj);\n\n\treturn function updateStyle (newObj) {\n\t\tif (newObj) {\n\t\t\tif (\n\t\t\t\tnewObj.css === obj.css &&\n\t\t\t\tnewObj.media === obj.media &&\n\t\t\t\tnewObj.sourceMap === obj.sourceMap\n\t\t\t) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tupdate(obj = newObj);\n\t\t} else {\n\t\t\tremove();\n\t\t}\n\t};\n}\n\nvar replaceText = (function () {\n\tvar textStore = [];\n\n\treturn function (index, replacement) {\n\t\ttextStore[index] = replacement;\n\n\t\treturn textStore.filter(Boolean).join('\\n');\n\t};\n})();\n\nfunction applyToSingletonTag (style, index, remove, obj) {\n\tvar css = remove ? \"\" : obj.css;\n\n\tif (style.styleSheet) {\n\t\tstyle.styleSheet.cssText = replaceText(index, css);\n\t} else {\n\t\tvar cssNode = document.createTextNode(css);\n\t\tvar childNodes = style.childNodes;\n\n\t\tif (childNodes[index]) style.removeChild(childNodes[index]);\n\n\t\tif (childNodes.length) {\n\t\t\tstyle.insertBefore(cssNode, childNodes[index]);\n\t\t} else {\n\t\t\tstyle.appendChild(cssNode);\n\t\t}\n\t}\n}\n\nfunction applyToTag (style, obj) {\n\tvar css = obj.css;\n\tvar media = obj.media;\n\n\tif(media) {\n\t\tstyle.setAttribute(\"media\", media)\n\t}\n\n\tif(style.styleSheet) {\n\t\tstyle.styleSheet.cssText = css;\n\t} else {\n\t\twhile(style.firstChild) {\n\t\t\tstyle.removeChild(style.firstChild);\n\t\t}\n\n\t\tstyle.appendChild(document.createTextNode(css));\n\t}\n}\n\nfunction updateLink (link, options, obj) {\n\tvar css = obj.css;\n\tvar sourceMap = obj.sourceMap;\n\n\t/*\n\t\tIf convertToAbsoluteUrls isn't defined, but sourcemaps are enabled\n\t\tand there is no publicPath defined then lets turn convertToAbsoluteUrls\n\t\ton by default.  Otherwise default to the convertToAbsoluteUrls option\n\t\tdirectly\n\t*/\n\tvar autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;\n\n\tif (options.convertToAbsoluteUrls || autoFixUrls) {\n\t\tcss = fixUrls(css);\n\t}\n\n\tif (sourceMap) {\n\t\t// http://stackoverflow.com/a/26603875\n\t\tcss += \"\\n/*# sourceMappingURL=data:application/json;base64,\" + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + \" */\";\n\t}\n\n\tvar blob = new Blob([css], { type: \"text/css\" });\n\n\tvar oldSrc = link.href;\n\n\tlink.href = URL.createObjectURL(blob);\n\n\tif(oldSrc) URL.revokeObjectURL(oldSrc);\n}\n\n\n//# sourceURL=webpack:///./node_modules/style-loader/lib/addStyles.js?");
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/urls.js":
+/*!***********************************************!*\
+  !*** ./node_modules/style-loader/lib/urls.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("\n/**\n * When source maps are enabled, `style-loader` uses a link element with a data-uri to\n * embed the css on the page. This breaks all relative urls because now they are relative to a\n * bundle instead of the current page.\n *\n * One solution is to only use full urls, but that may be impossible.\n *\n * Instead, this function \"fixes\" the relative urls to be absolute according to the current page location.\n *\n * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.\n *\n */\n\nmodule.exports = function (css) {\n  // get current location\n  var location = typeof window !== \"undefined\" && window.location;\n\n  if (!location) {\n    throw new Error(\"fixUrls requires window.location\");\n  }\n\n\t// blank or null?\n\tif (!css || typeof css !== \"string\") {\n\t  return css;\n  }\n\n  var baseUrl = location.protocol + \"//\" + location.host;\n  var currentDir = baseUrl + location.pathname.replace(/\\/[^\\/]*$/, \"/\");\n\n\t// convert each url(...)\n\t/*\n\tThis regular expression is just a way to recursively match brackets within\n\ta string.\n\n\t /url\\s*\\(  = Match on the word \"url\" with any whitespace after it and then a parens\n\t   (  = Start a capturing group\n\t     (?:  = Start a non-capturing group\n\t         [^)(]  = Match anything that isn't a parentheses\n\t         |  = OR\n\t         \\(  = Match a start parentheses\n\t             (?:  = Start another non-capturing groups\n\t                 [^)(]+  = Match anything that isn't a parentheses\n\t                 |  = OR\n\t                 \\(  = Match a start parentheses\n\t                     [^)(]*  = Match anything that isn't a parentheses\n\t                 \\)  = Match a end parentheses\n\t             )  = End Group\n              *\\) = Match anything and then a close parens\n          )  = Close non-capturing group\n          *  = Match anything\n       )  = Close capturing group\n\t \\)  = Match a close parens\n\n\t /gi  = Get all matches, not the first.  Be case insensitive.\n\t */\n\tvar fixedCss = css.replace(/url\\s*\\(((?:[^)(]|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)/gi, function(fullMatch, origUrl) {\n\t\t// strip quotes (if they exist)\n\t\tvar unquotedOrigUrl = origUrl\n\t\t\t.trim()\n\t\t\t.replace(/^\"(.*)\"$/, function(o, $1){ return $1; })\n\t\t\t.replace(/^'(.*)'$/, function(o, $1){ return $1; });\n\n\t\t// already a full url? no change\n\t\tif (/^(#|data:|http:\\/\\/|https:\\/\\/|file:\\/\\/\\/|\\s*$)/i.test(unquotedOrigUrl)) {\n\t\t  return fullMatch;\n\t\t}\n\n\t\t// convert the url to a full url\n\t\tvar newUrl;\n\n\t\tif (unquotedOrigUrl.indexOf(\"//\") === 0) {\n\t\t  \t//TODO: should we add protocol?\n\t\t\tnewUrl = unquotedOrigUrl;\n\t\t} else if (unquotedOrigUrl.indexOf(\"/\") === 0) {\n\t\t\t// path should be relative to the base url\n\t\t\tnewUrl = baseUrl + unquotedOrigUrl; // already starts with '/'\n\t\t} else {\n\t\t\t// path should be relative to current directory\n\t\t\tnewUrl = currentDir + unquotedOrigUrl.replace(/^\\.\\//, \"\"); // Strip leading './'\n\t\t}\n\n\t\t// send back the fixed url(...)\n\t\treturn \"url(\" + JSON.stringify(newUrl) + \")\";\n\t});\n\n\t// send back the fixed css\n\treturn fixedCss;\n};\n\n\n//# sourceURL=webpack:///./node_modules/style-loader/lib/urls.js?");
+
+/***/ }),
+
+/***/ "./src/css/fc-calendar.css":
+/*!*********************************!*\
+  !*** ./src/css/fc-calendar.css ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("\nvar content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!./fc-calendar.css */ \"./node_modules/css-loader/dist/cjs.js!./src/css/fc-calendar.css\");\n\nif(typeof content === 'string') content = [[module.i, content, '']];\n\nvar transform;\nvar insertInto;\n\n\n\nvar options = {\"attrs\":{\"id\":\"fc__calendar__style\"},\"hmr\":true}\n\noptions.transform = transform\noptions.insertInto = undefined;\n\nvar update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ \"./node_modules/style-loader/lib/addStyles.js\")(content, options);\n\nif(content.locals) module.exports = content.locals;\n\nif(false) {}\n\n//# sourceURL=webpack:///./src/css/fc-calendar.css?");
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n__webpack_require__(/*! ./css/fc-calendar.css */ \"./src/css/fc-calendar.css\");\n\nvar idNo = 0;\n\nvar UNDEFINED = undefined,\n    // basic calendar configaration\ndaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],\n    weekLabel = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],\n    monthLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],\n    defaultClassNames = {\n  container: 'fc-cal-container',\n  header: 'fc-cal-header',\n  month: 'fc-cal-month-header',\n  year: 'fc-cal-year-header',\n  monthname: 'fc-cal-month',\n  yearname: 'fc-cal-year',\n  nav: 'fc-cal-nav',\n  navprev: 'fc-cal-nav-prev',\n  navnext: 'fc-cal-nav-next',\n  navinactive: 'fc-cal-nav-inactive',\n  navmonth: 'fc-cal-nav-month',\n  navyear: 'fc-cal-nav-year',\n  subheader: 'fc-cal-sub-header',\n  days: 'fc-cal-day',\n  indexeddays: 'fc-cal-day-',\n  // Index will be added at the end\n  body: 'fc-cal-body',\n  date: 'fc-cal-date',\n  dateLI: 'fc-cal-date-li',\n  selecteddatedefault: 'fc-cal-date-selected-default',\n  disableddatedefault: 'fc-cal-date-disabled-default',\n  normaldatedefault: 'fc-cal-date-normal-default',\n  highlighteddatedefault: 'fc-cal-date-highlight-default',\n  selecteddate: 'fc-cal-date-selected',\n  normaldate: 'fc-cal-date-normal',\n  disableddate: 'fc-cal-date-disabled',\n  highlighteddate: 'fc-cal-date-highlight',\n  daycol: 'fc-cal-day-col',\n  weekenddefault: 'fc-cal-weekend-default',\n  weekend: 'fc-cal-weekend'\n},\n    inlineStyle = {\n  container: 'box-sizing: border-box !important; -webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; vertical-align: top !important; padding-bottom: 0 !important; margin: 0px 0px 0px 0px !important; float: left;' + 'font-size: 11px !important; max-width: 163px !important; background-color: #fff !important; border: 1px solid #a5a4a4;',\n  header: 'box-sizing: border-box !important; overflow: hidden !important; height: 26px !important; line-height: 2.4 !important' + 'font-size: 12px !important; background-color: #5648D4 !important;',\n  month: 'display: block !important; width: 100% !important; float: left !important; height: 100% !important;' + 'font-weight: bold !important; color: #F3F3F3 !important; font-size: 13px !important;',\n  year: 'display: block !important; width: 35% !important; float: right !important;',\n  monthname: 'display: inline-block !important; padding: 4px !important;',\n  yearname: 'display: inline-block !important; padding-right: 5px !important; padding-left: 5px !important;',\n  nav: 'display: inline-block !important; cursor: pointer !important; padding: 4px;',\n  navprev: 'float: left !important; padding-left: 8px !important;',\n  navnext: 'float: right !important; padding-right: 8px !important;',\n  navinactive: 'cursor: default !important;',\n  navmonth: '',\n  navyear: '',\n  subheader: 'text-transform: uppercase !important; overflow: hidden !important; color: #666 !important;',\n  days: 'box-sizing: border-box !important; display: block !important; float: left !important; width: 14.28571% !important; line-height: 2.3 !important;',\n  indexeddays: '',\n  body: 'width: 100% !important;',\n  date: 'box-sizing: border-box !important; text-align: center !important; display: block !important; margin: 0 auto !important;' + 'border: 0px solid transparent !important; width: 14.2857% !important; padding: 0px !important;',\n  dateLI: 'box-sizing: border-box !important; float: left !important; list-style-type: none !important; width: 14.28571% !important; height: auto!important;',\n  selecteddate: '',\n  disableddate: '',\n  normaldate: 'cursor: pointer !important;',\n  highlightedDate: '',\n  daycol: '',\n  weekenddefault: 'background-color: #F7F6FF!important;',\n  weekend: ''\n},\n    ulPadZeroStyle = {\n  padding: '0',\n  margin: 0\n},\n    minHeight = 300,\n    minWidth = 300,\n    PX = 'px',\n    SP = ' ',\n    BLANK = '',\n    SPACE = '&nbsp;',\n    DASH = '-',\n    SLASH = '/',\n    vAlignMultiplier = {\n  top: 0,\n  middle: -0.5,\n  bottom: -1\n},\n    hAlignMultiplier = {\n  left: 0,\n  center: -0.5,\n  right: -1\n},\n    // get id for container\ngetuid = function getuid() {\n  return \"fc_calendar-\".concat(idNo++);\n},\n    // check if the year is leap year or not\ncheckLeapYear = function checkLeapYear(year) {\n  return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;\n},\n    // apply custom style to the container\nsetStyle = function setStyle(element, style) {\n  if (style && element && element.style) {\n    for (var key in style) {\n      if (style.hasOwnProperty(key)) {\n        element.style[key] = style[key];\n      }\n    }\n  }\n},\n    removeClassName = function removeClassName(className, element) {\n  var classNameList = element && element.className;\n\n  if (classNameList && className) {\n    element.className = classNameList.replace(new RegExp('(?:^|\\\\s*)' + className.trim() + '(?:\\\\s*|$)'), ' ');\n  }\n},\n    removeClassInChilds = function removeClassInChilds(parent, className) {\n  var children, i, j, l, classArr;\n\n  if (parent && parent.getElementsByClassName) {\n    classArr = className.trim().split(SP);\n\n    for (j = 0, l = classArr.length; j < l; j += 1) {\n      className = classArr[j];\n      children = parent.getElementsByClassName(className);\n\n      for (i = children.length - 1; i >= 0; i--) {\n        removeClassName(className, children[i]);\n      }\n    }\n  }\n},\n    // this function will update the calendar\n// without re-drawing the elements\ndisplayMonth = function displayMonth(calendar) {\n  var info = calendar.info,\n      graphic = calendar.graphic,\n      classNames = calendar.classNames,\n      active = info.active,\n      rangeStart = info.rangeStart,\n      rangeEnd = info.rangeEnd,\n      weekStartingDay = info.weekStartingDay,\n      highlight = info.highlight,\n      highlightClasses = info.highlightClasses,\n      showInactiveMonths = info.showInactiveMonths,\n      monthStr = graphic.monthStr,\n      yearStr = graphic.yearStr,\n      dateElements = graphic.dateElements,\n      dateLiElements = graphic.dateLiElements,\n      container = graphic.container,\n      prevMonth = graphic.prevMonth,\n      prevMonthPointer = graphic.prevMonthPointer,\n      nextMonth = graphic.nextMonth,\n      nextMonthPointer = graphic.nextMonthPointer,\n      prevYear = graphic.prevYear,\n      nextYear = graphic.nextYear,\n      month = active.month,\n      year = active.year,\n      highlightMonth = highlight && highlight[year] && highlight[year][month],\n      startingOfMonth = new Date(\"\".concat(month, \"/1/\").concat(year)),\n      monthStaringDay = startingOfMonth.getDay(),\n      monthStaringWeekDay = info.startingPos = monthStaringDay - weekStartingDay + (weekStartingDay <= monthStaringDay ? 0 : 7),\n      totalDays = daysInMonth[month - 1] + (checkLeapYear(year) && month === 2 ? 1 : 0),\n      limit = totalDays + monthStaringWeekDay,\n      startActive = validateActiveStart({\n    day: 1,\n    month: month,\n    year: year\n  }, rangeStart),\n      endActive = validateActiveEnd({\n    day: totalDays,\n    month: month,\n    year: year\n  }, rangeEnd),\n      startInactiveLimit = startActive ? 0 : rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays,\n      endInactiveLimit = endActive ? totalDays + 1 : rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1;\n  var i,\n      j,\n      l,\n      cur,\n      highlightInfo,\n      highLightClass,\n      dateList,\n      weekenddefault,\n      weekend,\n      element,\n      disablePrevMonthLi = rangeStart && rangeStart.year === active.year && rangeStart.month === active.month,\n      disableNextMonthLi = rangeEnd && rangeEnd.year === active.year && rangeEnd.month === active.month;\n  info.curMonthInfo = {\n    start: monthStaringDay,\n    end: limit\n  };\n  dateList = graphic.calendarBody.children[0]; // remove previously applied Classes\n\n  removeClassInChilds(container, classNames.normaldatedefault);\n  removeClassInChilds(container, classNames.selecteddatedefault);\n  removeClassInChilds(container, classNames.disableddatedefault);\n  removeClassInChilds(container, classNames.normaldate);\n  removeClassInChilds(container, classNames.selecteddate);\n  removeClassInChilds(container, classNames.disableddate);\n  removeClassInChilds(container, classNames.navinactive); // make navigators inactive\n\n  if (disableNextMonthLi) {\n    nextMonthPointer.className += SP + classNames.navinactive;\n  } else {\n    removeClassName(classNames.navinactive, nextMonth);\n  }\n\n  if (disablePrevMonthLi) {\n    prevMonthPointer.className += SP + classNames.navinactive;\n  } else {\n    removeClassName(classNames.navinactive, prevMonth);\n  } // remobve all highlight classes\n\n\n  while (highlightClasses.length) {\n    highLightClass = highlightClasses.pop();\n    removeClassInChilds(container, highLightClass);\n  } // If not enough list items are present, create them\n\n\n  if (dateList.childElementCount < 42) {\n    while (dateList.childElementCount < 42) {\n      i = dateList.childElementCount;\n      weekenddefault = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekenddefault : BLANK);\n      weekend = SP + (i % 7 === 5 || i % 7 === 6 ? classNames.weekend : BLANK); // create date elements\n\n      element = createElement('li', {\n        appendTo: dateList,\n        className: weekenddefault,\n        events: {\n          click: function click() {\n            var info = calendar.info,\n                events = calendar.events,\n                selectedDate = info.selectedDate,\n                active = info.active,\n                tempDate = {\n              day: i - info.startingPos + 1,\n              month: active.month,\n              year: active.year\n            };\n\n            if (tempDate.day >= 1 && tempDate.day <= info.curMonthInfo.end - info.startingPos && validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {\n              selectedDate.day = tempDate.day;\n              selectedDate.month = tempDate.month;\n              selectedDate.year = tempDate.year;\n              setSelectedDate(calendar);\n              events.onDateChange && events.onDateChange(selectedDate);\n            }\n          }\n        }\n      });\n      dateLiElements.push(element);\n      element = createElement('span', {\n        appendTo: element,\n        className: classNames.date + SP + classNames.daycol + DASH + i % 7 + weekend,\n        innerHTML: SPACE\n      });\n      dateElements.push(element);\n    }\n  } // month and year changed\n\n\n  monthStr.innerHTML = info.monthLabel[month - 1] + SP + year; // print dates\n\n  for (i = 0, l = dateElements.length; i < l; i++) {\n    if (i < monthStaringWeekDay) {\n      // show days of previous month\n      dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();\n      dateLiElements[i].className += SP + classNames.disableddatedefault;\n      dateElements[i].className += SP + classNames.disableddate;\n      dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);\n      dateLiElements[i].eventAttached = false;\n    } else if (i >= limit) {\n      // show days of next month\n      cur = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();\n      dateElements[i].innerHTML = cur < 10 ? '0' + cur : cur;\n      dateLiElements[i].className += SP + classNames.disableddatedefault;\n      dateElements[i].className += SP + classNames.disableddate;\n      dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);\n      dateLiElements[i].eventAttached = false;\n    } else {\n      j = i - monthStaringWeekDay + 1;\n      dateElements[i].innerHTML = j < 10 ? '0' + j : j;\n      highlightInfo = highlightMonth && highlightMonth[j];\n\n      if (highlightInfo) {\n        highLightClass = SP + classNames.highlightedDate;\n        highlightInfo !== true && (highLightClass += SP + highlightInfo);\n        highlightClasses.push(highLightClass);\n      }\n\n      !dateLiElements[i].eventAttached && dateLiElements[i].addEventListener('click', dateLiElements[i]._clickHandler);\n      dateLiElements[i].eventAttached = true;\n      dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.normaldate) + (highlightInfo ? highLightClass : BLANK);\n      dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddatedefault : classNames.normaldatedefault) + (highlightInfo ? highLightClass : BLANK);\n    }\n  } // if the selected date is on this month, heighlight it\n\n\n  setSelectedDate(calendar);\n},\n    // this function update the day labels\ndisPlayDays = function disPlayDays(calendar) {\n  var info = calendar.info,\n      weekStartingDay = info.weekStartingDay,\n      dayElements = calendar.graphic.dayElements;\n  var j;\n\n  for (j = 0; j < 7; j++) {\n    dayElements[j].innerHTML = info.weekLabel[(j + weekStartingDay) % 7];\n  }\n},\n    setSelectedDate = function setSelectedDate(calendar) {\n  var classNames = calendar.classNames,\n      _calendar$info = calendar.info,\n      selectedDate = _calendar$info.selectedDate,\n      active = _calendar$info.active,\n      startingPos = _calendar$info.startingPos,\n      _calendar$graphic = calendar.graphic,\n      container = _calendar$graphic.container,\n      dateLiElements = _calendar$graphic.dateLiElements,\n      dateElements = _calendar$graphic.dateElements; // if the selected date is on this month, heighlight it\n\n  if (selectedDate.month === active.month && selectedDate.year === active.year) {\n    // remove the class form the old element\n    removeClassInChilds(container, classNames.selecteddatedefault);\n    removeClassInChilds(container, classNames.selecteddate);\n    dateLiElements[selectedDate.day + startingPos - 1].className += SP + classNames.selecteddatedefault;\n    dateElements[selectedDate.day + startingPos - 1].className += SP + classNames.selecteddate;\n  }\n},\n    // function to create dom elements\ncreateElement = function createElement(type, options) {\n  var appendTo = options.appendTo,\n      className = options.className,\n      inline = options.inline,\n      id = options.id,\n      innerHTML = options.innerHTML,\n      events = options.events,\n      element = document.createElement(type); // set the class\n\n  className && (element.className = className); // set inline style of the element\n\n  inline && element.setAttribute('style', inline); // set the attributes\n\n  id && (element.id = id); // add the innerHTML\n\n  innerHTML && (element.innerHTML = innerHTML);\n\n  if (events) {\n    for (var event in events) {\n      element.addEventListener(event, events[event]);\n\n      if (event === 'click') {\n        element['_' + event + 'Handler'] = events[event];\n        element.eventAttached = true;\n      }\n    }\n  } // append to it's parent\n\n\n  appendTo && appendTo.appendChild(element);\n  return element;\n},\n    // initailise calendar for the first time\ninit = function init(calendar, config) {\n  var graphic = calendar.graphic,\n      weekLabel = calendar.info.weekLabel,\n      dateElements = graphic.dateElements,\n      dayElements = graphic.dayElements,\n      dateLiElements = graphic.dateLiElements,\n      fontFamily = config['font-family'] && \" font-family: \".concat(config['font-family'], \";\") || '',\n      classNames = calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass),\n      container = graphic.container = createElement('div', {\n    appendTo: graphic.parentElement,\n    inline: inlineStyle.container + fontFamily,\n    className: classNames.container,\n    id: calendar.id\n  }),\n      calendarHeader = graphic.calendarHeader = createElement('div', {\n    appendTo: container,\n    inline: inlineStyle.header // className: classNames.header\n\n  }),\n      headerUl = graphic.headerUl = createElement('ul', {\n    appendTo: calendarHeader,\n    className: classNames.header,\n    inline: 'height: 100% !important;'\n  }),\n      headerMonthLi = graphic.headerMonthLi = createElement('li', {\n    appendTo: headerUl,\n    inline: inlineStyle.month\n  }),\n      headerMonthUl = graphic.headerMonthUl = createElement('ul', {\n    appendTo: headerMonthLi,\n    className: classNames.month,\n    inline: 'height: 100% !important;'\n  }),\n      calendarSubHeader = graphic.calendarSubHeader = createElement('div', {\n    appendTo: container,\n    // className: classNames.subHeader,\n    inline: inlineStyle.subheader\n  }),\n      weekDays = graphic.weekDays = createElement('ul', {\n    appendTo: calendarSubHeader,\n    className: classNames.subheader\n  }),\n      calendarBody = graphic.calendarBody = createElement('div', {\n    appendTo: container,\n    inline: inlineStyle.body\n  }),\n      days = graphic.days = graphic.dayCell = createElement('ul', {\n    appendTo: calendarBody,\n    inline: 'padding: 1px !important; margin: 0px !important;',\n    className: classNames.body\n  });\n  var element, i, weekend, weekenddefault; // set the container style\n\n  setStyle(container, calendar.style); // set the UL styles\n\n  setStyle(headerUl, ulPadZeroStyle);\n  setStyle(weekDays, ulPadZeroStyle);\n  setStyle(days, ulPadZeroStyle);\n  setStyle(headerMonthUl, ulPadZeroStyle); // li for previous month pointer\n\n  graphic.prevMonth = createElement('li', {\n    appendTo: headerMonthUl,\n    inline: inlineStyle.nav + SP + inlineStyle.navprev + SP,\n    events: {\n      click: function click() {\n        var info = calendar.info,\n            graphic = calendar.graphic,\n            nextMonth = (info.active && info.active.month) - 1,\n            year = info.active && info.active.year,\n            rangeStart = info.rangeStart;\n\n        if (nextMonth < 1) {\n          nextMonth = 12;\n          year--;\n        }\n\n        if (!rangeStart || year > rangeStart.year) {\n          removeClassName(classNames.navinactive, graphic.prevMonth);\n          removeClassName(classNames.navinactive, graphic.nextMonth);\n          calendar.configure({\n            active: {\n              month: nextMonth,\n              year: year\n            }\n          });\n        } else if (year === rangeStart.year && nextMonth >= rangeStart.month) {\n          removeClassName(classNames.navinactive, graphic.nextMonth);\n          nextMonth === rangeStart.month && (graphic.prevMonth.className += SP + classNames.navinactive);\n          calendar.configure({\n            active: {\n              month: nextMonth,\n              year: year\n            }\n          });\n        }\n      }\n    }\n  }); // span containing the left arrow\n\n  graphic.prevMonthPointer = createElement('span', {\n    appendTo: graphic.prevMonth,\n    className: classNames.navprev,\n    innerHTML: '&#10094;'\n  }); // li for month name\n\n  graphic.monthStrLi = createElement('li', {\n    appendTo: headerMonthUl,\n    inline: inlineStyle.monthname\n  }); // span containing the month name\n\n  graphic.monthStr = createElement('span', {\n    appendTo: graphic.monthStrLi,\n    className: classNames.monthname\n  }); // li for next month pointer\n\n  graphic.nextMonth = createElement('li', {\n    appendTo: headerMonthUl,\n    inline: inlineStyle.nav + SP + inlineStyle.navnext + SP,\n    events: {\n      click: function click() {\n        var info = calendar.info,\n            graphic = calendar.graphic,\n            nextMonth = (info.active && info.active.month) + 1,\n            year = info.active && info.active.year,\n            rangeEnd = info.rangeEnd;\n\n        if (nextMonth > 12) {\n          nextMonth = 1;\n          year++;\n        }\n\n        if (!rangeEnd || year < rangeEnd.year) {\n          removeClassName(classNames.navinactive, graphic.prevMonth);\n          removeClassName(classNames.navinactive, graphic.nextMonth);\n          calendar.configure({\n            active: {\n              month: nextMonth,\n              year: year\n            }\n          });\n        } else if (year === rangeEnd.year && nextMonth <= rangeEnd.month) {\n          nextMonth === rangeEnd.month && (graphic.nextMonth.className += SP + classNames.navinactive);\n          removeClassName(classNames.navinactive, graphic.prevMonth);\n          calendar.configure({\n            active: {\n              month: nextMonth,\n              year: year\n            }\n          });\n        }\n      }\n    }\n  }); // span containing the right arrow\n\n  graphic.nextMonthPointer = createElement('span', {\n    appendTo: graphic.nextMonth,\n    className: classNames.navnext,\n    innerHTML: '&#10095;'\n  }); // Create the days of week list items\n\n  for (i = 1; i < 8; i++) {\n    weekend = SP + (i > 5 ? classNames.weekend : BLANK);\n    weekenddefault = SP + (i > 5 ? classNames.weekenddefault : BLANK); // create week elements\n\n    element = createElement('li', {\n      appendTo: weekDays,\n      inline: inlineStyle.days,\n      className: weekenddefault\n    });\n    element = createElement('span', {\n      appendTo: element,\n      innerHTML: weekLabel[i % 7],\n      inline: 'display: block !important;',\n      className: classNames.days + SP + classNames.indexeddays + i % 7 + weekend\n    });\n    dayElements.push(element);\n  } // Create the days of month list items\n\n\n  var _loop = function _loop(_i) {\n    weekenddefault = SP + (_i % 7 === 5 || _i % 7 === 6 ? classNames.weekenddefault : BLANK);\n    weekend = SP + (_i % 7 === 5 || _i % 7 === 6 ? classNames.weekend : BLANK); // create date elements\n\n    element = createElement('li', {\n      appendTo: days,\n      inline: inlineStyle.date,\n      className: classNames.dateLI + weekenddefault\n    });\n    dateLiElements.push(element);\n    element = createElement('span', {\n      appendTo: element,\n      className: classNames.date + SP + classNames.daycol + DASH + _i % 7 + weekend,\n      inline: 'display: block !important; padding: 4px 0px !important;',\n      innerHTML: SPACE,\n      events: {\n        click: function click() {\n          var info = calendar.info,\n              events = calendar.events,\n              selectedDate = info.selectedDate,\n              active = info.active,\n              tempDate = {\n            day: _i - info.startingPos + 1,\n            month: active.month,\n            year: active.year\n          };\n\n          if (tempDate.day >= 1 && tempDate.day <= info.curMonthInfo.end - info.startingPos && validateActiveStart(tempDate, info.rangeStart) && validateActiveEnd(tempDate, info.rangeEnd)) {\n            selectedDate.day = tempDate.day;\n            selectedDate.month = tempDate.month;\n            selectedDate.year = tempDate.year;\n            setSelectedDate(calendar);\n            events.onDateChange && events.onDateChange(selectedDate);\n          }\n        }\n      }\n    });\n    dateElements.push(element);\n  };\n\n  for (var _i = 0; _i < 42; _i++) {\n    _loop(_i);\n  }\n},\n    // validate active date\nvalidateActiveStart = function validateActiveStart(date, start) {\n  var day = date.day,\n      month = date.month,\n      year = date.year;\n  return !(start && (start.year > year || start.year === year && (start.month > month || start.month === month && start.day > day)));\n},\n    // validate active date\nvalidateActiveEnd = function validateActiveEnd(date, end) {\n  var day = date.day,\n      month = date.month,\n      year = date.year;\n  return !(end && (end.year < year || end.year === year && (end.month < month || end.month === month && end.day < day)));\n}; // calendar constructor\n\n\nvar Calendar =\n/*#__PURE__*/\nfunction () {\n  function Calendar() {\n    var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};\n\n    _classCallCheck(this, Calendar);\n\n    var calendar = this,\n        today = new Date(),\n        currentDate = {\n      day: today.getDate(),\n      month: today.getMonth() + 1,\n      year: today.getFullYear()\n    };\n    calendar._customCssClass = {};\n    calendar.graphic = {\n      parentElement: config.container || document.body,\n      dateElements: [],\n      dateLiElements: [],\n      dayElements: []\n    };\n    calendar.style = {\n      position: 'absolute',\n      top: '0px',\n      left: '0px',\n      width: minWidth + PX,\n      // height: minHeight + PX,\n      overflow: 'hidden'\n    };\n    calendar.id = config.id || getuid();\n    calendar.events = {};\n    calendar.info = {\n      selectedDate: currentDate,\n      active: {\n        month: currentDate.month,\n        year: currentDate.year\n      },\n      weekLabel: [].concat(weekLabel),\n      monthLabel: [].concat(monthLabel),\n      weekStartingDay: 1,\n      posX: 0,\n      posY: 0,\n      height: minHeight,\n      width: minWidth,\n      vAlignment: 'top',\n      hAlignment: 'left',\n      highlightClasses: []\n    };\n\n    if (config.customCssClass) {\n      calendar._customCssClass = config.customCssClass;\n    } // create the elements for first time only\n\n\n    init(calendar, config); // configure Calendar with initial config\n\n    calendar.configure(config, true);\n  } // configure calendar\n\n\n  _createClass(Calendar, [{\n    key: \"configure\",\n    value: function configure(config, doRepaint) {\n      var calendar = this,\n          graphic = calendar.graphic,\n          events = calendar.events,\n          info = calendar.info,\n          style = calendar.style,\n          userEvents = config && config.events;\n      var parentElement,\n          temp,\n          positioningChanged = false;\n\n      if (!config) {\n        return;\n      }\n\n      if (config.customCssClass) {\n        calendar._customCssClass = config.customCssClass;\n      }\n\n      calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass); // set container\n\n      if (config.container && (parentElement = document.getElementById(config.container))) {\n        graphic.parentElement = parentElement;\n        parentElement.appendChild(graphic.container);\n      } else if (config.container instanceof Element) {\n        graphic.parentElement = config.container;\n      } // set User applied styles\n\n\n      if (config.style && config.style.position) {\n        style.position = config.style.position;\n        setStyle(graphic.container, style);\n      } // applying visual positioning configuraions to the container\n\n\n      if (!isNaN(temp = Number(config.posX))) {\n        info.posX = temp;\n        positioningChanged = true;\n      }\n\n      if (!isNaN(temp = Number(config.posY))) {\n        info.posY = temp;\n        positioningChanged = true;\n      } // if (!isNaN(temp = Number(config.height)) && temp > minHeight) {\n      //   info.height = temp;\n      //   style.height = temp + PX;\n      //   positioningChanged = true;\n      // }\n\n\n      if (!isNaN(temp = Number(config.width)) && temp > minWidth) {\n        info.width = temp;\n        style.width = temp + PX;\n        positioningChanged = true;\n      }\n\n      if (config.vAlignment && (temp = config.vAlignment.toLowerCase()) && vAlignMultiplier[temp] !== UNDEFINED) {\n        info.vAlignment = temp;\n        positioningChanged = true;\n      }\n\n      if (config.hAlignment && (temp = config.hAlignment.toLowerCase()) && hAlignMultiplier[temp] !== UNDEFINED) {\n        info.hAlignment = temp;\n        positioningChanged = true;\n      } // set events on date, month and year change\n\n\n      if (userEvents) {\n        typeof userEvents.onDateChange === 'function' && (events.onDateChange = userEvents.onDateChange);\n        typeof userEvents.onYearChange === 'function' && (events.onYearChange = userEvents.onYearChange);\n        typeof userEvents.onMonthChange === 'function' && (events.onMonthChange = userEvents.onMonthChange);\n      }\n\n      if (config.highlight) {\n        info.highlight = config.highlight;\n        doRepaint = true;\n      } else if (config.highlight === null) {\n        delete info.highlight;\n        doRepaint = true;\n      } // set calendar date\n\n\n      if ((temp = config.selectedDate) && !isNaN(Date.parse(temp.month + SLASH + temp.day + SLASH + temp.year))) {\n        info.selectedDate = config.selectedDate; // update the active month as well\n\n        info.active.month = info.selectedDate.month;\n        info.active.year = info.selectedDate.year;\n        doRepaint = true;\n      }\n\n      if (config.showInactiveMonths !== UNDEFINED) {\n        info.showInactiveMonths = !!config.showInactiveMonths;\n      } // set active month\n\n\n      if (config.active) {\n        temp = {\n          month: config.active.month || info.active.month,\n          year: config.active.year || info.active.year\n        };\n\n        if ((info.active.month !== temp.month || info.active.year !== temp.year) && (info.showInactiveMonths || validateActiveStart(temp, info.rangeStart) && validateActiveEnd(temp, info.rangeEnd))) {\n          info.active.month = temp.month;\n          info.active.year = temp.year;\n          doRepaint = true;\n        }\n      } // set month names\n\n\n      if (config.monthLabel && config.monthLabel.length === 12) {\n        info.monthLabel = config.monthLabel;\n        doRepaint = true;\n      } // set day names\n\n\n      if (config.weekLabel && config.weekLabel.length === 7) {\n        info.weekLabel = config.weekLabel;\n        disPlayDays(calendar);\n      } // set Starting day of week\n\n\n      if (config.weekStart !== UNDEFINED && info.weekStartingDay !== config.weekStart) {\n        info.weekStartingDay = config.weekStart;\n        disPlayDays(calendar);\n      } // Set active range start\n\n\n      if (config.rangeStart && validateActiveStart(info.selectedDate, config.rangeStart)) {\n        info.rangeStart = config.rangeStart;\n        doRepaint = true;\n      } else if (config.rangeStart === null) {\n        delete info.rangeStart;\n        doRepaint = true;\n      } // Set active range end\n\n\n      if (config.rangeEnd && validateActiveEnd(info.selectedDate, config.rangeEnd)) {\n        info.rangeEnd = config.rangeEnd;\n        doRepaint = true; // Check whether the old active date is valid or not\n      } else if (config.rangeEnd === null) {\n        delete info.rangeEnd;\n        doRepaint = true;\n      } // set calendar to the desired date\n\n\n      doRepaint && displayMonth(calendar);\n\n      if (positioningChanged) {\n        style.left = info.posX + info.width * (hAlignMultiplier[info.hAlignment] || 0) + PX;\n        info.height = graphic.container && graphic.container.offsetHeight || minHeight;\n        style.top = info.posY + info.height * (vAlignMultiplier[info.vAlignment] || 0) + PX;\n        setStyle(graphic.container, style);\n      }\n    } // call show function show calendar\n\n  }, {\n    key: \"show\",\n    value: function show() {\n      var calendar = this,\n          container = calendar.graphic.container;\n      container.style.visibility = 'visible';\n      container.style.opacity = '1';\n    } // call hide function to hide calendar\n\n  }, {\n    key: \"hide\",\n    value: function hide() {\n      var calendar = this,\n          container = calendar.graphic.container;\n      container.style.visibility = 'hidden';\n      container.style.opacity = '0';\n    } // returns the current or selected date\n\n  }, {\n    key: \"getDate\",\n    value: function getDate() {\n      return this.info.selectedDate;\n    } // add custom funcion on click\n\n  }, {\n    key: \"addEventListner\",\n    value: function addEventListner(eventName, handler) {\n      typeof handler === 'function' && this.events && (this.events[eventName] = handler);\n    } // remove custom funcion on click\n\n  }, {\n    key: \"removeEventListner\",\n    value: function removeEventListner(eventName) {\n      if (this.events && this.events[eventName]) {\n        delete this.events[eventName];\n      }\n    }\n  }, {\n    key: \"getDimension\",\n    value: function getDimension() {\n      var graphic = this.graphic;\n      return {\n        width: graphic.container.offsetWidth,\n        height: graphic.container.offsetHeight\n      };\n    } // dispose the dom elements\n\n  }, {\n    key: \"dispose\",\n    value: function dispose() {\n      var graphic = this.graphic,\n          parentElement = graphic.parentElement,\n          container = graphic.container;\n      parentElement.removeChild(container);\n    }\n  }]);\n\n  return Calendar;\n}(); // attache to the window if availabel\n// if (window) {\n//   window.FusionCalendar = Calendar;\n// }\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Calendar);\n\n//# sourceURL=webpack:///./src/index.js?");
+
+/***/ })
+
+/******/ });
 });
