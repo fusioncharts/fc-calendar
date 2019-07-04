@@ -3,6 +3,7 @@ require('./css/fc-calendar.css');
 
 let idNo = 0;
 const UNDEFINED = undefined,
+  cssMap = new Map(),
   isObject = x => x !== null && typeof x === 'object' && !Array.isArray(x),
   // basic calendar configaration
   daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
@@ -10,10 +11,10 @@ const UNDEFINED = undefined,
   monthLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   defaultClassNames = {
     container: 'fc-cal-container',
-    header: 'fc-cal-header',
-    month: 'fc-cal-month-header',
+    'header-container': 'fc-cal-header-container',
+    header: 'fc-cal-month-header',
     year: 'fc-cal-year-header',
-    monthname: 'fc-cal-month',
+    headername: 'fc-cal-month',
     yearname: 'fc-cal-year',
     nav: 'fc-cal-nav',
     navprev: 'fc-cal-nav-prev',
@@ -32,7 +33,7 @@ const UNDEFINED = undefined,
     normaldatedefault: 'fc-cal-date-normal-default',
     highlighteddatedefault: 'fc-cal-date-highlight-default',
     selecteddate: 'fc-cal-date-selected',
-    normaldate: 'fc-cal-date-normal',
+    activedate: 'fc-cal-date-normal',
     disableddate: 'fc-cal-date-disabled',
     highlighteddate: 'fc-cal-date-highlight',
     daycol: 'fc-cal-day-col',
@@ -162,7 +163,7 @@ const UNDEFINED = undefined,
     removeClassInChilds(container, classNames.normaldatedefault);
     removeClassInChilds(container, classNames.selecteddatedefault);
     removeClassInChilds(container, classNames.disableddatedefault);
-    removeClassInChilds(container, classNames.normaldate);
+    removeClassInChilds(container, classNames.activedate);
     removeClassInChilds(container, classNames.selecteddate);
     removeClassInChilds(container, classNames.disableddate);
     removeClassInChilds(container, classNames.navinactive);
@@ -259,7 +260,7 @@ const UNDEFINED = undefined,
         }
         !dateLiElements[i].eventAttached && dateLiElements[i].addEventListener('click', dateLiElements[i]._clickHandler);
         dateLiElements[i].eventAttached = true;
-        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.normaldate) + (highlightInfo ? (highLightClass) : BLANK);
+        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.activedate) + (highlightInfo ? (highLightClass) : BLANK);
         dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddatedefault : classNames.normaldatedefault) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
@@ -344,7 +345,7 @@ const UNDEFINED = undefined,
       // Create the header UL
       headerUl = graphic.headerUl = createElement('ul', {
         appendTo: calendarHeader,
-        className: classNames.header,
+        className: classNames['header-container'],
         inline: 'height: 100% !important;'
       }),
 
@@ -357,7 +358,7 @@ const UNDEFINED = undefined,
       // Create the UL for month
       headerMonthUl = graphic.headerMonthUl = createElement('ul', {
         appendTo: headerMonthLi,
-        className: classNames.month,
+        className: classNames.headername,
         inline: 'height: 100% !important;'
       }),
 
@@ -450,7 +451,7 @@ const UNDEFINED = undefined,
     // span containing the month name
     graphic.monthStr = createElement('span', {
       appendTo: graphic.monthStrLi,
-      className: classNames.monthname
+      className: classNames.headername
     });
 
     // li for next month pointer
@@ -598,7 +599,10 @@ const UNDEFINED = undefined,
         } else if (isObject(value)) {
           let { className, cssString } = toCssString(key, value);
           !key.endsWith(':hover') && (classObj[key] = className);
-          sheet.insertRule(cssString);
+          if (!cssMap.has(cssString)) {
+            cssMap.set(cssString, true);
+            sheet.insertRule(cssString);
+          }
         }
       }
     }
