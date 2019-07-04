@@ -3,6 +3,7 @@ require('./css/fc-calendar.css');
 
 let idNo = 0;
 const UNDEFINED = undefined,
+  isObject = x => x !== null && typeof x === 'object' && !Array.isArray(x),
   // basic calendar configaration
   daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
   weekLabel = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -568,6 +569,40 @@ const UNDEFINED = undefined,
   validateActiveEnd = (date, end) => {
     const { day, month, year } = date;
     return !(end && (end.year < year || (end.year === year && (end.month < month || (end.month === month && end.day < day)))));
+  },
+  toCssString = (key, obj) => {
+    let className = `fc-cal-user-${key}`,
+      css = '';
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        css += `${key}: ${obj[key]}; `;
+      }
+    }
+    return {
+      className,
+      cssString: `.${className} { ${css}}`
+    };
+  },
+  separateCssClass = (styles = {}) => {
+    let classObj = {},
+      styleEle = document.getElementById('fc__calendar__style'),
+      sheet = styleEle && styleEle.sheet;
+    if (!sheet) {
+      return classObj;
+    }
+    for (let key in styles) {
+      if (styles.hasOwnProperty(key)) {
+        let value = styles[key];
+        if (typeof value === 'string') {
+          classObj[key] = value;
+        } else if (isObject(value)) {
+          let { className, cssString } = toCssString(key, value);
+          !key.endsWith(':hover') && (classObj[key] = className);
+          sheet.insertRule(cssString);
+        }
+      }
+    }
+    return classObj;
   };
 
 // calendar constructor
@@ -615,7 +650,7 @@ class Calendar {
       highlightClasses: []
     };
     if (config.customCssClass) {
-      calendar._customCssClass = config.customCssClass;
+      calendar._customCssClass = separateCssClass(config.customCssClass);
     }
     // create the elements for first time only
     init(calendar, config);
@@ -638,7 +673,7 @@ class Calendar {
     }
 
     if (config.customCssClass) {
-      calendar._customCssClass = config.customCssClass;
+      calendar._customCssClass = separateCssClass(config.customCssClass);
     }
     calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass);
     // set container
