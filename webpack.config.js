@@ -29,5 +29,6 @@ module.exports = {
       exclude: /node_modules/
     }]
   },
+  mode: 'development',
   devServer: { inline: true }
 };
