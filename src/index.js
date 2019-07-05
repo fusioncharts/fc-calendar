@@ -9,6 +9,8 @@ const UNDEFINED = undefined,
   daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
   weekLabel = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   monthLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  // classes in cssStyleSheet will be applied in the gievn order
+  // so that styles get applied correctly
   CLASS_PRECEDENCE_SEQUENCE = [
     'container',
     'container:hover',
@@ -681,6 +683,10 @@ const UNDEFINED = undefined,
       cssString: `.${className} { ${css}}`
     };
   },
+  /**
+   * the api help in segregating the css given in string format or
+   * in object format
+   */
   separateCssClass = (styles = {}) => {
     let classObj = {},
       styleEle = document.getElementById('fc__calendar__style'),
@@ -691,14 +697,24 @@ const UNDEFINED = undefined,
     CLASS_PRECEDENCE_SEQUENCE.forEach((key, i) => {
       if (styles.hasOwnProperty(key) || defaultCss[key]) {
         let value = styles[key] || defaultCss[key];
+        // when string is given as the value it will act as class
+        // and user is suppose to define the css of the class in his
+        // stylesheet
         if (typeof value === 'string') {
           classObj[key] = value;
         } else if (isObject(value)) {
+          // the user can pass an object as well
           let { className, cssString } = toCssString(key, value);
+          // the css for hover does not get return as classname since
+          // hover css class gets applied by bowser itself
           !key.endsWith(':hover') && (classObj[key] = className);
           if (!(cssMap.has(className) && cssMap.get(className).cssStr === cssString)) {
+            // the css only gets applied if the class contains new configurations
             let rulePos = sheet.cssRules.length;
             if (cssMap.has(className)) {
+              // if the class is already present i the css sheet then that css needs to be
+              // deleted and the new css class with different config willl be added in the
+              // same position to maintain the order
               rulePos = cssMap.get(className).index;
               sheet.deleteRule(rulePos);
             }
