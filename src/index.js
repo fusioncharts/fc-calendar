@@ -358,7 +358,7 @@ const UNDEFINED = undefined,
       // Create the UL for month
       headerMonthUl = graphic.headerMonthUl = createElement('ul', {
         appendTo: headerMonthLi,
-        className: classNames.headername,
+        className: classNames.header,
         inline: 'height: 100% !important;'
       }),
 
