@@ -6,7 +6,14 @@
     "url": "git@github.com:fusioncharts/fc-calendar.git",
     "type": "git"
   },
-  "author": "Ayan Pal <ayanonly1@gmail.com>",
+  "author": "FusionCharts Technologies  <support@fusioncharts.com>",
+  "contributors": [
+    "Sumit Pal <sumitwithyou@gmail.com>",
+    "Ayan Pal <ayanonly1@gmail.com>",
+    "Uttam Kr. Thapa",
+    "Priyanjit Dey <priyanjitcareer@gmail.com>",
+    "Md Owais <md.owais1994@gmail.com>"
+  ],
   "license": "MIT",
   "scripts": {
     "init-setup": "NODE_ENV=development npm install && npm run start",
