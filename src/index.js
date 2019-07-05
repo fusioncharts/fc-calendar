@@ -9,6 +9,103 @@ const UNDEFINED = undefined,
   daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
   weekLabel = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   monthLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  CLASS_PRECEDENCE_SEQUENCE = [
+    'container',
+    'container:hover',
+    'header-container',
+    'header-container:hover',
+    'header',
+    'header:hover',
+    'year',
+    'year:hover',
+    'headername',
+    'headername:hover',
+    'yearname',
+    'yearname:hover',
+    'nav',
+    'nav:hover',
+    'navprev',
+    'navprev:hover',
+    'navnext',
+    'navnext:hover',
+    'navinactive',
+    'navinactive:hover',
+    'navmonth',
+    'navmonth:hover',
+    'navyear',
+    'navyear:hover',
+    'subheader',
+    'subheader:hover',
+    'body',
+    'body:hover',
+    'days',
+    'days:hover',
+    'indexeddays',
+    'indexeddays:hover',
+    'dateLI',
+    'dateLI:hover',
+    'date',
+    'date:hover',
+    'daycol',
+    'daycol:hover',
+    'normaldatedefault',
+    'normaldatedefault:hover',
+    'activedate',
+    'activedate:hover',
+    'disableddatedefault',
+    'disableddatedefault:hover',
+    'disableddate',
+    'disableddate:hover',
+    'weekenddefault',
+    'weekenddefault:hover',
+    'weekend',
+    'weekend:hover',
+    'selecteddatedefault',
+    'selecteddatedefault:hover',
+    'selecteddate',
+    'selecteddate:hover',
+    'highlighteddatedefault',
+    'highlighteddatedefault:hover',
+    'highlighteddate',
+    'highlighteddate:hover'
+  ],
+  defaultCss = {
+    dateLI: {
+      'box-sizing': 'border-box!important',
+      'float': 'left!important',
+      'list-style-type': 'none!important',
+      'width': '14.28571%!important',
+      'height': 'auto!important',
+      'padding': '2px 0 2px !important',
+      'margin': '0 !important',
+      'background-color': '#fff !important'
+    },
+    navinactive: {
+      opacity: 0,
+      cursor: 'default !important'
+    },
+    weekenddefault: {
+      'background-color': '#F7F6FF!important'
+    },
+    'normaldatedefault': {
+      cursor: 'pointer!important'
+    },
+    'normaldatedefault:hover': {
+      color: '#5F5F5F!important',
+      'background-color': '#dcdcdc!important'
+    },
+    'selecteddatedefault': {
+      'background-color': '#5648D4!important',
+      color: '#F3F3F3!important'
+    },
+    'selecteddatedefault:hover': {
+      'background-color': '#5648D4!important',
+      color: '#F3F3F3!important'
+    },
+    disableddatedefault: {
+      color: '#cacaca!important'
+    }
+  },
   defaultClassNames = {
     container: 'fc-cal-container',
     'header-container': 'fc-cal-header-container',
@@ -23,22 +120,22 @@ const UNDEFINED = undefined,
     navmonth: 'fc-cal-nav-month',
     navyear: 'fc-cal-nav-year',
     subheader: 'fc-cal-sub-header',
+    body: 'fc-cal-body',
     days: 'fc-cal-day',
     indexeddays: 'fc-cal-day-', // Index will be added at the end
-    body: 'fc-cal-body',
-    date: 'fc-cal-date',
     dateLI: 'fc-cal-date-li',
-    selecteddatedefault: 'fc-cal-date-selected-default',
-    disableddatedefault: 'fc-cal-date-disabled-default',
-    normaldatedefault: 'fc-cal-date-normal-default',
-    highlighteddatedefault: 'fc-cal-date-highlight-default',
-    selecteddate: 'fc-cal-date-selected',
-    activedate: 'fc-cal-date-normal',
-    disableddate: 'fc-cal-date-disabled',
-    highlighteddate: 'fc-cal-date-highlight',
+    date: 'fc-cal-date',
     daycol: 'fc-cal-day-col',
+    normaldatedefault: 'fc-cal-date-normal-default',
+    activedate: 'fc-cal-date-normal',
+    disableddatedefault: 'fc-cal-date-disabled-default',
+    disableddate: 'fc-cal-date-disabled',
     weekenddefault: 'fc-cal-weekend-default',
-    weekend: 'fc-cal-weekend'
+    weekend: 'fc-cal-weekend',
+    selecteddatedefault: 'fc-cal-date-selected-default',
+    selecteddate: 'fc-cal-date-selected',
+    highlighteddatedefault: 'fc-cal-date-highlight-default',
+    highlighteddate: 'fc-cal-date-highlight'
   },
   inlineStyle = {
     container: 'box-sizing: border-box !important; -webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; vertical-align: top !important; padding-bottom: 0 !important; margin: 0px 0px 0px 0px !important; float: left;' +
@@ -591,21 +688,29 @@ const UNDEFINED = undefined,
     if (!sheet) {
       return classObj;
     }
-    for (let key in styles) {
-      if (styles.hasOwnProperty(key)) {
-        let value = styles[key];
+    CLASS_PRECEDENCE_SEQUENCE.forEach((key, i) => {
+      if (styles.hasOwnProperty(key) || defaultCss[key]) {
+        let value = styles[key] || defaultCss[key];
         if (typeof value === 'string') {
           classObj[key] = value;
         } else if (isObject(value)) {
           let { className, cssString } = toCssString(key, value);
           !key.endsWith(':hover') && (classObj[key] = className);
-          if (!cssMap.has(cssString)) {
-            cssMap.set(cssString, true);
-            sheet.insertRule(cssString);
+          if (!(cssMap.has(className) && cssMap.get(className).cssStr === cssString)) {
+            let rulePos = sheet.cssRules.length;
+            if (cssMap.has(className)) {
+              rulePos = cssMap.get(className).index;
+              sheet.deleteRule(rulePos);
+            }
+            cssMap.set(className, {
+              cssStr: cssString,
+              index: rulePos
+            });
+            sheet.insertRule(cssString, rulePos);
           }
         }
       }
-    }
+    });
     return classObj;
   };
 
