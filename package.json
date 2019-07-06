@@ -27,6 +27,7 @@
     "build-es5-dev": "NODE_ENV=development webpack --config webpack-es5.config.js --progress --colors"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.0",
     "@babel/preset-env": "^7.4.5",
     "babel-loader": "^8.0.6",
     "browser-sync-webpack-plugin": "^2.2.2",
@@ -34,6 +35,8 @@
     "eslint": "^6.0.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-loader": "^2.2.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "style-loader": "^0.23.1",
