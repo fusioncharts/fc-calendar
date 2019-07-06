@@ -774,9 +774,9 @@ class Calendar {
       hAlignment: 'left',
       highlightClasses: []
     };
-    if (config.customCssClass) {
-      calendar._customCssClass = separateCssClass(config.customCssClass);
-    }
+
+    calendar._customCssClass = separateCssClass(config.customCssClass);
+
     // create the elements for first time only
     init(calendar, config);
     // configure Calendar with initial config
@@ -797,9 +797,8 @@ class Calendar {
       return;
     }
 
-    if (config.customCssClass) {
-      calendar._customCssClass = separateCssClass(config.customCssClass);
-    }
+    calendar._customCssClass = separateCssClass(config.customCssClass);
+
     calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass);
     // set container
     if (config.container && (parentElement = document.getElementById(config.container))) {
