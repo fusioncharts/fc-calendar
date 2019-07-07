@@ -32,7 +32,9 @@ fc-calendar can be imported directly from the build files and then can be instan
 ```
 import Calendar from 'dist/fc-calendar';
 
-var calendar = new Calendar();
+var calendar = new Calendar({
+    // configurations. see next section
+});
 ```
 
 ## Configurations
