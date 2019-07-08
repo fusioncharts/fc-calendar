@@ -1,4 +1,5 @@
 {
+  "root": true,
   "extends": "standard",
   "plugins": [
       "standard",
@@ -10,7 +11,8 @@
     "node": true
   },
   "globals":{
-    "define": true
+    "define": true,
+    "Element": true
   },
   "rules": {
     "one-var": ["off"],

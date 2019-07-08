@@ -1,18 +1,122 @@
+import 'core-js/features/string/starts-with.js';
+import 'core-js/features/string/ends-with.js';
+import 'core-js/features/object/assign.js';
 
-require('./css/fc-calendar.css');
+import './css/fc-calendar.css';
 
 let idNo = 0;
 const UNDEFINED = undefined,
+  cssMap = new Map(),
+  isObject = x => x !== null && typeof x === 'object' && !Array.isArray(x),
   // basic calendar configaration
   daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
   weekLabel = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   monthLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  // classes in cssStyleSheet will be applied in the gievn order
+  // so that styles get applied correctly
+  CLASS_PRECEDENCE_SEQUENCE = [
+    'container',
+    'container:hover',
+    'header-container',
+    'header-container:hover',
+    'header',
+    'header:hover',
+    'year',
+    'year:hover',
+    'headername',
+    'headername:hover',
+    'yearname',
+    'yearname:hover',
+    'nav',
+    'nav:hover',
+    'navprev',
+    'navprev:hover',
+    'navnext',
+    'navnext:hover',
+    'navinactive',
+    'navinactive:hover',
+    'navmonth',
+    'navmonth:hover',
+    'navyear',
+    'navyear:hover',
+    'subheader',
+    'subheader:hover',
+    'body',
+    'body:hover',
+    'days',
+    'days:hover',
+    'indexeddays',
+    'indexeddays:hover',
+    'dateLI',
+    'dateLI:hover',
+    'date',
+    'date:hover',
+    'daycol',
+    'daycol:hover',
+    'normaldatedefault',
+    'normaldatedefault:hover',
+    'activedate',
+    'activedate:hover',
+    'disableddatedefault',
+    'disableddatedefault:hover',
+    'disableddate',
+    'disableddate:hover',
+    'weekenddefault',
+    'weekenddefault:hover',
+    'weekend',
+    'weekend:hover',
+    'selecteddatedefault',
+    'selecteddatedefault:hover',
+    'selecteddate',
+    'selecteddate:hover',
+    'highlighteddatedefault',
+    'highlighteddatedefault:hover',
+    'highlighteddate',
+    'highlighteddate:hover'
+  ],
+  defaultCss = {
+    dateLI: {
+      'box-sizing': 'border-box!important',
+      'float': 'left!important',
+      'list-style-type': 'none!important',
+      'width': '14.28571%!important',
+      'height': 'auto!important',
+      'padding': '2px 0 2px !important',
+      'margin': '0 !important',
+      'background-color': '#fff !important'
+    },
+    navinactive: {
+      opacity: 0,
+      cursor: 'default !important'
+    },
+    weekenddefault: {
+      'background-color': '#F7F6FF!important'
+    },
+    'normaldatedefault': {
+      cursor: 'pointer!important'
+    },
+    'normaldatedefault:hover': {
+      color: '#5F5F5F!important',
+      'background-color': '#dcdcdc!important'
+    },
+    'selecteddatedefault': {
+      'background-color': '#5648D4!important',
+      color: '#F3F3F3!important'
+    },
+    'selecteddatedefault:hover': {
+      'background-color': '#5648D4!important',
+      color: '#F3F3F3!important'
+    },
+    disableddatedefault: {
+      color: '#cacaca!important'
+    }
+  },
   defaultClassNames = {
     container: 'fc-cal-container',
-    header: 'fc-cal-header',
-    month: 'fc-cal-month-header',
+    'header-container': 'fc-cal-header-container',
+    header: 'fc-cal-month-header',
     year: 'fc-cal-year-header',
-    monthname: 'fc-cal-month',
+    headername: 'fc-cal-month',
     yearname: 'fc-cal-year',
     nav: 'fc-cal-nav',
     navprev: 'fc-cal-nav-prev',
@@ -21,22 +125,22 @@ const UNDEFINED = undefined,
     navmonth: 'fc-cal-nav-month',
     navyear: 'fc-cal-nav-year',
     subheader: 'fc-cal-sub-header',
+    body: 'fc-cal-body',
     days: 'fc-cal-day',
     indexeddays: 'fc-cal-day-', // Index will be added at the end
-    body: 'fc-cal-body',
-    date: 'fc-cal-date',
     dateLI: 'fc-cal-date-li',
-    selecteddatedefault: 'fc-cal-date-selected-default',
-    disableddatedefault: 'fc-cal-date-disabled-default',
-    normaldatedefault: 'fc-cal-date-normal-default',
-    highlighteddatedefault: 'fc-cal-date-highlight-default',
-    selecteddate: 'fc-cal-date-selected',
-    normaldate: 'fc-cal-date-normal',
-    disableddate: 'fc-cal-date-disabled',
-    highlighteddate: 'fc-cal-date-highlight',
+    date: 'fc-cal-date',
     daycol: 'fc-cal-day-col',
+    normaldatedefault: 'fc-cal-date-normal-default',
+    activedate: 'fc-cal-date-normal',
+    disableddatedefault: 'fc-cal-date-disabled-default',
+    disableddate: 'fc-cal-date-disabled',
     weekenddefault: 'fc-cal-weekend-default',
-    weekend: 'fc-cal-weekend'
+    weekend: 'fc-cal-weekend',
+    selecteddatedefault: 'fc-cal-date-selected-default',
+    selecteddate: 'fc-cal-date-selected',
+    highlighteddatedefault: 'fc-cal-date-highlight-default',
+    highlighteddate: 'fc-cal-date-highlight'
   },
   inlineStyle = {
     container: 'box-sizing: border-box !important; -webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; vertical-align: top !important; padding-bottom: 0 !important; margin: 0px 0px 0px 0px !important; float: left;' +
@@ -127,18 +231,18 @@ const UNDEFINED = undefined,
   // this function will update the calendar
   // without re-drawing the elements
   displayMonth = calendar => {
-    const {info, graphic, classNames} = calendar,
-      {active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, showInactiveMonths} = info,
-      {monthStr, yearStr, dateElements, dateLiElements, container, prevMonth, prevMonthPointer, nextMonth, nextMonthPointer, prevYear, nextYear} = graphic,
-      {month, year} = active,
+    const { info, graphic, classNames } = calendar,
+      { active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, showInactiveMonths } = info,
+      { monthStr, yearStr, dateElements, dateLiElements, container, prevMonth, prevMonthPointer, nextMonth, nextMonthPointer, prevYear, nextYear } = graphic,
+      { month, year } = active,
       highlightMonth = highlight && highlight[year] && highlight[year][month],
       startingOfMonth = new Date(`${month}/1/${year}`),
       monthStaringDay = startingOfMonth.getDay(),
       monthStaringWeekDay = info.startingPos = (monthStaringDay - weekStartingDay) + (weekStartingDay <= monthStaringDay ? 0 : 7),
       totalDays = daysInMonth[month - 1] + (checkLeapYear(year) && month === 2 ? 1 : 0),
       limit = totalDays + monthStaringWeekDay,
-      startActive = validateActiveStart({day: 1, month, year}, rangeStart),
-      endActive = validateActiveEnd({day: totalDays, month, year}, rangeEnd),
+      startActive = validateActiveStart({ day: 1, month, year }, rangeStart),
+      endActive = validateActiveEnd({ day: totalDays, month, year }, rangeEnd),
       startInactiveLimit = startActive ? 0 : (rangeStart.month === month && rangeStart.year === year ? rangeStart.day - 1 : totalDays),
       endInactiveLimit = endActive ? totalDays + 1 : (rangeEnd.month === month && rangeEnd.year === year ? rangeEnd.day + 1 : 1);
     let i, j, l,
@@ -161,7 +265,7 @@ const UNDEFINED = undefined,
     removeClassInChilds(container, classNames.normaldatedefault);
     removeClassInChilds(container, classNames.selecteddatedefault);
     removeClassInChilds(container, classNames.disableddatedefault);
-    removeClassInChilds(container, classNames.normaldate);
+    removeClassInChilds(container, classNames.activedate);
     removeClassInChilds(container, classNames.selecteddate);
     removeClassInChilds(container, classNames.disableddate);
     removeClassInChilds(container, classNames.navinactive);
@@ -198,7 +302,7 @@ const UNDEFINED = undefined,
           className: weekenddefault,
           events: {
             click: () => {
-              const {info, events} = calendar,
+              const { info, events } = calendar,
                 selectedDate = info.selectedDate,
                 active = info.active,
                 tempDate = {
@@ -258,7 +362,7 @@ const UNDEFINED = undefined,
         }
         !dateLiElements[i].eventAttached && dateLiElements[i].addEventListener('click', dateLiElements[i]._clickHandler);
         dateLiElements[i].eventAttached = true;
-        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.normaldate) + (highlightInfo ? (highLightClass) : BLANK);
+        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.activedate) + (highlightInfo ? (highLightClass) : BLANK);
         dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddatedefault : classNames.normaldatedefault) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
@@ -278,9 +382,9 @@ const UNDEFINED = undefined,
     }
   },
   setSelectedDate = calendar => {
-    const {classNames} = calendar,
-      {selectedDate, active, startingPos} = calendar.info,
-      {container, dateLiElements, dateElements} = calendar.graphic;
+    const { classNames } = calendar,
+      { selectedDate, active, startingPos } = calendar.info,
+      { container, dateLiElements, dateElements } = calendar.graphic;
     // if the selected date is on this month, heighlight it
     if (selectedDate.month === active.month && selectedDate.year === active.year) {
       // remove the class form the old element
@@ -293,7 +397,7 @@ const UNDEFINED = undefined,
 
   // function to create dom elements
   createElement = (type, options) => {
-    const {appendTo, className, inline, id, innerHTML, events} = options,
+    const { appendTo, className, inline, id, innerHTML, events } = options,
       element = document.createElement(type);
     // set the class
     className && (element.className = className);
@@ -321,7 +425,7 @@ const UNDEFINED = undefined,
   init = (calendar, config) => {
     const graphic = calendar.graphic,
       weekLabel = calendar.info.weekLabel,
-      {dateElements, dayElements, dateLiElements} = graphic,
+      { dateElements, dayElements, dateLiElements } = graphic,
       fontFamily = (config['font-family'] && ` font-family: ${config['font-family']};`) || '',
 
       classNames = calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass),
@@ -343,7 +447,7 @@ const UNDEFINED = undefined,
       // Create the header UL
       headerUl = graphic.headerUl = createElement('ul', {
         appendTo: calendarHeader,
-        className: classNames.header,
+        className: classNames['header-container'],
         inline: 'height: 100% !important;'
       }),
 
@@ -356,7 +460,7 @@ const UNDEFINED = undefined,
       // Create the UL for month
       headerMonthUl = graphic.headerMonthUl = createElement('ul', {
         appendTo: headerMonthLi,
-        className: classNames.month,
+        className: classNames.header,
         inline: 'height: 100% !important;'
       }),
 
@@ -419,7 +523,8 @@ const UNDEFINED = undefined,
               active: {
                 month: nextMonth,
                 year: year
-              }
+              },
+              doNotUpdateStyle: true
             });
           } else if ((year === rangeStart.year && nextMonth >= rangeStart.month)) {
             removeClassName(classNames.navinactive, graphic.nextMonth);
@@ -428,7 +533,8 @@ const UNDEFINED = undefined,
               active: {
                 month: nextMonth,
                 year: year
-              }
+              },
+              doNotUpdateStyle: true
             });
           }
         }
@@ -449,7 +555,7 @@ const UNDEFINED = undefined,
     // span containing the month name
     graphic.monthStr = createElement('span', {
       appendTo: graphic.monthStrLi,
-      className: classNames.monthname
+      className: classNames.headername
     });
 
     // li for next month pointer
@@ -476,7 +582,8 @@ const UNDEFINED = undefined,
               active: {
                 month: nextMonth,
                 year: year
-              }
+              },
+              doNotUpdateStyle: true
             });
           } else if ((year === rangeEnd.year && nextMonth <= rangeEnd.month)) {
             (nextMonth === rangeEnd.month) && (graphic.nextMonth.className += SP + classNames.navinactive);
@@ -485,7 +592,8 @@ const UNDEFINED = undefined,
               active: {
                 month: nextMonth,
                 year: year
-              }
+              },
+              doNotUpdateStyle: true
             });
           }
         }
@@ -535,7 +643,7 @@ const UNDEFINED = undefined,
         innerHTML: SPACE,
         events: {
           click: () => {
-            const {info, events} = calendar,
+            const { info, events } = calendar,
               selectedDate = info.selectedDate,
               active = info.active,
               tempDate = {
@@ -561,13 +669,72 @@ const UNDEFINED = undefined,
 
   // validate active date
   validateActiveStart = (date, start) => {
-    const {day, month, year} = date;
+    const { day, month, year } = date;
     return !(start && (start.year > year || (start.year === year && (start.month > month || (start.month === month && start.day > day)))));
   },
   // validate active date
   validateActiveEnd = (date, end) => {
-    const {day, month, year} = date;
+    const { day, month, year } = date;
     return !(end && (end.year < year || (end.year === year && (end.month < month || (end.month === month && end.day < day)))));
+  },
+  toCssString = (key, obj) => {
+    let className = `fc-cal-user-${key}`,
+      css = '';
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        css += `${key}: ${obj[key]}; `;
+      }
+    }
+    return {
+      className,
+      cssString: `.${className} { ${css}}`
+    };
+  },
+  /**
+   * the api help in segregating the css given in string format or
+   * in object format
+   */
+  separateCssClass = (styles = {}) => {
+    let classObj = {},
+      styleEle = document.getElementById('fc__calendar__style'),
+      sheet = styleEle && styleEle.sheet;
+    if (!sheet) {
+      return classObj;
+    }
+    CLASS_PRECEDENCE_SEQUENCE.forEach(key => {
+      if (styles.hasOwnProperty(key) || defaultCss[key]) {
+        let value = styles[key] || defaultCss[key];
+        // when string is given as the value it will act as class
+        // and user is suppose to define the css of the class in his
+        // stylesheet
+        if (typeof value === 'string') {
+          classObj[key] = value;
+        } else if (isObject(value)) {
+          // the user can pass an object as well
+          let { className, cssString } = toCssString(key, value);
+          // the css for hover does not get return as classname since
+          // hover css class gets applied by bowser itself
+          !key.endsWith(':hover') && (classObj[key] = className);
+          if (!(cssMap.has(className) && cssMap.get(className).cssStr === cssString)) {
+            // the css only gets applied if the class contains new configurations
+            let rulePos = sheet.cssRules.length;
+            if (cssMap.has(className)) {
+              // if the class is already present i the css sheet then that css needs to be
+              // deleted and the new css class with different config willl be added in the
+              // same position to maintain the order
+              rulePos = cssMap.get(className).index;
+              sheet.deleteRule(rulePos);
+            }
+            cssMap.set(className, {
+              cssStr: cssString,
+              index: rulePos
+            });
+            sheet.insertRule(cssString, rulePos);
+          }
+        }
+      }
+    });
+    return classObj;
   };
 
 // calendar constructor
@@ -614,18 +781,19 @@ class Calendar {
       hAlignment: 'left',
       highlightClasses: []
     };
-    if (config.customCssClass) {
-      calendar._customCssClass = config.customCssClass;
-    }
+
+    calendar._customCssClass = separateCssClass(config.customCssClass);
+
     // create the elements for first time only
     init(calendar, config);
     // configure Calendar with initial config
+    config.doNotUpdateStyle = true;
     calendar.configure(config, true);
   }
   // configure calendar
   configure (config, doRepaint) {
     const calendar = this,
-      {graphic, events, info, style} = calendar,
+      { graphic, events, info, style } = calendar,
       // displayDisabledMonth = info.displayDisabledMonth,
       userEvents = config && config.events;
 
@@ -637,9 +805,10 @@ class Calendar {
       return;
     }
 
-    if (config.customCssClass) {
-      calendar._customCssClass = config.customCssClass;
+    if (!config.doNotUpdateStyle) {
+      calendar._customCssClass = separateCssClass(config.customCssClass);
     }
+
     calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass);
     // set container
     if (config.container && (parentElement = document.getElementById(config.container))) {

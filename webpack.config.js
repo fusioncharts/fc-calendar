@@ -22,9 +22,13 @@ module.exports = {
     },
     {
       test: /\.css$/,
-      loader: "style-loader!css-loader",
+      use: [
+        { loader: 'style-loader', options: { attrs: { id: 'fc__calendar__style' } } },
+        { loader: 'css-loader' }
+      ],
       exclude: /node_modules/
     }]
   },
+  mode: 'development',
   devServer: { inline: true }
 };
