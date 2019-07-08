@@ -520,7 +520,8 @@ const UNDEFINED = undefined,
               active: {
                 month: nextMonth,
                 year: year
-              }
+              },
+              doNotUpdateStyle: true
             });
           } else if ((year === rangeStart.year && nextMonth >= rangeStart.month)) {
             removeClassName(classNames.navinactive, graphic.nextMonth);
@@ -529,7 +530,8 @@ const UNDEFINED = undefined,
               active: {
                 month: nextMonth,
                 year: year
-              }
+              },
+              doNotUpdateStyle: true
             });
           }
         }
@@ -577,7 +579,8 @@ const UNDEFINED = undefined,
               active: {
                 month: nextMonth,
                 year: year
-              }
+              },
+              doNotUpdateStyle: true
             });
           } else if ((year === rangeEnd.year && nextMonth <= rangeEnd.month)) {
             (nextMonth === rangeEnd.month) && (graphic.nextMonth.className += SP + classNames.navinactive);
@@ -586,7 +589,8 @@ const UNDEFINED = undefined,
               active: {
                 month: nextMonth,
                 year: year
-              }
+              },
+              doNotUpdateStyle: true
             });
           }
         }
@@ -780,6 +784,7 @@ class Calendar {
     // create the elements for first time only
     init(calendar, config);
     // configure Calendar with initial config
+    config.doNotUpdateStyle = true;
     calendar.configure(config, true);
   }
   // configure calendar
@@ -797,7 +802,9 @@ class Calendar {
       return;
     }
 
-    calendar._customCssClass = separateCssClass(config.customCssClass);
+    if (!config.doNotUpdateStyle) {
+      calendar._customCssClass = separateCssClass(config.customCssClass);
+    }
 
     calendar.classNames = Object.assign({}, defaultClassNames, calendar._customCssClass);
     // set container
