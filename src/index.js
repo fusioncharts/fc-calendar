@@ -1,5 +1,8 @@
+import 'core-js/features/string/starts-with.js';
+import 'core-js/features/string/ends-with.js';
+import 'core-js/features/object/assign.js';
 
-require('./css/fc-calendar.css');
+import './css/fc-calendar.css';
 
 let idNo = 0;
 const UNDEFINED = undefined,
@@ -698,7 +701,7 @@ const UNDEFINED = undefined,
     if (!sheet) {
       return classObj;
     }
-    CLASS_PRECEDENCE_SEQUENCE.forEach((key, i) => {
+    CLASS_PRECEDENCE_SEQUENCE.forEach(key => {
       if (styles.hasOwnProperty(key) || defaultCss[key]) {
         let value = styles[key] || defaultCss[key];
         // when string is given as the value it will act as class
