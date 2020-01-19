@@ -22,9 +22,9 @@
     "build-es5": "npm run build-es5-prod && npm run build-es5-dev",
     "build-es6": "npm run build-es6-prod && npm run build-es6-dev",
     "build-es6-prod": "NODE_ENV=production webpack --config webpack-es6.config.js --progress --colors",
-    "build-es6-dev": "NODE_ENV=development webpack --config webpack-es6.config.js --progress --colors",
+    "build-es6-dev": "NODE_ENV=none webpack --config webpack-es6.config.js --progress --colors",
     "build-es5-prod": "NODE_ENV=production webpack --config webpack-es5.config.js --progress --colors",
-    "build-es5-dev": "NODE_ENV=development webpack --config webpack-es5.config.js --progress --colors"
+    "build-es5-dev": "NODE_ENV=none webpack --config webpack-es5.config.js --progress --colors"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
