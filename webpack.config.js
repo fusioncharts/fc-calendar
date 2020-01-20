@@ -1,4 +1,4 @@
-path = require("path");
+let path = require("path");
 
 module.exports = {
   entry: './src/index.js',
@@ -29,7 +29,6 @@ module.exports = {
       exclude: /node_modules/
     }]
   },
-  mode: 'development',
-  devtool: 'source-map',
+  mode: 'none',
   devServer: { inline: true }
 };
