@@ -29,5 +29,7 @@ module.exports = {
       exclude: /node_modules/
     }]
   },
+  mode: 'development',
+  devtool: 'source-map',
   devServer: { inline: true }
 };
