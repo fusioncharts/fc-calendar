@@ -228,11 +228,54 @@ const UNDEFINED = undefined,
       }
     }
   },
+  /**
+   * Takes a list of disabled date ranges and a date which is to be checked
+   */
+  isDisabledDate = (disabledDates = [], date) => {
+    let i,
+      len = disabledDates.length,
+      fromDate,
+      toDate,
+      nearestFrom,
+      nearestTo,
+      multiplier,
+      repeat,
+      curDate = new Date(date.year, date.month - 1, date.day),
+      curClip;
+
+    for (i = 0; i < len; i++) {
+      curClip = disabledDates[i];
+      fromDate = new Date(curClip.from.year, curClip.from.month - 1, curClip.from.day);
+      toDate = new Date(curClip.to.year, curClip.to.month - 1, curClip.to.day);
+
+      if (curClip.repeat) {
+        repeat = curClip.repeat * 86400000;
+        multiplier = Math.floor((curDate - fromDate) / repeat);
+
+        if (multiplier < 0) {
+          continue;
+        }
+
+        nearestFrom = +fromDate + repeat * multiplier;
+        nearestTo = +toDate + repeat * multiplier;
+
+        if (curDate >= nearestFrom && curDate <= nearestTo) {
+          return true;
+        }
+      } else {
+        if (curDate >= +fromDate && curDate <= +toDate) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  },
   // this function will update the calendar
   // without re-drawing the elements
   displayMonth = calendar => {
     const { info, graphic, classNames } = calendar,
-      { active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, showInactiveMonths } = info,
+      { active, rangeStart, rangeEnd, weekStartingDay, highlight, highlightClasses, disabledDates } = info,
       { monthStr, yearStr, dateElements, dateLiElements, container, prevMonth, prevMonthPointer, nextMonth, nextMonthPointer, prevYear, nextYear } = graphic,
       { month, year } = active,
       highlightMonth = highlight && highlight[year] && highlight[year][month],
@@ -316,8 +359,10 @@ const UNDEFINED = undefined,
                 selectedDate.day = tempDate.day;
                 selectedDate.month = tempDate.month;
                 selectedDate.year = tempDate.year;
-                setSelectedDate(calendar);
-                events.onDateChange && events.onDateChange(selectedDate);
+                if (!isDisabledDate(info.disabledDates, selectedDate)) {
+                  setSelectedDate(calendar);
+                  events.onDateChange && events.onDateChange(selectedDate);
+                }
               }
             }
           }
@@ -354,16 +399,23 @@ const UNDEFINED = undefined,
       } else {
         j = i - monthStaringWeekDay + 1;
         dateElements[i].innerHTML = (j < 10 ? '0' + j : j);
-        highlightInfo = highlightMonth && highlightMonth[j];
-        if (highlightInfo) {
-          highLightClass = SP + classNames.highlightedDate;
-          highlightInfo !== true && (highLightClass += SP + highlightInfo);
-          highlightClasses.push(highLightClass);
+        if (isDisabledDate(disabledDates, { day: j, month, year })) {
+          dateLiElements[i].removeEventListener('click', dateLiElements[i]._clickHandler);
+          dateLiElements[i].eventAttached = false;
+          dateLiElements[i].className += SP + classNames.disableddatedefault;
+          dateElements[i].className += SP + classNames.disableddate;
+        } else {
+          highlightInfo = highlightMonth && highlightMonth[j];
+          if (highlightInfo) {
+            highLightClass = SP + classNames.highlightedDate;
+            highlightInfo !== true && (highLightClass += SP + highlightInfo);
+            highlightClasses.push(highLightClass);
+          }
+          !dateLiElements[i].eventAttached && dateLiElements[i].addEventListener('click', dateLiElements[i]._clickHandler);
+          dateLiElements[i].eventAttached = true;
+          dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.activedate) + (highlightInfo ? (highLightClass) : BLANK);
+          dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddatedefault : classNames.normaldatedefault) + (highlightInfo ? (highLightClass) : BLANK);
         }
-        !dateLiElements[i].eventAttached && dateLiElements[i].addEventListener('click', dateLiElements[i]._clickHandler);
-        dateLiElements[i].eventAttached = true;
-        dateElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddate : classNames.activedate) + (highlightInfo ? (highLightClass) : BLANK);
-        dateLiElements[i].className += SP + (j <= startInactiveLimit || j >= endInactiveLimit ? classNames.disableddatedefault : classNames.normaldatedefault) + (highlightInfo ? (highLightClass) : BLANK);
       }
     }
 
@@ -657,8 +709,10 @@ const UNDEFINED = undefined,
               selectedDate.day = tempDate.day;
               selectedDate.month = tempDate.month;
               selectedDate.year = tempDate.year;
-              setSelectedDate(calendar);
-              events.onDateChange && events.onDateChange(selectedDate);
+              if (!isDisabledDate(info.disabledDates, selectedDate)) {
+                setSelectedDate(calendar);
+                events.onDateChange && events.onDateChange(selectedDate);
+              }
             }
           }
         }
@@ -876,6 +930,11 @@ class Calendar {
     }
     if (config.showInactiveMonths !== UNDEFINED) {
       info.showInactiveMonths = !!config.showInactiveMonths;
+    }
+
+    if (config.disabledDates) {
+      info.disabledDates = config.disabledDates.map(dateObj => Object.assign(dateObj));
+      doRepaint = true;
     }
 
     // set active month
