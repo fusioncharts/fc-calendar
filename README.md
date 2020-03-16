@@ -100,4 +100,4 @@ fc-calendar takes different configurations to allow users to modify/customize th
 
 __MIT__
 
-Copyright (c) 2016 InfoSoft Global Pvt. Ltd.  &lt;support@fusioncharts.com&gt;.
+Copyright (c) 2016 FusionCharts, Inc.  &lt;support@fusioncharts.com&gt;.
