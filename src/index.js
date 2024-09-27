@@ -3,6 +3,8 @@ import 'core-js/features/string/ends-with.js';
 import 'core-js/features/object/assign.js';
 
 import './css/fc-calendar.css';
+import trustedPolicy from '../../../../../fc-features/src/utils/trusted-policy';
+
 
 let idNo = 0;
 const UNDEFINED = undefined,
@@ -326,19 +328,19 @@ const UNDEFINED = undefined,
         element = createElement('span', {
           appendTo: element,
           className: classNames.date + SP + classNames.daycol + DASH + (i % 7) + weekend,
-          innerHTML: SPACE
+          innerHTML: trustedPolicy.createHTML(SPACE)
         });
         dateElements.push(element);
       }
     }
 
     // month and year changed
-    monthStr.innerHTML = info.monthLabel[month - 1] + SP + year;
+    monthStr.innerHTML = trustedPolicy.createHTML(info.monthLabel[month - 1] + SP + year);
     // print dates
     for (i = 0, l = dateElements.length; i < l; i++) {
       if (i < monthStaringWeekDay) {
         // show days of previous month
-        dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+        dateElements[i].innerHTML = trustedPolicy.createHTML(new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate());
         dateLiElements[i].className += SP + classNames.disableddatedefault;
         dateElements[i].className += SP + classNames.disableddate;
         dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);
@@ -346,14 +348,14 @@ const UNDEFINED = undefined,
       } else if (i >= limit) {
         // show days of next month
         cur = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
-        dateElements[i].innerHTML = (cur < 10 ? '0' + cur : cur);
+        dateElements[i].innerHTML = trustedPolicy.createHTML(cur < 10 ? '0' + cur : cur);
         dateLiElements[i].className += SP + classNames.disableddatedefault;
         dateElements[i].className += SP + classNames.disableddate;
         dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);
         dateLiElements[i].eventAttached = false;
       } else {
         j = i - monthStaringWeekDay + 1;
-        dateElements[i].innerHTML = (j < 10 ? '0' + j : j);
+        dateElements[i].innerHTML = trustedPolicy.createHTML(j < 10 ? '0' + j : j);
         highlightInfo = highlightMonth && highlightMonth[j];
         if (highlightInfo) {
           highLightClass = SP + classNames.highlightedDate;
@@ -378,7 +380,7 @@ const UNDEFINED = undefined,
       dayElements = calendar.graphic.dayElements;
     let j;
     for (j = 0; j < 7; j++) {
-      dayElements[j].innerHTML = info.weekLabel[(j + weekStartingDay) % 7];
+      dayElements[j].innerHTML = trustedPolicy.createHTML(info.weekLabel[(j + weekStartingDay) % 7]);
     }
   },
   setSelectedDate = calendar => {
@@ -544,7 +546,7 @@ const UNDEFINED = undefined,
     graphic.prevMonthPointer = createElement('span', {
       appendTo: graphic.prevMonth,
       className: classNames.navprev,
-      innerHTML: '&#10094;'
+      innerHTML: trustedPolicy.createHTML('&#10094;')
     });
 
     // li for month name
@@ -603,7 +605,7 @@ const UNDEFINED = undefined,
     graphic.nextMonthPointer = createElement('span', {
       appendTo: graphic.nextMonth,
       className: classNames.navnext,
-      innerHTML: '&#10095;'
+      innerHTML: trustedPolicy.createHTML('&#10095;')
     });
 
     // Create the days of week list items
@@ -618,7 +620,7 @@ const UNDEFINED = undefined,
       });
       element = createElement('span', {
         appendTo: element,
-        innerHTML: weekLabel[i % 7],
+        innerHTML: trustedPolicy.createHTML(weekLabel[i % 7]),
         inline: 'display: block !important;',
         className: classNames.days + SP + classNames.indexeddays + (i % 7) + weekend
       });
@@ -640,7 +642,7 @@ const UNDEFINED = undefined,
         appendTo: element,
         className: classNames.date + SP + classNames.daycol + DASH + (i % 7) + weekend,
         inline: 'display: block !important; padding: 4px 0px !important;',
-        innerHTML: SPACE,
+        innerHTML: trustedPolicy.createHTML(SPACE),
         events: {
           click: () => {
             const { info, events } = calendar,
