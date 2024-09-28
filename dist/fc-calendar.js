@@ -504,8 +504,10 @@ createElement = function createElement(type, options) {
       element = document.createElement(type); // set the class
 
   className && (element.className = className); // set inline style of the element
-
-  inline && element.setAttribute('style', inline); // set the attributes
+  // set the attributes
+  if (inline) {
+    element.style = inline;
+  }
 
   id && (element.id = id); // add the innerHTML
 
@@ -2579,9 +2581,18 @@ function listToStyles (list, options) {
 	return styles;
 }
 
-function insertStyleElement (options, style) {
-	var target = getElement(options.insertInto)
+const getCSPNonce = () => {
+  const cspMetaTag = document.querySelector(`meta[http-equiv="Content-Security-Policy"]`);
+  const cspMetaTagcontent = cspMetaTag.getAttribute('content');
+  const cspNonce = cspMetaTagcontent.match(/'nonce-([^']+)'/)[1] || '';
+  return cspNonce;
+}
 
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto);
+  const chartNonce = getCSPNonce();
+  style.setAttribute('nonce',chartNonce);
+  
 	if (!target) {
 		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
 	}
