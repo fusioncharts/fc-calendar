@@ -1,3 +1,5 @@
+import trustedPolicy from '../../../../../fc-features/src/utils/trusted-policy';
+
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -417,7 +419,7 @@ displayMonth = function displayMonth(calendar) {
       element = createElement('span', {
         appendTo: element,
         className: classNames.date + SP + classNames.daycol + DASH + i % 7 + weekend,
-        innerHTML: SPACE
+        innerHTML: trustedPolicy.createHTML(SPACE)
       });
       dateElements.push(element);
     }
@@ -429,7 +431,7 @@ displayMonth = function displayMonth(calendar) {
   for (i = 0, l = dateElements.length; i < l; i++) {
     if (i < monthStaringWeekDay) {
       // show days of previous month
-      dateElements[i].innerHTML = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
+      dateElements[i].innerHTML = trustedPolicy.createHTML(new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate());
       dateLiElements[i].className += SP + classNames.disableddatedefault;
       dateElements[i].className += SP + classNames.disableddate;
       dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);
@@ -437,14 +439,14 @@ displayMonth = function displayMonth(calendar) {
     } else if (i >= limit) {
       // show days of next month
       cur = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
-      dateElements[i].innerHTML = cur < 10 ? '0' + cur : cur;
+      dateElements[i].innerHTML = trustedPolicy.createHTML(cur < 10 ? '0' + cur : cur);
       dateLiElements[i].className += SP + classNames.disableddatedefault;
       dateElements[i].className += SP + classNames.disableddate;
       dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);
       dateLiElements[i].eventAttached = false;
     } else {
       j = i - monthStaringWeekDay + 1;
-      dateElements[i].innerHTML = j < 10 ? '0' + j : j;
+      dateElements[i].innerHTML = trustedPolicy.createHTML(j < 10 ? '0' + j : j);
       highlightInfo = highlightMonth && highlightMonth[j];
 
       if (highlightInfo) {
@@ -471,7 +473,7 @@ disPlayDays = function disPlayDays(calendar) {
   var j;
 
   for (j = 0; j < 7; j++) {
-    dayElements[j].innerHTML = info.weekLabel[(j + weekStartingDay) % 7];
+    dayElements[j].innerHTML = trustedPolicy.createHTML(info.weekLabel[(j + weekStartingDay) % 7]);
   }
 },
     setSelectedDate = function setSelectedDate(calendar) {
@@ -631,7 +633,7 @@ init = function init(calendar, config) {
   graphic.prevMonthPointer = createElement('span', {
     appendTo: graphic.prevMonth,
     className: classNames.navprev,
-    innerHTML: '&#10094;'
+    innerHTML: trustedPolicy.createHTML('&#10094;')
   }); // li for month name
 
   graphic.monthStrLi = createElement('li', {
@@ -688,7 +690,7 @@ init = function init(calendar, config) {
   graphic.nextMonthPointer = createElement('span', {
     appendTo: graphic.nextMonth,
     className: classNames.navnext,
-    innerHTML: '&#10095;'
+    innerHTML: trustedPolicy.createHTML('&#10095;')
   }); // Create the days of week list items
 
   for (i = 1; i < 8; i++) {
@@ -702,7 +704,7 @@ init = function init(calendar, config) {
     });
     element = createElement('span', {
       appendTo: element,
-      innerHTML: weekLabel[i % 7],
+      innerHTML: trustedPolicy.createHTML(weekLabel[i % 7]),
       inline: 'display: block !important;',
       className: classNames.days + SP + classNames.indexeddays + i % 7 + weekend
     });
@@ -724,7 +726,7 @@ init = function init(calendar, config) {
       appendTo: element,
       className: classNames.date + SP + classNames.daycol + DASH + _i % 7 + weekend,
       inline: 'display: block !important; padding: 4px 0px !important;',
-      innerHTML: SPACE,
+      innerHTML: trustedPolicy.createHTML(SPACE),
       events: {
         click: function click() {
           var info = calendar.info,
