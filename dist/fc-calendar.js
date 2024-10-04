@@ -2585,10 +2585,17 @@ function listToStyles (list, options) {
 }
 
 const getCSPNonce = () => {
-  const cspMetaTag = document.querySelector(`meta[http-equiv="Content-Security-Policy"]`);
-  const cspMetaTagcontent = cspMetaTag.getAttribute('content');
-  const cspNonce = cspMetaTagcontent.match(/'nonce-([^']+)'/)[1] || '';
-  return cspNonce;
+  const metaTag = document.querySelector(`meta[http-equiv="Content-Security-Policy"]`);
+  if (metaTag) {
+    const content = metaTag.getAttribute('content');
+    if (content) {
+      const match = content.match(/'nonce-([^']+)'/);
+      if (match) {
+        return match[1];
+      }
+    }
+  }
+  return null;
 }
 
 function insertStyleElement (options, style) {
