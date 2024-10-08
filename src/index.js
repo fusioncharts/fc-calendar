@@ -3,7 +3,7 @@ import 'core-js/features/string/ends-with.js';
 import 'core-js/features/object/assign.js';
 
 import './css/fc-calendar.css';
-import trustedPolicy from '../../../../../fc-features/src/utils/trusted-policy';
+import trustedPolicy from '@fusioncharts/utils/src/trusted-policy';
 
 
 let idNo = 0;
