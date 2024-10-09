@@ -1,5 +1,3 @@
-import trustedPolicy from '@fusioncharts/utils/src/trusted-policy';
-
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -110,6 +108,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_features_object_assign_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_features_object_assign_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _css_fc_calendar_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(64);
 /* harmony import */ var _css_fc_calendar_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_css_fc_calendar_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(69);
+/* harmony import */ var _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -117,6 +117,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -419,19 +420,19 @@ displayMonth = function displayMonth(calendar) {
       element = createElement('span', {
         appendTo: element,
         className: classNames.date + SP + classNames.daycol + DASH + i % 7 + weekend,
-        innerHTML: trustedPolicy.createHTML(SPACE)
+        innerHTML: _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML(SPACE)
       });
       dateElements.push(element);
     }
   } // month and year changed
 
 
-  monthStr.innerHTML = trustedPolicy.createHTML(info.monthLabel[month - 1] + SP + year); // print dates
+  monthStr.innerHTML = _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML(info.monthLabel[month - 1] + SP + year); // print dates
 
   for (i = 0, l = dateElements.length; i < l; i++) {
     if (i < monthStaringWeekDay) {
       // show days of previous month
-      dateElements[i].innerHTML = trustedPolicy.createHTML(new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate());
+      dateElements[i].innerHTML = _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML(new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate());
       dateLiElements[i].className += SP + classNames.disableddatedefault;
       dateElements[i].className += SP + classNames.disableddate;
       dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);
@@ -439,14 +440,14 @@ displayMonth = function displayMonth(calendar) {
     } else if (i >= limit) {
       // show days of next month
       cur = new Date(year, month - 1, i - monthStaringWeekDay + 1).getDate();
-      dateElements[i].innerHTML = trustedPolicy.createHTML(cur < 10 ? '0' + cur : cur);
+      dateElements[i].innerHTML = _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML(cur < 10 ? '0' + cur : cur);
       dateLiElements[i].className += SP + classNames.disableddatedefault;
       dateElements[i].className += SP + classNames.disableddate;
       dateLiElements[i].eventAttached && dateLiElements[i].removeEventListener('click', dateElements[i]._clickHandler);
       dateLiElements[i].eventAttached = false;
     } else {
       j = i - monthStaringWeekDay + 1;
-      dateElements[i].innerHTML = trustedPolicy.createHTML(j < 10 ? '0' + j : j);
+      dateElements[i].innerHTML = _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML(j < 10 ? '0' + j : j);
       highlightInfo = highlightMonth && highlightMonth[j];
 
       if (highlightInfo) {
@@ -473,7 +474,7 @@ disPlayDays = function disPlayDays(calendar) {
   var j;
 
   for (j = 0; j < 7; j++) {
-    dayElements[j].innerHTML = trustedPolicy.createHTML(info.weekLabel[(j + weekStartingDay) % 7]);
+    dayElements[j].innerHTML = _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML(info.weekLabel[(j + weekStartingDay) % 7]);
   }
 },
     setSelectedDate = function setSelectedDate(calendar) {
@@ -501,15 +502,13 @@ createElement = function createElement(type, options) {
       className = options.className,
       inline = options.inline,
       id = options.id,
-      innerHTML = trustedPolicy.createHTML(options.innerHTML),
+      innerHTML = options.innerHTML,
       events = options.events,
       element = document.createElement(type); // set the class
 
   className && (element.className = className); // set inline style of the element
-  // set the attributes
-  if (inline) {
-    element.style = inline;
-  }
+
+  inline && element.setAttribute('style', inline); // set the attributes
 
   id && (element.id = id); // add the innerHTML
 
@@ -635,7 +634,7 @@ init = function init(calendar, config) {
   graphic.prevMonthPointer = createElement('span', {
     appendTo: graphic.prevMonth,
     className: classNames.navprev,
-    innerHTML: trustedPolicy.createHTML('&#10094;')
+    innerHTML: _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML('&#10094;')
   }); // li for month name
 
   graphic.monthStrLi = createElement('li', {
@@ -692,7 +691,7 @@ init = function init(calendar, config) {
   graphic.nextMonthPointer = createElement('span', {
     appendTo: graphic.nextMonth,
     className: classNames.navnext,
-    innerHTML: trustedPolicy.createHTML('&#10095;')
+    innerHTML: _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML('&#10095;')
   }); // Create the days of week list items
 
   for (i = 1; i < 8; i++) {
@@ -706,7 +705,7 @@ init = function init(calendar, config) {
     });
     element = createElement('span', {
       appendTo: element,
-      innerHTML: trustedPolicy.createHTML(weekLabel[i % 7]),
+      innerHTML: _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML(weekLabel[i % 7]),
       inline: 'display: block !important;',
       className: classNames.days + SP + classNames.indexeddays + i % 7 + weekend
     });
@@ -728,7 +727,7 @@ init = function init(calendar, config) {
       appendTo: element,
       className: classNames.date + SP + classNames.daycol + DASH + _i % 7 + weekend,
       inline: 'display: block !important; padding: 4px 0px !important;',
-      innerHTML: trustedPolicy.createHTML(SPACE),
+      innerHTML: _fusioncharts_utils_src_trusted_policy__WEBPACK_IMPORTED_MODULE_4___default.a.createHTML(SPACE),
       events: {
         click: function click() {
           var info = calendar.info,
@@ -1119,10 +1118,11 @@ function () {
 
   return Calendar;
 }(); // attache to the window if availabel
-// if (window) {
-//   window.FusionCalendar = Calendar;
-// }
 
+
+if (window) {
+  window.FusionCalendar = Calendar;
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (Calendar);
 
@@ -1267,8 +1267,7 @@ g = (function() {
 
 try {
 	// This works if eval is allowed (see CSP)
-  // TODO need to check related to this Function which is generating the error like TrustedScript Assignment
-	g = g || (typeof window !== "undefined" ? window : global);
+	g = g || new Function("return this")();
 } catch (e) {
 	// This works if the window reference is available
 	if (typeof window === "object") g = window;
@@ -2584,25 +2583,9 @@ function listToStyles (list, options) {
 	return styles;
 }
 
-const getCSPNonce = () => {
-  const metaTag = document.querySelector(`meta[http-equiv="Content-Security-Policy"]`);
-  if (metaTag) {
-    const content = metaTag.getAttribute('content');
-    if (content) {
-      const match = content.match(/'nonce-([^']+)'/);
-      if (match) {
-        return match[1];
-      }
-    }
-  }
-  return null;
-}
-
 function insertStyleElement (options, style) {
-	var target = getElement(options.insertInto);
-  const chartNonce = getCSPNonce();
-  style.setAttribute('nonce',chartNonce);
-  
+	var target = getElement(options.insertInto)
+
 	if (!target) {
 		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
 	}
@@ -2929,6 +2912,13 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+exports.__esModule=true;exports.default=void 0;var trustedPolicy;if(window.trustedTypes){trustedPolicy=window.trustedTypes.createPolicy("fusionChartsPolicy",{createHTML:function createHTML(input){return input}})}var _default=exports.default=trustedPolicy||{createHTML:function createHTML(input){return input}};
 
 /***/ })
 /******/ ]);

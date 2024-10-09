@@ -45,6 +45,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
-    "core-js": "^3.1.4"
+    "core-js": "^3.1.4",
+    "@fusioncharts/utils": "1.9.4-beta.5"
   }
 }

@@ -5,7 +5,6 @@ import 'core-js/features/object/assign.js';
 import './css/fc-calendar.css';
 import trustedPolicy from '@fusioncharts/utils/src/trusted-policy';
 
-
 let idNo = 0;
 const UNDEFINED = undefined,
   cssMap = new Map(),
