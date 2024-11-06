@@ -400,10 +400,32 @@ const UNDEFINED = undefined,
   createElement = (type, options) => {
     const { appendTo, className, inline, id, innerHTML, events } = options,
       element = document.createElement(type);
+    let chartNonce = '';
+    const metaTag = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+    if (metaTag) {
+      const content = metaTag.getAttribute('content');
+      if (content) {
+        const match = content.match(/'nonce-([^']+)'/);
+        if (match) {
+          chartNonce = match[1];
+        }
+      }
+    }
+
+    const clsName = `styleStrClass-${Math.random().toString(36).substring(2)}`;
+    const styleTag = document.createElement('style');
+    styleTag.setAttribute('nonce', chartNonce);
+    styleTag.textContent = `
+      .${clsName} {
+        ${inline}
+      }
+    `;
+
+    document.head.appendChild(styleTag);
     // set the class
     className && (element.className = className);
     // set inline style of the element
-    inline && element.setAttribute('style', inline);
+    // inline && element.setAttribute('style', inline);
     // set the attributes
     id && (element.id = id);
     // add the innerHTML
@@ -417,6 +439,7 @@ const UNDEFINED = undefined,
         }
       }
     }
+    element.setAttribute('class', `${className} ${clsName}`);
     // append to it's parent
     appendTo && appendTo.appendChild(element);
     return element;

@@ -2036,11 +2036,31 @@ createElement = function createElement(type, options) {
       id = options.id,
       innerHTML = options.innerHTML,
       events = options.events,
-      element = document.createElement(type); // set the class
+      element = document.createElement(type);
+  var chartNonce = '';
+  var metaTag = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+
+  if (metaTag) {
+    var content = metaTag.getAttribute('content');
+
+    if (content) {
+      var match = content.match(/'nonce-([^']+)'/);
+
+      if (match) {
+        chartNonce = match[1];
+      }
+    }
+  }
+
+  var clsName = "styleStrClass-".concat(Math.random().toString(36).substring(2));
+  var styleTag = document.createElement('style');
+  styleTag.setAttribute('nonce', chartNonce);
+  styleTag.textContent = "\n      .".concat(clsName, " {\n        ").concat(inline, "\n      }\n    ");
+  document.head.appendChild(styleTag); // set the class
 
   className && (element.className = className); // set inline style of the element
-
-  inline && element.setAttribute('style', inline); // set the attributes
+  // inline && element.setAttribute('style', inline);
+  // set the attributes
 
   id && (element.id = id); // add the innerHTML
 
@@ -2055,8 +2075,9 @@ createElement = function createElement(type, options) {
         element.eventAttached = true;
       }
     }
-  } // append to it's parent
+  }
 
+  element.setAttribute('class', "".concat(className, " ").concat(clsName)); // append to it's parent
 
   appendTo && appendTo.appendChild(element);
   return element;
