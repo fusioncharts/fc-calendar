@@ -23,7 +23,8 @@ module.exports = {
     {
       test: /\.css$/,
       use: [
-        { loader: 'style-loader', options: { attrs: { id: 'fc__calendar__style' } } },
+        { loader: 'style-loader', options: { attributes: { id: 'fc__calendar__style' } , 
+        insert: require.resolve("./insert-function") } },
         { loader: 'css-loader' }
       ],
       exclude: /node_modules/

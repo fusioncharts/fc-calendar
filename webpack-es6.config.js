@@ -11,7 +11,7 @@ if (env === 'production') {
 }
 baseConfig.module.rules[0].use.unshift({
   loader: 'babel-loader',
-  query: {
+  options: {
     presets: ['@babel/preset-env']
   }
 });
