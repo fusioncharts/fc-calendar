@@ -21,10 +21,10 @@
     "build": "npm run build-es5 && npm run build-es6",
     "build-es5": "npm run build-es5-prod && npm run build-es5-dev",
     "build-es6": "npm run build-es6-prod && npm run build-es6-dev",
-    "build-es6-prod": "NODE_ENV=production webpack --config webpack-es6.config.js --progress --colors",
-    "build-es6-dev": "NODE_ENV=none webpack --config webpack-es6.config.js --progress --colors",
-    "build-es5-prod": "NODE_ENV=production webpack --config webpack-es5.config.js --progress --colors",
-    "build-es5-dev": "NODE_ENV=none webpack --config webpack-es5.config.js --progress --colors"
+    "build-es6-prod": "NODE_ENV=production webpack --config webpack-es6.config.js ",
+    "build-es6-dev": "NODE_ENV=none webpack --config webpack-es6.config.js ",
+    "build-es5-prod": "NODE_ENV=production webpack --config webpack-es5.config.js",
+    "build-es5-dev": "NODE_ENV=none webpack --config webpack-es5.config.js "
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
@@ -39,9 +39,9 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.35.2",
-    "webpack-cli": "^3.3.5",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
